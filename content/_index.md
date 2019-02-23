@@ -26,13 +26,6 @@ Unless your question is a personal issue or an administrative matter, please do 
 - Cameron:
 - Zina: 
 
-## MoVE
-
-If you are enrolled in a MoVE unit and forget your laptop, or do not own one as yet, please visit the locations below to borrow a laptop for an activity or part of a day:
-Clayton: Room 2.24 - Level 2, Learning and Teaching Building. You’re required to provide proof of ID (student card or personal ID) in order to borrow a laptop. This service is open from 7.45am - 7.00pm on Monday to Friday.
-
-*Access to R is through a server. We have found that this was a slow way to work. The most successful approach is to have a USB stick, attach to the borrowed laptop, and install R, RStudio and all your packages on this. Use this as your working environment, with the borrowed laptop simply as the computing engine.*
-
 ## Lecture notes
 
 - Week 1: Introduction to statistical learning, Chapter 2
