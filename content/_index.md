@@ -45,7 +45,11 @@ Unless your question is a personal issue or an administrative matter, please do 
 <!--
 https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 -->
-		 
+
+## Tutorials
+
+- Week 1: [Instructions](http://monba.dicook.org/labs/lab1.html) ([Rmd](http://monba.dicook.org/labs/lab1.Rmd))
+
 ## Assignments
 
 - Assignment 1:
