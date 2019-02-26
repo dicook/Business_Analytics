@@ -188,6 +188,11 @@ class: split-40
 ]
 
 ---
+
+
+<video src="videos/obama-datascience.mp4" style="width: 100%" controls />
+
+---
 # Thinking out loud
 
 .font1[
