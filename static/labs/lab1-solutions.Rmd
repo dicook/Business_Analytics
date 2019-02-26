@@ -1,0 +1,566 @@
+---
+title: "ETC3250 2018 - Lab 1 and 2 solutions"
+author: "Souhaib Ben Taieb"
+date: "27 February 2018"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 8,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+Getting up and running with the computer:
+
+- R and RStudio
+- RStudio Projects
+- RMarkdown
+- R syntax and basic functions
+
+## What is R?
+
+From Wikipedia: ``R is a programming language and software environment for statistical computing and graphics supported by the R Foundation for Statistical Computing. The R language is widely used among statisticians and data miners for developing statistical software and data analysis.''
+
+R is free to use and has more than 11,000 user contributed add-on packages on the Comprehensive R Archive Network (CRAN).
+
+## What is RStudio?
+
+[From Julie Lowndes](http://jules32.github.io/resources/RStudio_intro/):  
+
+<blockquote>
+<b>If R were an airplane, RStudio would be the airport</b>, providing many, many supporting services that make it easier for you, the pilot, to take off and go to awesome places. Sure, you can fly an airplane without an airport, but having those runways and supporting infrastructure is a game-changer.
+</blockquote>
+
+The RStudio integrated development environment (IDE) has multiple components including:
+
+1. Source editor (to edit your scripts): 
+  - Docking station for multiple files, 
+  - Useful shortcuts ("Knit"), 
+  - Highlighting/Tab-completion, 
+  - Code-checking (R, HTML, JS), 
+  - Debugging features  
+2. Console window (to run your scripts, to test small pieces of code): 
+  - Highlighting/Tab-completion, 
+  - Search recent commands
+3. Other tabs/panes: 
+  - Graphics, 
+  - R documentation, 
+  - Environment pane, 
+  - File system navigation/access, 
+  - Tools for package development, git, etc
+
+
+
+## RStudio Projects
+
+- Project directories keep your work organized since you will keep your data, your code, your results all located in one place. 
+- For the unit ETC2420, I have created a project on my laptop called `ETC2420`. Note that the name of the current project can be seen at the top right of the RStudio window.
+
+![Using projects to organise your work](projectname.png)
+
+- Each time you start RStudio for this class, be sure to open the right project.
+
+## Exercise 1
+
+Create a project for this unit, in the directory.
+
+* File -> New Project -> Existing Directory -> Empty Project
+
+## Exercise 2
+
+Open a new Rmarkdown document. You are going to want to call it `Lab1` (it will automatically get the file extension `.Rmd` when you save it). 
+
+* File -> New File -> R Markdown -> OK -> Knit HTML
+
+![Writing and computing with the one document](newFile.png)
+
+## What is RMarkdown?
+
+- R Markdown is an authoring format that enables easy creation of dynamic documents, presentations, and reports from R. 
+- It combines the core syntax of __markdown__ (an easy-to-write plain text format) __with embedded R code chunks__ that are run so their output can be included in the final document. 
+- R Markdown documents are fully reproducible (they can be automatically regenerated whenever underlying R code or data changes).
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. 
+
+Equations can be included using LaTeX (<https://latex-project.org/>) commands like this:
+```
+$$s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i-\bar{x})^2.$$
+```  
+produce
+
+$$s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i-\bar{x})^2.$$
+
+We can also use inline mathematical symbols such as `$\alpha$` and `$\infty$`, which produce $\alpha$ and $\infty$, respectively.
+
+For more details on using R Markdown see <http://rmarkdown.rstudio.com>. Spend a few minutes looking over that website before continuing with this document.
+
+
+
+## Exercise 3
+
+Look at the text in the `lab1.Rmd` document. 
+
+- What is R code? 
+- How does `knitr` know that this is code to be run?
+- Using the RStudio IDE, work out how to run a chunk of code. Run this chunk, and then run the next chunk.
+- Using the RStudio IDE, how do you run just one line of R code?
+- Using the RStudio IDE, how do you highlight and run multiple lines of code?
+- What happens if you try to run a line that starts with "```{r}"? Or try to run a line of regular text from the document?
+- Using the RStudio IDE, `knit` the document into a Word document.
+
+## Some R Basics
+
+* Type and Figure out what each of the following command is doing:
+```
+(100+2)/3
+5*10^2
+1/0
+0/0
+(0i-9)^(1/2)
+sqrt(2*max(-10,0.2,4.5))+100
+x <- sqrt(2*max(-10,0.2,4.5))+100
+x
+log(100)
+log(100,base=10)
+```
+* Check that these are equivalent: `y <- 100`, `y = 100` and `100 -> y`
+* Find the help page for the `mean` command, either from the help menu, or by typing one of these: `help(mean)` and `?mean`. Most help pages have examples at the bottom.
+* The `summary` command can be applied to almost anything to get a summary of the object. Try `summary(c(1, 3, 3, 4, 8, 8, 6, 7))`
+
+## Data Types
+
+* `list`'s are heterogeneous (elements can have different types)
+* `data.frame`'s are heterogeneous but elements have same length (`dim` reports the dimensions and `colnames` shows the column names)
+* `vector`'s and `matrix`'s are homogeneous (elements have the same type), which would be why `c(1, "2")` ends up being a character string.
+* `function`'s can be written to save repeating code again and again    
+
+* Try to understand these commands: `class`, `typeof`, `is.numeric`, `is.vector` and `length` 
+* See Hadley Wickham's online chapters on [data structures (http://adv-r.had.co.nz/Data-structures.html)](http://adv-r.had.co.nz/Data-structures.html) for more
+
+## Operations
+
+* Use built-in _vectorized_ functions to avoid loops
+
+```{r}
+set.seed(1000)
+x <- rnorm(6)
+x
+sum(x + 10)
+```
+
+* `R` has rich support for documentation, see `?sum`
+
+##
+
+* Use `[` to extract elements of a vector.
+
+```{r}
+x[1]
+x[c(T, F, T, T, F, F)]
+```
+
+##
+
+* Extract _named_ elements with `$`, `[[`, and/or `[`
+
+```{r}
+x <- list(
+  a = 10,
+  b = c(1, "2")
+)
+x$a
+x[["a"]]
+x["a"]
+```
+
+## Examining 'structure'
+
+* `str()` is a very useful `R` function. It shows you the "structure" of (almost) _any_ R object (and _everything_ in R is an object!!!)
+
+```{r}
+str(x)
+```
+
+## Missing Values
+
+* `NA` is the indicator of a missing value in R
+* Most functions have options for handling missings
+
+```{r}
+x <- c(50, 12, NA, 20)
+mean(x)
+mean(x, na.rm=TRUE)
+```
+
+## Counting Categories
+
+* the `table` function can be used to tabulate numbers
+
+```{r}
+table(c(1, 2, 3, 1, 2, 8, 1, 4, 2))
+```
+
+## Functions
+
+One of the powerful aspects of R is to build on the reproducibility. If you are going to do the same analysis over and over again, compile these operations into a function that you can then apply to different data sets. 
+
+```{r}
+average <- function(x)
+{
+  return(sum(x)/length(x))
+}
+
+y1 <- c(1,2,3,4,5,6)
+average(y1)
+
+y2 <- c(1, 9, 4, 4, 0, 1, 15)
+average(y2)
+```
+
+Now write a function to compute the mode of some vector, and confirm that it returns `4` when applied on `y <- c(1, 1, 2, 4, 4, 4, 9, 4, 4, 8)`
+
+## Exercise 4
+
+- What's an R `package`?
+- How do you install a package?
+- How does the `library()` function relates to a `package`?
+- How often do you load a `package`?
+- Install and load the package `ISLR`
+
+
+## Getting data
+
+Data can be found in R packages
+
+```{r}
+library(dplyr)
+data(economics, package = "ggplot2")
+# data frames are essentially a list of vectors
+glimpse(economics)
+```
+
+These are not usually kept up to date but are good for practicing your analysis skills on.
+
+Or in their own packages
+
+```{r}
+library(gapminder)
+glimpse(gapminder)
+```
+
+I primarily use the `readr` package for reading data now. It mimics the base R reading functions but is implemented in `C` so reads large files quickly, and it also attempts to identify the types of variables.
+
+```{r}
+library(readr)
+ped <- read_csv("https://raw.githubusercontent.com/bsouhaib/BA2018/master/data/Pedestrian_Counts.csv")
+glimpse(ped)
+```
+
+You can pull data together yourself, or look at data compiled by someone else. 
+
+## Question 1
+
+- Look at the `economics` data in the `ggplot2` package. Can you think of two questions you could answer using these variables?
+
+- Write these into your `.Rmd` file. 
+
+### Solution:
+
+There could be many possible questions that might be answered by this data. Examples include these ones:
+
+- Does the personal savings rate dip when unemployment is high?
+
+- Is there a seasonal effect in unemployment?
+
+- Is population increasing?
+
+## Question 2
+
+- Read the documentation for `gapminder` data. Can you think of two questions you could answer using these variables?
+
+- Write these into your `.Rmd` file. 
+
+### Solution:
+
+There could be many possible questions that might be answered by this data. Examples include these ones:
+
+- Is life expectancy positively associated with gdp percapita?
+
+- Is life expectancy increasing over time?
+
+- Is the trend in life expectancy similar across all countries?
+
+## Question 3
+
+- Read the documentation for `pedestrian sensor` data. Can you think of two questions you could answer using these variables?
+
+- Write these into your `.Rmd` file. 
+
+### Solution:
+
+There could be many possible questions that might be answered by this data. Examples include these ones:
+
+- What places in the city see the most pedestrians?
+
+- What times would be rush hours on week days?
+
+- Can you see the Wednesday night markets location and time based on pedestrian traffic?
+
+- Is White Night visible in terms of pedestrian traffic?
+
+- Are more people out and about in summer than in winter?
+
+## Question 4
+
+1. Read in the OECD PISA data (available at <https://github.com/bsouhaib/BA2018/raw/master/data/student_sub.rds>)
+2. Tabulate the countries (CNT)
+3. Extract the values for Australia (AUS) and Shanghai (QCN)
+4. Compute the average and standard deviation of the reading scores (PV1READ), for each country
+5. Write a few sentences explaining what you learn about reading in these two countries.
+
+### Solution
+
+```{r}
+student2012.sub <- readRDS("../../data/student_sub.rds")
+student2012.sub <- readRDS(gzcon(url("https://github.com/bsouhaib/BA2018/raw/master/data/student_sub.rds")))
+table(student2012.sub$CNT)
+australia <- student2012.sub[student2012.sub$CNT=="AUS",]
+shanghai <- student2012.sub[student2012.sub$CNT=="QCN",]
+mean(australia$PV1READ)
+sd(australia$PV1READ)
+mean(shanghai$PV1READ)
+sd(shanghai$PV1READ)
+```
+
+The reading scores are higher in Shanghai than in Australia by about 67 points. The variation in scores in Australia is higher, with a standard deviation of 100 as opposed to 80 for Shanghai.
+
+Alternative code:
+```{r}
+library(dplyr)
+library(knitr)
+library(tidyr)
+student2012.sub %>% select(CNT) %>% group_by(CNT) %>% tally() 
+student2012.sub %>% filter(CNT %in% c("AUS", "QCN")) %>%
+  group_by(CNT) %>%
+  summarise(m=mean(PV1READ), s=sd(PV1READ)) %>% kable(digits=1)
+```
+
+## Resources
+
+
+- [RStudio cheat sheet](http://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf)
+- [Q/A site: http://stackoverflow.com](http://stackoverflow.com)
+- [Dynamic Documents with R and knitr, Yihui Xie, ](http://yihui.name/knitr/)
+
+# More exercises
+
+- R is great for matrix calculations:
+
+```{r}
+X <- matrix(c(3,4,5,2), nrow=2, ncol=2)
+t(X)
+Xinv <- solve(X)
+X %*% Xinv
+
+A <- matrix(rnorm(200), nrow=5, ncol=40)
+B <- A %*% t(A)
+dim(B)
+diag(B)
+eigen(B)
+svd(A)
+```
+
+- Visualizing your data is one of the essential elements of data analysis. We are going to primarily use the \verb|ggplot2| package for making data plots. The reason is that it provides elegant graphics in a concise conceptual framework. We will learn more about this later in the semester, but let's get started using the quick plot function \verb|qplot|:
+
+```{r}
+library(ggplot2)
+df <- data.frame(x=x, y=c(rep("yes", 7), rep("no", 5)))
+df
+qplot(x, data=df)
+qplot(x, data=df, binwidth=5)
+qplot(y, x, data=df,  geom="boxplot", xlab="")
+qplot(factor(0), x, data=df,  geom="boxplot", xlab="")
+```
+
+Different R functions can require different data input types. Many of the original functions operate on matrices, but more recently written functions require data frames as input. The package \verb|ggplot2| likes to have data frames. 
+
+- The function `rnorm` generates random numbers from a standard normal distribution. Produce a histogram of 200 random numbers from N(0,1)
+
+```{r}
+# 200 random numbers from N(0,1)
+qplot(rnorm(200)) 
+qplot(factor(0), rnorm(200), geom="boxplot", xlab="")
+```
+
+Modify these commands so that the boxplot uses the same numbers as the histogram. (Hint: save the output of rnorm for re-use.) Notice in these commands that the qplot will also take the output of rnorm directly, which is a numeric vector.
+
+
+- Let's look at some data sets from the ISLR package. First we need to make sure it is installed.
+
+```{r}
+library(ISLR)
+```
+
+If that returns an error,  you can use `install.packages("ISLR")` at the command line.
+
+A package only needs to be installed once, but you have to load it via the *library* command in each session.
+
+Once the package is installed, try again with 
+```{r}
+library(ISLR)
+```
+
+
+- Then look at the \verb|OJ| data set:
+```{r}
+help(OJ)
+head(OJ)
+#View(OJ)
+summary(OJ)
+OJ[,"PriceCH"]
+```
+
+Can you figure out what the square brackets mean in the output from the last command?
+
+Now lets make some plots of the data
+```{r}
+saleprice <- data.frame(SalePrice=c(OJ$SalePriceMM,OJ$SalePriceCH),
+                type=c(rep("MM",nrow(OJ)),rep("CH",nrow(OJ))))
+qplot(type, SalePrice, data=saleprice, geom="boxplot")
+qplot(Purchase, PriceDiff, data=OJ, geom="boxplot")
+qplot(PriceCH, SalePriceCH, data=OJ)
+qplot(PriceCH, SalePriceCH, data=OJ, position="jitter") + 
+  geom_abline(intercept=0,slope=1)
+
+qplot(WeekofPurchase, SalePriceCH, data=OJ, position="jitter")
+```
+
+Make sure you understand what is being plotted in each case, and what the graphs are telling you about the data.
+
+- Tabulating variables:
+```{r}
+table(OJ$StoreID)
+table(OJ$Purchase, OJ$SpecialCH)
+```
+What do these tables tell you?
+
+- The *summary* command can be applied to almost anything to get a summary of the object. Try it on some other data sets in the *ISLR* package. Note that the *summary* is just what R thinks should be the summary, and it may not always be the best summary. If someone asks you to ``summarise'' this data set, you may need to think about what is important and use different functions that are appropriate for the situation.
+
+- Check the PISA data:
+```{r}
+library(readr)
+pisa <- read_csv("https://github.com/bsouhaib/BA2018/raw/master/data/PISA-oz.csv")
+dim(pisa)
+colnames(pisa)
+#View(pisa)
+str(pisa)
+head(pisa)
+```
+
+Which columns of pisa are numeric? Which columns are character?
+
+- How many different schools were sampled (according to the variable *SCHOOLID*)?
+
+There are several ways of answering this question. First use the *table* command. Then try using a combination of *length* and *unique*.
+
+
+- Look at the distribution of birth months amongst the Australian students:
+```{r}
+qplot(factor(ST03Q01, labels=month.abb), data=pisa, xlab="Month")
+```
+Can you explain the variation? Why are February and May the smallest?
+
+- Perhaps we should adjust for month length:
+```{r}
+monthdays <- c(31,28,31,30,31,30,31,31,30,31,30,31)
+monthtot <- table(pisa$ST03Q01)
+
+y <- data.frame(month=factor(1:12, ordered=TRUE, labels=month.abb), 
+				val=c(monthtot)/monthdays)
+ggplot(y, aes(x=month,y=val)) + geom_bar(stat="identity")
+```
+
+- Check if the differences are statistically significant after adjusting for month length:
+```{r}
+chisq.test(monthtot, p=monthdays/365)
+```
+Why is it so?
+
+- What if we split by sex and turn into percentages:
+```{r}
+male <- table(subset(pisa, ST04Q01=="Male")$ST03Q01)/monthdays
+male <- male / sum(male) * 100
+female <- table(subset(pisa, ST04Q01!="Male")$ST03Q01)/monthdays
+female <- female / sum(female) * 100
+sextot <- data.frame(birthdays=c(male,female),
+            sex=c(rep("Male",12),rep("Female",12)),
+            month=factor(rep(month.abb,2),levels=month.abb,ordered=TRUE))
+
+ggplot(sextot, aes(x=month, y=birthdays, fill=sex)) + geom_hline(aes(yintercept=100/12)) + geom_bar(stat="identity", position="dodge")
+```
+
+The largest deviation from what you would expect is for males born in May. Why?
+
+- It is easy to create your own data:
+
+```{r}
+mynumbers <- 5:12
+```
+
+Names can be almost anything, except for special characters \verb|^, !, $, @, +, -, /, *|. It is good practice to name your objects with some meaning for what they contain, be reasonably short (less typing). They should not be the same as common R functions; for example, don't use \verb|data| because it is also used to load stored data from packages, or \verb|c| because this is an R function that allows you to collect a bunch of objects together. You won't get errors by using these names but you may get confused when you come back and look at your code later. 
+
+
+- Objects can be of different types. The object `mynumbers` is a vector of numbers. Numbers can be various types also: integer or double.
+```{r}
+typeof(mynumbers)
+is.numeric(mynumbers)
+is.vector(mynumbers)
+length(mynumbers)
+```
+
+- Other common types of objects for data analysis are characters, logicals, factors, dates. Factors store categorical data. Dates have a special format that enables it to be treated similarly to how we use dates in real life.
+```{r}
+mytext <- c("hello", "class")
+length(mytext)
+mylogic <- c(TRUE, FALSE, TRUE, TRUE)
+gender <- factor(c("male", "female", "female", "female", "male"))
+levels(gender)
+summary(gender)
+```
+
+- One of the powerful aspects of R is to build on the reproducibility. If you are going to do the same analysis over and over again, compile these operations into a function that you can then apply to different data sets. 
+
+```{r}
+y <- c(1,2,3,4,5,6)
+
+average = function(x)
+{
+  return(sum(x)/length(x))
+}
+
+ybar <- average(y)
+```
+Try your function on other data.
+
+- Now write a function to compute the mode of some data:
+
+```{r}
+mymode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+mymode(c(rep("A", 5), rep("B", 3)))
+```
+
+- Write an R function \verb|stats| to compute the mean, min, max, and the deciles, from a vector of data. You will need to search the R help facilities to find functions to compute each of the statistics. The function should return the statistics as a single vector in numerical order with appropriate names for the elements. Your function should be robust to missing values (i.e., the statistics should be computed on the non-missing values).

@@ -1,0 +1,162 @@
+---
+title: "ETC3250: Introduction"
+subtitle: "Semester 1, 2019"
+author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
+date: "Week 1"
+output:
+  xaringan::moon_reader:
+    css: ["kunoichi", "ninjutsu", "mystyle.css"]
+    lib_dir: libs
+    nature:
+      ratio: '16:9'
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(tidy = FALSE, 
+                      message = FALSE,
+                      warning = FALSE,
+                      echo = FALSE)
+options(htmltools.dir.version = FALSE)
+```
+
+# Learning from data
+
+---
+# Learning from a dataset
+
+---
+# Different learning problems
+
+---
+# Supervised learning
+
+---
+# Supervised learning
+
+---
+# Supervised learning - regression
+
+---
+# Supervised learning - regression
+
+---
+# Supervised learning - regression
+
+---
+# Why estimate $f$?
+
+---
+# Regression - estimation of $f$?
+
+---
+# Regression - estimation of $f$?
+
+---
+# Regression - estimation of $f$?
+
+---
+# Regression - estimation of $f$?
+
+---
+# Classification - estimation of $f$?
+
+---
+# Estimation methods
+
+---
+# Model Interpretability vs flexibility
+
+---
+# Assessing model accuracy in regression
+
+---
+# Regression problems
+
+---
+# Training vs Test MSEs
+
+---
+# Example: splines
+
+---
+# Example: splines
+
+---
+# Example: splines
+
+
+---
+# Bias-variance tradeoff 
+
+---
+# Bias-variance tradeoff 
+
+---
+# Bias-variance tradeoff 
+
+---
+# Bias-variance tradeoff 
+
+---
+# Optimal prediction
+
+---
+# Assessing model accuracy in classification
+
+---
+# The classification problem
+
+---
+# The classification problem
+
+---
+# Optimal classifier
+
+---
+# Optimal classifier
+
+---
+# The classification problem
+
+---
+# Optimal classifier
+
+---
+# Bayes error rate
+
+---
+# Bayes optimal classifier
+
+---
+# The classification problem
+
+---
+# k-Nearest Neighbours
+
+---
+# kNN Classifier
+
+---
+# kNN Classifier
+
+---
+# A fundamental picture
+
+
+
+---
+layout: false
+# `r set.seed(2019); emo::ji("technologist")` Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+<br>
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+<br> 
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.

@@ -1,0 +1,309 @@
+---
+title: "ETC3250 2019 - Lab 1"
+author: "Dianne Cook"
+date: "March 4, 2019"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 8,
+  fig.align = "center",
+  cache = FALSE
+)
+library(emo)
+```
+
+Getting up and running with the computer:
+
+- R and RStudio
+- RStudio Projects
+- RMarkdown
+- R syntax and basic functions
+
+## What is R?
+
+https://www.computerworld.com/article/2497143/business-intelligence/business-intelligence-beginner-s-guide-to-r-introduction.html
+
+From Wikipedia: ``R is a programming language and software environment for statistical computing and graphics supported by the R Foundation for Statistical Computing. The R language is widely used among statisticians and data miners for developing statistical software and data analysis.''
+
+R is free to use and has more than 14,000 (Feb 2019) user contributed add-on packages on the Comprehensive R Archive Network (CRAN).
+
+## What is RStudio?
+
+[From Julie Lowndes](http://jules32.github.io/resources/RStudio_intro/):  
+
+<blockquote>
+<b>If R were an airplane, RStudio would be the airport</b>, providing many, many supporting services that make it easier for you, the pilot, to take off and go to awesome places. Sure, you can fly an airplane without an airport, but having those runways and supporting infrastructure is a game-changer.
+</blockquote>
+
+The RStudio integrated development environment (IDE) has multiple components including:
+
+1. Source editor (to edit your scripts): 
+  - Docking station for multiple files, 
+  - Useful shortcuts ("Knit"), 
+  - Highlighting/Tab-completion, 
+  - Code-checking (R, HTML, JS), 
+  - Debugging features  
+2. Console window (to run your scripts, to test small pieces of code): 
+  - Highlighting/Tab-completion, 
+  - Search recent commands
+3. Other tabs/panes: 
+  - Graphics, 
+  - R documentation, 
+  - Environment pane, 
+  - File system navigation/access, 
+  - Tools for package development, git, etc
+
+There's a cheatsheet in the "Help" menu, on tips for using this interface.
+
+## RStudio Projects
+
+- Project directories keep your work organized since you will keep your data, your code, your results all located in one place. 
+- For the unit ETC3250, I have created a project on my laptop called `ETC3250`. Note that the name of the current project can be seen at the top right of the RStudio window.
+- YOU SHOULD ALWAYS WORK IN A PROJECT FOR THIS CLASS `r emo::ji("smile")`
+
+![Using projects to organise your work](projectname.png)
+
+- **Each time you start RStudio] for this class, be sure to open the right project.**
+
+## Exercise 1
+
+Create a project for this unit, in the directory.
+
+* File -> New Project -> Existing Directory -> Empty Project
+
+## Exercise 2
+
+Download the `lab1.Rmd` from the course web site. 
+
+## What is RMarkdown?
+
+- R Markdown is an authoring format that enables easy creation of dynamic documents, presentations, and reports from R. 
+- It combines the core syntax of __markdown__ (an easy-to-write plain text format) __with embedded R code chunks__ that are run so their output can be included in the final document. 
+- R Markdown documents are fully reproducible (they can be automatically regenerated whenever underlying R code or data changes).
+
+**There's a cheatsheet in the "Help" pages of RStudio on Rmarkdown.** 
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. 
+
+Equations can be included using LaTeX (<https://latex-project.org/>) commands like this:
+```
+$$s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i-\bar{x})^2.$$
+```  
+produce
+
+$$s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i-\bar{x})^2.$$
+
+We can also use inline mathematical symbols such as `$\alpha$` and `$\infty$`, which produce $\alpha$ and $\infty$, respectively.
+
+For more details on using R Markdown see <http://rmarkdown.rstudio.com>. Spend a few minutes looking over that website before continuing with this document.
+
+
+
+## Exercise 3
+
+Look at the text in the `lab1.Rmd` document. 
+
+- What is R code? 
+- How does `knitr` know that this is code to be run?
+- Using the RStudio IDE, work out how to run a chunk of code. Run this chunk, and then run the next chunk.
+- Using the RStudio IDE, how do you run just one line of R code?
+- Using the RStudio IDE, how do you highlight and run multiple lines of code?
+- What happens if you try to run a line that starts with "```{r}"? Or try to run a line of regular text from the document?
+- Using the RStudio IDE, `knit` the document into a Word document.
+
+## Some R Basics
+
+* Type (into the console pane) and figure out what each of the following command is doing:
+
+```
+(100+2)/3
+5*10^2
+1/0
+0/0
+(0i-9)^(1/2)
+sqrt(2*max(-10,0.2,4.5))+100
+x <- sqrt(2*max(-10,0.2,4.5))+100
+x
+log(100)
+log(100,base=10)
+```
+
+* Check that these are equivalent: `y <- 100`, `y = 100` and `100 -> y`
+* R has rich support for documentation. Find the help page for the `mean` command, either from the help menu, or by typing one of these: `help(mean)` and `?mean`. Most help pages have examples at the bottom.
+* The `summary` command can be applied to almost anything to get a summary of the object. Try `summary(c(1, 3, 3, 4, 8, 8, 6, 7))`
+
+## Data Types
+
+* `list`'s are heterogeneous (elements can have different types)
+* `data.frame`'s are heterogeneous but elements have same length (`dim` reports the dimensions and `colnames` shows the column names)
+* `vector`'s and `matrix`'s are homogeneous (elements have the same type), which would be why `c(1, "2")` ends up being a character string.
+* `function`'s can be written to save repeating code again and again    
+
+* Try to understand these commands: `class`, `typeof`, `is.numeric`, `is.vector` and `length` 
+* See Hadley Wickham's online chapters on [data structures (http://adv-r.had.co.nz/Data-structures.html)](http://adv-r.had.co.nz/Data-structures.html) for more
+
+## Operations
+
+* Use built-in _vectorized_ functions to avoid loops
+
+```{r}
+set.seed(1000)
+x <- rnorm(6)
+x
+sum(x + 10)
+```
+
+##
+
+* Use `[` to extract elements of a vector.
+
+```{r}
+x[1]
+x[c(T, F, T, T, F, F)]
+```
+
+##
+
+* Extract _named_ elements with `$`, `[[`, and/or `[`
+
+```{r}
+x <- list(
+  a = 10,
+  b = c(1, "2")
+)
+x$a
+x[["a"]]
+x["a"]
+```
+
+## Examining 'structure'
+
+* `str()` is a very useful `R` function. It shows you the "structure" of (almost) _any_ R object (and _everything_ in R is an object!!!)
+
+```{r}
+str(x)
+```
+
+## Missing Values
+
+* `NA` is the indicator of a missing value in R
+* Most functions have options for handling missings
+
+```{r}
+x <- c(50, 12, NA, 20)
+mean(x)
+mean(x, na.rm=TRUE)
+```
+
+## Counting Categories
+
+* the `table` function can be used to tabulate numbers
+
+```{r}
+table(c(1, 2, 3, 1, 2, 8, 1, 4, 2))
+```
+
+## Functions
+
+One of the powerful aspects of R is to build on the reproducibility. If you are going to do the same analysis over and over again, compile these operations into a function that you can then apply to different data sets. 
+
+```{r}
+average <- function(x)
+{
+  return(sum(x)/length(x))
+}
+
+y1 <- c(1,2,3,4,5,6)
+average(y1)
+
+y2 <- c(1, 9, 4, 4, 0, 1, 15)
+average(y2)
+```
+
+Now write a function to compute the mode of some vector, and confirm that it returns `4` when applied on `y <- c(1, 1, 2, 4, 4, 4, 9, 4, 4, 8)`
+
+## Exercise 4
+
+- What's an R `package`?
+- How do you install a package?
+- How does the `library()` function relates to a `package`?
+- How often do you load a `package`?
+- Install and load the package `ISLR`
+
+## Getting data
+
+Data can be found in R packages
+
+```{r}
+library(tidyverse)
+data(economics, package = "ggplot2")
+# data frames are essentially a list of vectors
+glimpse(economics)
+```
+
+These are not usually kept up to date but are good for practicing your analysis skills on.
+
+Or in their own packages
+
+```{r}
+library(gapminder)
+glimpse(gapminder)
+```
+
+I primarily use the `readr` package (part of the `tidyverse` suite) for reading data now. It mimics the base R reading functions but is implemented in `C` so reads large files quickly, and it also attempts to identify the types of variables.
+
+```{r}
+candy <- read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/candy-power-ranking/candy-data.csv")
+glimpse(candy)
+```
+
+You can pull data together yourself, or look at data compiled by someone else. 
+
+## Question 1
+
+- Look at the `economics` data in the `ggplot2` package. Can you think of two questions you could answer using these variables?
+
+- Write these into your `.Rmd` file. 
+
+## Question 2
+
+- Read the documentation for `gapminder` data. Can you think of two questions you could answer using these variables?
+
+- Write these into your `.Rmd` file. 
+
+## Question 3
+
+- Read the documentation for `pedestrian sensor` data. Can you think of two questions you could answer using these variables?
+
+- Write these into your `.Rmd` file. 
+
+## Question 4
+
+1. Read in the OECD PISA data (file `student.rds` is available at from the course web site)
+2. Tabulate the countries (CNT)
+3. Extract the values for Australia (AUS) and Shanghai (QCN)
+4. Compute the average and standard deviation of the reading scores (PV1READ), for each country
+5. Write a few sentences explaining what you learn about reading in these two countries.
+
+## Homework
+
+Using your *free* DataCamp account, work your way through the free tutorial [Introduction to R](https://www.datacamp.com/courses/free-introduction-to-r). This provides some good insights on the data types you will commonly use in R.
+
+## Got a question?
+
+It is always good to try to solve your problem yourself first. Most likely the error is a simple one, like a missing ")" or ",". For deeper questions about packages, analyses and functions, making your Rmd into a document, or simply the error that is being generated, you can often google for an answer. Often, you will be directed to 
+[Q/A site: http://stackoverflow.com](http://stackoverflow.com).
+
+Stackoverflow is a great place to get answers to tougher questions about R and also data analysis. You always need to check that someone hasn't asked it before, the answer might already be available for you. If not, make a [reproducible example of your problem, following the guidelines here](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html) and ask away. Remember these people that kindly answer questions on stackoverflow have day jobs too, and do this community support as a kindness to all of us.
+
+
+

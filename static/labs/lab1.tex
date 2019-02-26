@@ -1,0 +1,757 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={ETC3250 2019 - Lab 1},
+            pdfauthor={Dianne Cook},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{ETC3250 2019 - Lab 1}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Dianne Cook}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{March 4, 2019}
+
+
+\begin{document}
+\maketitle
+
+Getting up and running with the computer:
+
+\begin{itemize}
+\tightlist
+\item
+  R and RStudio
+\item
+  RStudio Projects
+\item
+  RMarkdown
+\item
+  R syntax and basic functions
+\end{itemize}
+
+\hypertarget{what-is-r}{%
+\subsection{What is R?}\label{what-is-r}}
+
+\url{https://www.computerworld.com/article/2497143/business-intelligence/business-intelligence-beginner-s-guide-to-r-introduction.html}
+
+From Wikipedia: ``R is a programming language and software environment
+for statistical computing and graphics supported by the R Foundation for
+Statistical Computing. The R language is widely used among statisticians
+and data miners for developing statistical software and data analysis.''
+
+R is free to use and has more than 14,000 (Feb 2019) user contributed
+add-on packages on the Comprehensive R Archive Network (CRAN).
+
+\hypertarget{what-is-rstudio}{%
+\subsection{What is RStudio?}\label{what-is-rstudio}}
+
+\href{http://jules32.github.io/resources/RStudio_intro/}{From Julie
+Lowndes}:
+
+If R were an airplane, RStudio would be the airport, providing many,
+many supporting services that make it easier for you, the pilot, to take
+off and go to awesome places. Sure, you can fly an airplane without an
+airport, but having those runways and supporting infrastructure is a
+game-changer.
+
+The RStudio integrated development environment (IDE) has multiple
+components including:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Source editor (to edit your scripts):
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Docking station for multiple files,
+\item
+  Useful shortcuts (``Knit''),
+\item
+  Highlighting/Tab-completion,
+\item
+  Code-checking (R, HTML, JS),
+\item
+  Debugging features\\
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Console window (to run your scripts, to test small pieces of code):
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Highlighting/Tab-completion,
+\item
+  Search recent commands
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Other tabs/panes:
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Graphics,
+\item
+  R documentation,
+\item
+  Environment pane,
+\item
+  File system navigation/access,
+\item
+  Tools for package development, git, etc
+\end{itemize}
+
+There's a cheatsheet in the ``Help'' menu, on tips for using this
+interface.
+
+\hypertarget{rstudio-projects}{%
+\subsection{RStudio Projects}\label{rstudio-projects}}
+
+\begin{itemize}
+\tightlist
+\item
+  Project directories keep your work organized since you will keep your
+  data, your code, your results all located in one place.
+\item
+  For the unit ETC3250, I have created a project on my laptop called
+  \texttt{ETC3250}. Note that the name of the current project can be
+  seen at the top right of the RStudio window.
+\item
+  YOU SHOULD ALWAYS WORK IN A PROJECT FOR THIS CLASS 😄
+\end{itemize}
+
+\begin{figure}
+\centering
+\includegraphics{projectname.png}
+\caption{Using projects to organise your work}
+\end{figure}
+
+\begin{itemize}
+\tightlist
+\item
+  .red{[}Each time you start RStudio{]} for this class, be sure to open
+  the right project.
+\end{itemize}
+
+\hypertarget{exercise-1}{%
+\subsection{Exercise 1}\label{exercise-1}}
+
+Create a project for this unit, in the directory.
+
+\begin{itemize}
+\tightlist
+\item
+  File -\textgreater{} New Project -\textgreater{} Existing Directory
+  -\textgreater{} Empty Project
+\end{itemize}
+
+\hypertarget{exercise-2}{%
+\subsection{Exercise 2}\label{exercise-2}}
+
+Open a new Rmarkdown document. You are going to want to call it
+\texttt{Lab1} (it will automatically get the file extension
+\texttt{.Rmd} when you save it).
+
+\begin{itemize}
+\tightlist
+\item
+  File -\textgreater{} New File -\textgreater{} R Markdown
+  -\textgreater{} OK -\textgreater{} Knit HTML
+\end{itemize}
+
+\begin{figure}
+\centering
+\includegraphics{newFile.png}
+\caption{Writing and computing with the one document}
+\end{figure}
+
+\hypertarget{what-is-rmarkdown}{%
+\subsection{What is RMarkdown?}\label{what-is-rmarkdown}}
+
+\begin{itemize}
+\tightlist
+\item
+  R Markdown is an authoring format that enables easy creation of
+  dynamic documents, presentations, and reports from R.
+\item
+  It combines the core syntax of \textbf{markdown} (an easy-to-write
+  plain text format) \textbf{with embedded R code chunks} that are run
+  so their output can be included in the final document.
+\item
+  R Markdown documents are fully reproducible (they can be automatically
+  regenerated whenever underlying R code or data changes).
+\end{itemize}
+
+.red{[}There's a cheatsheet in the ``Help'' pages of RStudio on
+Rmarkdown.{]}
+
+When you click the \textbf{Knit} button a document will be generated
+that includes both content as well as the output of any embedded R code
+chunks within the document.
+
+Equations can be included using LaTeX (\url{https://latex-project.org/})
+commands like this:
+
+\begin{verbatim}
+$$s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i-\bar{x})^2.$$
+\end{verbatim}
+
+produce
+
+\[s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i-\bar{x})^2.\]
+
+We can also use inline mathematical symbols such as
+\texttt{\$\textbackslash{}alpha\$} and
+\texttt{\$\textbackslash{}infty\$}, which produce \(\alpha\) and
+\(\infty\), respectively.
+
+For more details on using R Markdown see
+\url{http://rmarkdown.rstudio.com}. Spend a few minutes looking over
+that website before continuing with this document.
+
+\hypertarget{exercise-3}{%
+\subsection{Exercise 3}\label{exercise-3}}
+
+Look at the text in the \texttt{lab1.Rmd} document.
+
+\begin{itemize}
+\tightlist
+\item
+  What is R code?
+\item
+  How does \texttt{knitr} know that this is code to be run?
+\item
+  Using the RStudio IDE, work out how to run a chunk of code. Run this
+  chunk, and then run the next chunk.
+\item
+  Using the RStudio IDE, how do you run just one line of R code?
+\item
+  Using the RStudio IDE, how do you highlight and run multiple lines of
+  code?
+\item
+  What happens if you try to run a line that starts with `````\{r\}''?
+  Or try to run a line of regular text from the document?
+\item
+  Using the RStudio IDE, \texttt{knit} the document into a Word
+  document.
+\end{itemize}
+
+\hypertarget{some-r-basics}{%
+\subsection{Some R Basics}\label{some-r-basics}}
+
+\begin{itemize}
+\tightlist
+\item
+  Type (into the console pane) and figure out what each of the following
+  command is doing:
+\end{itemize}
+
+\begin{verbatim}
+(100+2)/3
+5*10^2
+1/0
+0/0
+(0i-9)^(1/2)
+sqrt(2*max(-10,0.2,4.5))+100
+x <- sqrt(2*max(-10,0.2,4.5))+100
+x
+log(100)
+log(100,base=10)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Check that these are equivalent: \texttt{y\ \textless{}-\ 100},
+  \texttt{y\ =\ 100} and \texttt{100\ -\textgreater{}\ y}
+\item
+  R has rich support for documentation. Find the help page for the
+  \texttt{mean} command, either from the help menu, or by typing one of
+  these: \texttt{help(mean)} and \texttt{?mean}. Most help pages have
+  examples at the bottom.
+\item
+  The \texttt{summary} command can be applied to almost anything to get
+  a summary of the object. Try
+  \texttt{summary(c(1,\ 3,\ 3,\ 4,\ 8,\ 8,\ 6,\ 7))}
+\end{itemize}
+
+\hypertarget{data-types}{%
+\subsection{Data Types}\label{data-types}}
+
+\begin{itemize}
+\item
+  \texttt{list}'s are heterogeneous (elements can have different types)
+\item
+  \texttt{data.frame}'s are heterogeneous but elements have same length
+  (\texttt{dim} reports the dimensions and \texttt{colnames} shows the
+  column names)
+\item
+  \texttt{vector}'s and \texttt{matrix}'s are homogeneous (elements have
+  the same type), which would be why \texttt{c(1,\ "2")} ends up being a
+  character string.
+\item
+  \texttt{function}'s can be written to save repeating code again and
+  again
+\item
+  Try to understand these commands: \texttt{class}, \texttt{typeof},
+  \texttt{is.numeric}, \texttt{is.vector} and \texttt{length}
+\item
+  See Hadley Wickham's online chapters on
+  \href{http://adv-r.had.co.nz/Data-structures.html}{data structures
+  (http://adv-r.had.co.nz/Data-structures.html)} for more
+\end{itemize}
+
+\hypertarget{operations}{%
+\subsection{Operations}\label{operations}}
+
+\begin{itemize}
+\tightlist
+\item
+  Use built-in \emph{vectorized} functions to avoid loops
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1000}\NormalTok{)}
+\NormalTok{x <-}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{6}\NormalTok{)}
+\NormalTok{x}
+\CommentTok{# [1] -0.44577826 -1.20585657  0.04112631  0.63938841 -0.78655436 -0.38548930}
+\KeywordTok{sum}\NormalTok{(x }\OperatorTok{+}\StringTok{ }\DecValTok{10}\NormalTok{)}
+\CommentTok{# [1] 57.85684}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{section}{%
+\subsection{}\label{section}}
+
+\begin{itemize}
+\tightlist
+\item
+  Use \texttt{{[}} to extract elements of a vector.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x[}\DecValTok{1}\NormalTok{]}
+\CommentTok{# [1] -0.4457783}
+\NormalTok{x[}\KeywordTok{c}\NormalTok{(T, F, T, T, F, F)]}
+\CommentTok{# [1] -0.44577826  0.04112631  0.63938841}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{section-1}{%
+\subsection{}\label{section-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  Extract \emph{named} elements with \texttt{\$}, \texttt{{[}{[}},
+  and/or \texttt{{[}}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}
+  \DataTypeTok{a =} \DecValTok{10}\NormalTok{,}
+  \DataTypeTok{b =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"2"}\NormalTok{)}
+\NormalTok{)}
+\NormalTok{x}\OperatorTok{$}\NormalTok{a}
+\CommentTok{# [1] 10}
+\NormalTok{x[[}\StringTok{"a"}\NormalTok{]]}
+\CommentTok{# [1] 10}
+\NormalTok{x[}\StringTok{"a"}\NormalTok{]}
+\CommentTok{# $a}
+\CommentTok{# [1] 10}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{examining-structure}{%
+\subsection{Examining `structure'}\label{examining-structure}}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{str()} is a very useful \texttt{R} function. It shows you the
+  ``structure'' of (almost) \emph{any} R object (and \emph{everything}
+  in R is an object!!!)
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(x)}
+\CommentTok{# List of 2}
+\CommentTok{#  $ a: num 10}
+\CommentTok{#  $ b: chr [1:2] "1" "2"}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{missing-values}{%
+\subsection{Missing Values}\label{missing-values}}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{NA} is the indicator of a missing value in R
+\item
+  Most functions have options for handling missings
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{, }\DecValTok{12}\NormalTok{, }\OtherTok{NA}\NormalTok{, }\DecValTok{20}\NormalTok{)}
+\KeywordTok{mean}\NormalTok{(x)}
+\CommentTok{# [1] NA}
+\KeywordTok{mean}\NormalTok{(x, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
+\CommentTok{# [1] 27.33333}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{counting-categories}{%
+\subsection{Counting Categories}\label{counting-categories}}
+
+\begin{itemize}
+\tightlist
+\item
+  the \texttt{table} function can be used to tabulate numbers
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\CommentTok{# }
+\CommentTok{# 1 2 3 4 8 }
+\CommentTok{# 3 3 1 1 1}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{functions}{%
+\subsection{Functions}\label{functions}}
+
+One of the powerful aspects of R is to build on the reproducibility. If
+you are going to do the same analysis over and over again, compile these
+operations into a function that you can then apply to different data
+sets.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{average <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)}
+\NormalTok{\{}
+  \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(x)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(x))}
+\NormalTok{\}}
+
+\NormalTok{y1 <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{)}
+\KeywordTok{average}\NormalTok{(y1)}
+\CommentTok{# [1] 3.5}
+
+\NormalTok{y2 <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{15}\NormalTok{)}
+\KeywordTok{average}\NormalTok{(y2)}
+\CommentTok{# [1] 4.857143}
+\end{Highlighting}
+\end{Shaded}
+
+Now write a function to compute the mode of some vector, and confirm
+that it returns \texttt{4} when applied on
+\texttt{y\ \textless{}-\ c(1,\ 1,\ 2,\ 4,\ 4,\ 4,\ 9,\ 4,\ 4,\ 8)}
+
+\hypertarget{exercise-4}{%
+\subsection{Exercise 4}\label{exercise-4}}
+
+\begin{itemize}
+\tightlist
+\item
+  What's an R \texttt{package}?
+\item
+  How do you install a package?
+\item
+  How does the \texttt{library()} function relates to a
+  \texttt{package}?
+\item
+  How often do you load a \texttt{package}?
+\item
+  Install and load the package \texttt{ISLR}
+\end{itemize}
+
+\hypertarget{getting-data}{%
+\subsection{Getting data}\label{getting-data}}
+
+Data can be found in R packages
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{data}\NormalTok{(economics, }\DataTypeTok{package =} \StringTok{"ggplot2"}\NormalTok{)}
+\CommentTok{# data frames are essentially a list of vectors}
+\KeywordTok{glimpse}\NormalTok{(economics)}
+\CommentTok{# Observations: 574}
+\CommentTok{# Variables: 6}
+\CommentTok{# $ date     <date> 1967-07-01, 1967-08-01, 1967-09-01, 1967-10-01, 1967...}
+\CommentTok{# $ pce      <dbl> 507.4, 510.5, 516.3, 512.9, 518.1, 525.8, 531.5, 534....}
+\CommentTok{# $ pop      <int> 198712, 198911, 199113, 199311, 199498, 199657, 19980...}
+\CommentTok{# $ psavert  <dbl> 12.5, 12.5, 11.7, 12.5, 12.5, 12.1, 11.7, 12.2, 11.6,...}
+\CommentTok{# $ uempmed  <dbl> 4.5, 4.7, 4.6, 4.9, 4.7, 4.8, 5.1, 4.5, 4.1, 4.6, 4.4...}
+\CommentTok{# $ unemploy <int> 2944, 2945, 2958, 3143, 3066, 3018, 2878, 3001, 2877,...}
+\end{Highlighting}
+\end{Shaded}
+
+These are not usually kept up to date but are good for practicing your
+analysis skills on.
+
+Or in their own packages
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(gapminder)}
+\KeywordTok{glimpse}\NormalTok{(gapminder)}
+\CommentTok{# Observations: 1,704}
+\CommentTok{# Variables: 6}
+\CommentTok{# $ country   <fct> Afghanistan, Afghanistan, Afghanistan, Afghanistan, ...}
+\CommentTok{# $ continent <fct> Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia...}
+\CommentTok{# $ year      <int> 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992...}
+\CommentTok{# $ lifeExp   <dbl> 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.8...}
+\CommentTok{# $ pop       <int> 8425333, 9240934, 10267083, 11537966, 13079460, 1488...}
+\CommentTok{# $ gdpPercap <dbl> 779.4453, 820.8530, 853.1007, 836.1971, 739.9811, 78...}
+\end{Highlighting}
+\end{Shaded}
+
+I primarily use the \texttt{readr} package (part of the
+\texttt{tidyverse} suite) for reading data now. It mimics the base R
+reading functions but is implemented in \texttt{C} so reads large files
+quickly, and it also attempts to identify the types of variables.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{candy <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"https://raw.githubusercontent.com/fivethirtyeight/data/master/candy-power-ranking/candy-data.csv"}\NormalTok{)}
+\KeywordTok{glimpse}\NormalTok{(candy)}
+\CommentTok{# Observations: 85}
+\CommentTok{# Variables: 13}
+\CommentTok{# $ competitorname   <chr> "100 Grand", "3 Musketeers", "One dime", "One...}
+\CommentTok{# $ chocolate        <dbl> 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, ...}
+\CommentTok{# $ fruity           <dbl> 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, ...}
+\CommentTok{# $ caramel          <dbl> 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, ...}
+\CommentTok{# $ peanutyalmondy   <dbl> 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, ...}
+\CommentTok{# $ nougat           <dbl> 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, ...}
+\CommentTok{# $ crispedricewafer <dbl> 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...}
+\CommentTok{# $ hard             <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, ...}
+\CommentTok{# $ bar              <dbl> 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, ...}
+\CommentTok{# $ pluribus         <dbl> 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, ...}
+\CommentTok{# $ sugarpercent     <dbl> 0.732, 0.604, 0.011, 0.011, 0.906, 0.465, 0.6...}
+\CommentTok{# $ pricepercent     <dbl> 0.860, 0.511, 0.116, 0.511, 0.511, 0.767, 0.7...}
+\CommentTok{# $ winpercent       <dbl> 66.97173, 67.60294, 32.26109, 46.11650, 52.34...}
+\end{Highlighting}
+\end{Shaded}
+
+You can pull data together yourself, or look at data compiled by someone
+else.
+
+\hypertarget{question-1}{%
+\subsection{Question 1}\label{question-1}}
+
+\begin{itemize}
+\item
+  Look at the \texttt{economics} data in the \texttt{ggplot2} package.
+  Can you think of two questions you could answer using these variables?
+\item
+  Write these into your \texttt{.Rmd} file.
+\end{itemize}
+
+\hypertarget{question-2}{%
+\subsection{Question 2}\label{question-2}}
+
+\begin{itemize}
+\item
+  Read the documentation for \texttt{gapminder} data. Can you think of
+  two questions you could answer using these variables?
+\item
+  Write these into your \texttt{.Rmd} file.
+\end{itemize}
+
+\hypertarget{question-3}{%
+\subsection{Question 3}\label{question-3}}
+
+\begin{itemize}
+\item
+  Read the documentation for \texttt{pedestrian\ sensor} data. Can you
+  think of two questions you could answer using these variables?
+\item
+  Write these into your \texttt{.Rmd} file.
+\end{itemize}
+
+\hypertarget{question-4}{%
+\subsection{Question 4}\label{question-4}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Read in the OECD PISA data (file \texttt{student.rds} is available at
+  from the course web site)
+\item
+  Tabulate the countries (CNT)
+\item
+  Extract the values for Australia (AUS) and Shanghai (QCN)
+\item
+  Compute the average and standard deviation of the reading scores
+  (PV1READ), for each country
+\item
+  Write a few sentences explaining what you learn about reading in these
+  two countries.
+\end{enumerate}
+
+\hypertarget{homework}{%
+\subsection{Homework}\label{homework}}
+
+Using your \emph{free} DataCamp account, work your way through the free
+tutorial
+\href{https://www.datacamp.com/courses/free-introduction-to-r}{Introduction
+to R}. This provides some good insights on the data types you will
+commonly use in R.
+
+\hypertarget{got-a-question}{%
+\subsection{Got a question?}\label{got-a-question}}
+
+It is always good to try to solve your problem yourself first. Most
+likely the error is a simple one, like a missing ``)'' or ``,''. For
+deeper questions about packages, analyses and functions, making your Rmd
+into a document, or simply the error that is being generated, you can
+often google for an answer. Often, you will be directed to
+\href{http://stackoverflow.com}{Q/A site: http://stackoverflow.com}.
+
+Stackoverflow is a great place to get answers to tougher questions about
+R and also data analysis. You always need to check that someone hasn't
+asked it before, the answer might already be available for you. If not,
+make a
+\href{https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html}{reproducible
+example of your problem, following the guidelines here} and ask away.
+Remember these people that kindly answer questions on stackoverflow have
+day jobs too, and do this community support as a kindness to all of us.
+
+
+\end{document}
