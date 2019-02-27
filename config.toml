@@ -21,8 +21,8 @@ footnotereturnlinkcontents = "↩"
     url = "http://www-bcf.usc.edu/~gareth/ISL/"
     weight = 2
 [[menu.main]]
-    name = "Moodle (Assignment turn in)"
-    url = ""
+    name = "Moodle (Marks, Ass't turn in)"
+    url = "https://lms.monash.edu/course/view.php?id=49079"
     weight = 3
 [[menu.main]]
     name = "DataCamp"
@@ -30,7 +30,7 @@ footnotereturnlinkcontents = "↩"
     weight = 4
 [[menu.main]]
     name = "Unit guide"
-    url = ""
+    url = "https://unitguidemanager.monash.edu/view?unitCode=ETC3250&tpCode=S1-01&tpYear=2019"
     weight = 5
 
 [params]
