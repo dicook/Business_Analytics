@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ETC3250: Introduction</title>
+    <meta charset="utf-8">
+    <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
+    <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ETC3250: Introduction
+## Semester 1, 2019
+### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
+### Week 1 (b)
+
+---
+
+
+
+
+class: split-30
+
+.column[.padtop50px[
+## Outline
+
+- Introduction
+    - Learning from data
+
+
+
+]]
+.column[.nopadding[
+
+
+- .blue[Better understand] or .blue[make predictions] about a certain
+phenomenon under study
+
+- .blue[Construct a model] of that phenomenon by finding relations between several variables
+
+- If phenomenon is complex or depends on a large number of variables, an .blue[analytical solution] might not be available
+
+- However, we can  .blue[collect data] and learn a model that  .blue[approximates] the true underlying phenomenon
+
+]]
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+    - Learning from data
+
+]]
+.column[.top50px[
+
+&lt;img src="statlearn_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+
+`\(\mathcal{D} = \{(x_i, y_i)\}_{i = 1}^N, ~~~ \mbox{where}~ x_i = (x_{i1}, \dots, x_{ip})^{T}\)`
+
+.blue[Statistical learning] provides a framework for constructing models from `\(\mathcal{D}\)`
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+    - Different learning problems
+
+]]
+.column[.nopadding[
+
+- Supervised learning, `\(y_i\)` .orange[available] for all `\(x_i\)`
+    - Regression (or prediction)
+    - Classification
+- Unsupervised learning, `\(y_i\)` .orange[unavailable] for all `\(x_i\)`
+- Semi-supervised learning, `\(y_i\)` available only for few `\(x_i\)`
+- Other types of learning: reinforcement learning, online learning, active learning, etc. 
+
+
+.blue[Identification of the best learning problem is important in practice]
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+
+]]
+.column[.top50px[
+
+`\(\mathcal{D} = \{(y_i, x_i)\}_{i = 1}^N\)` 
+
+where `\((y_i, x_i) \sim P(Y, X) = P(X) \underbrace{P(Y|X)}_{}\)` where `\(P(Y, X)\)` means that these arise from some probability distribution. `\(``\sim"\)` means distributed as, arise from. Typically, we only are interested in `\(P(Y|X)\)`, the distribution of `\(Y\)` conditional on `\(X\)`.
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+
+]]
+.column[.nopadding[
+
+- `\(Y = (X_1, \dots, X_q)\)`: response (output) (could be multivariate, `\(q=1\)` for us)
+- `\(X = (X_1, \dots, X_p)\)`: set of `\(p\)` predictors (input)
+
+We seek a function `\(h(X)\)` for predicting `\(Y\)` given values of the input `\(X\)`. This function is computed using `\(\mathcal{D}\)`.
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+
+]]
+.column[.top50px[
+
+`\(\mathcal{D} = \{(y_i, x_i)\}_{i = 1}^N \mbox{ where } (y_i, x_i) \sim P(Y, X)\)`
+
+We are interested in minimizing the expected .orange[out-of-sample] prediction error:  `\(\mbox{Err}_{\mbox{out}}(h) = E[L(Y, h(X))]\)`
+
+where `\(L(y, {\hat{y}})\)` is a non-negative real-valued .orange[loss function]. Examples include `\(L(y, \hat{y}) = (y - \hat{y})^2\)` and `\(L(y, \hat{y}) = I(y \neq \hat{y})\)`.
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+    - Regression
+
+]]
+.column[.top50px[
+
+We often assume that our data arose from a statistical model
+
+`\(Y=f(X) + \varepsilon,\)` where `\(f\)` is the true unknown function, `\(\varepsilon\)` is the random error term with `\(E[\varepsilon] = 0\)` and is independent of `\(X\)`.
+
+- The additive error model is a useful approximation to the truth
+- `\(f(x) = E[Y|X = x]\)`
+- Not a deterministic relationship: `\(Y \neq f(X)\)`
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+    - Regression
+
+]]
+.column[.nopadding[
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.2.pdf" style="width: 100%; align: center"/&gt;
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+    - Regression
+
+]]
+.column[.nopadding[
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" style="width: 90%; align: center"/&gt;
+
+]]
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+    - Regression
+    - Why?
+
+]]
+.column[.nopadding[
+
+- **Prediction**: 
+    - `\(\hat{y}_{*} = \hat f(x_{*})\)` for a new observation `\(x_{*}\)`
+- **Inference (or explanation)**:
+    - Which predictors are associated with the response?
+    - What is the relationship between the response and each predictor?
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+    - Regression
+    - Why?
+    - Estimation
+
+]]
+.column[.top50px[
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" style="width: 45%; align: center"/&gt;
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" style="width: 45%; align: center"/&gt;
+
+Linear model: `\(\hat f(\mbox{education}, \mbox{seniority}) =\)` 
+`\(~~~~~~~~\hat \beta_0 + \hat \beta_1 \times \mbox{education} + \hat \beta_2 \times \mbox{seniority}\)`
+
+''Why would we ever choose to use a **more restrictive method** instead of a **very flexible approach**?''
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+    - Regression
+    - Why?
+    - Estimation
+
+]]
+.column[.nopadding[
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" style="width: 60%; align: center"/&gt;
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" style="width: 30%; align: center"/&gt;
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.5.pdf" style="width: 30%; align: center"/&gt;
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.6.pdf" style="width: 30%; align: center"/&gt;
+
+]]
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+    - Regression
+    - Why?
+    - Estimation
+    - Classification
+    - Estimation
+
+]]
+.column[.nopadding[
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.16.pdf" style="width: 100%; align: center"/&gt;
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+    - Regression
+    - Why?
+    - Estimation
+    - Classification
+    - Estimation
+    - Methods
+
+]]
+.column[.nopadding[
+
+
+
+- **Parametric methods**
+    - Assumption about the form of `\(f\)`, e.g. linear
+    - 😄 The problem of estimating `\(f\)` reduces to estimating a set of parameters
+    - 😄 Usually a good starting point for many learning problems
+    - 🙁 Poor performance if linearity assumption is wrong
+- **Non-parametric methods**
+    - 😄 No *explicit* assumptions about the  form of `\(f\)`, e.g. nearest neighbours: `\(\hat Y(x) = \frac1k \sum_{x_i \in N_k(x)} y_i\)`
+    - 😄 High flexibility: it can potentially fit a range of shapes
+    - 🙁 A large number of observations is required to estimate `\(f\)` with good accuracy
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+
+- Introduction
+- Supervised learning
+    - Regression
+    - Why?
+    - Estimation
+    - Classification
+    - Estimation
+    - Methods
+    - Interpretability vs flexibility
+
+]]
+.column[.nopadding[
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.7.pdf" style="width: 80%; align: center"/&gt;
+ 
+ ]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Regression
+]]
+.column[.top50px[
+
+Suppose we have a regression model `\(y=f(x)+\varepsilon\)`. .orange[Estimate]
+`\(\hat{f}\)` from some .orange[training data], `\(Tr=\{x_i,y_i\}_1^n\)`.
+
+One common measure of accuracy is:
+
+**Training Mean Squared Error**
+
+`\(MSE_{Tr} = \mathop{\mbox{Ave}}\limits_{i\in Tr}[y_i-\hat{f}(x_i)]^2 = \frac{1}{n}\sum_{i=1}^n [(y_i-\hat{f}(x_i)]^2\)`
+
+
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Regression
+]]
+.column[.top50px[
+
+Suppose we have a regression model `\(y=f(x)+\varepsilon\)`. .orange[Estimate]
+`\(\hat{f}\)` from some .orange[training data], `\(Tr=\{x_i,y_i\}_1^n\)`.
+
+One common measure of accuracy is:
+
+**Training Mean Squared Error**
+
+`\(MSE_{Tr} = \mathop{\mbox{Ave}}\limits_{i\in Tr}[y_i-\hat{f}(x_i)]^2 = \frac{1}{n}\sum_{i=1}^n [(y_i-\hat{f}(x_i)]^2\)`
+
+
+Measure .orange[real accuracy] using .orange[test data] `\(Te=\{x_j,y_j\}_1^m\)`
+
+**Test Mean Squared Error**
+
+`\(MSE_{Te} = \mathop{\mbox{Ave}}\limits_{j\in Te}[y_j-\hat{f}(x_j)]^2 = \frac{1}{m}\sum_{j=1}^m [(y_j-\hat{f}(x_j)]^2\)`
+
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Regression
+        - Training vs Test MSEs
+]]
+.column[.top50px[
+
+- In general, the more .orange[flexible] a method is, the .orange[lower] its
+.orange[training MSE] will be. i.e. it will “fit” the training data very well.
+
+- However, the .orange[test MSE] may be .orange[higher] for a more .orange[flexible] method than for a simple approach like linear regression. 
+
+- Flexibility also makes interpretation more difficult. There is
+a trade-off between .orange[flexibility] and .orange[model interpretability].
+
+]]
+
+---
+
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Regression
+        - Training vs Test MSEs
+        - Example
+]]
+
+.column[.top50px[
+.split-two[
+.row[
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.9.pdf" style="width: 90%; align: center"/&gt;
+]
+.row[
+.split-50[
+.column[
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+.black[true curve]&lt;br&gt;
+.orange[linear regression]&lt;br&gt;
+.blue[Smoothing] splines
+]
+.column[
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+.gray[Training MSE]&lt;br&gt;
+.red[Test MSE]&lt;br&gt;
+.black[Dashed: Minimum test MSE]
+]
+]
+]
+]
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Regression
+        - Training vs Test MSEs
+        - Example
+]]
+
+.column[.top50px[
+.split-two[
+.row[
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.10.pdf" style="width: 90%; align: center"/&gt;
+]
+.row[
+.split-50[
+.column[
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+.black[true curve]&lt;br&gt;
+.orange[linear regression]&lt;br&gt;
+.blue[Smoothing] splines
+]
+.column[
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+.gray[Training MSE]&lt;br&gt;
+.red[Test MSE]&lt;br&gt;
+.black[Dashed: Minimum test MSE]
+]
+]
+]
+]
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Regression
+        - Training vs Test MSEs
+        - Example
+]]
+
+.column[.top50px[
+.split-two[
+.row[
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.11.pdf" style="width: 90%; align: center"/&gt;
+]
+.row[
+.split-50[
+.column[
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+.black[true curve]&lt;br&gt;
+.orange[linear regression]&lt;br&gt;
+.blue[Smoothing] splines
+]
+.column[
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+.gray[Training MSE]&lt;br&gt;
+.red[Test MSE]&lt;br&gt;
+.black[Dashed: Minimum test MSE]
+]
+]
+]
+]
+
+]]
+
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Regression
+        - Training vs Test MSEs
+        - Example
+        - Bias-variance tradeoff 
+]]
+
+.column[.top50px[
+
+There are two competing forces that govern the
+choice of learning method: .orange[bias] and .orange[variance]. 
+
+.orange[Bias]
+is the error that is introduced by modeling a 
+complicated problem by a simpler problem.
+
+
+- For example, linear regression assumes a linear relationship when few real relationships are exactly linear.
+- In general, the .orange[more flexible] a method is, the .orange[less bias] it will have. 
+
+[This site](https://degreesofbelief.roryquinn.com/bias-variance-tradeoff) has a lovely explanation, if you don't like mine.
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Regression
+        - Training vs Test MSEs
+        - Example
+        - Bias-variance tradeoff 
+]]
+
+.column[.top50px[
+There are two competing forces that govern the
+choice of learning method: .orange[bias] and .orange[variance]. 
+
+.orange[Variance]
+refers to how much your estimate would change if you had different training data.
+
+
+- In general, the .orange[more flexible] a method is, the .orange[more variance] it has. 
+- The .orange[size] of the training data has an impact on the variance 
+
+
+]]
+---
+
+## MSE decomposition
+
+If `\(Y = f(x) + \varepsilon\)` and `\(f(x)=\mbox{E}[Y\mid X=x]\)`, then the expected **test** MSE for a new `\(Y\)` at `\(x_0\)` will be equal to
+
+`\(E[(Y-\hat{f}(x_0))^2] = [\mbox{Bias}(\hat{f}(x_0))]^2 + \mbox{Var}(\hat{f}(x_0)) + \mbox{Var}(\varepsilon)\)`
+
+Test MSE = Bias `\(^2\)` + Variance + Irreducible variance
+
+- The expectation averages over the variability of `\(Y\)` as well as the variability in the training data.
+- As the flexibility of `\(\hat{f}\)` increases, its variance increases and its bias decreases.
+-  Choosing the flexibility based on average test MSE amounts to a .orange[bias-variance trade-off]
+
+
+---
+.nopadding[
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.12.pdf" style="width: 90%; align: center"/&gt;
+
+.blue[squared bias], .orange[variance], Var(ε) (dashed line), and .red[test MSE] for the three data sets shown earlier. The vertical dotted line indicates the flexibility level corresponding to the smallest test MSE.
+]
+---
+class: split-30
+.column[.nopadding[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Regression
+        - Training vs Test MSEs
+        - Example
+        - Bias-variance tradeoff 
+        - Optimal prediction
+]]
+
+.column[.top50px[
+
+The optimal MSE is obtained when 
+
+`\(\hat{f}=f = \mbox{E}[Y\mid X=x].\)`
+
+Then .orange[bias=variance=0] and
+
+`\(\mbox{MSE} = \mbox{irreducible variance}\)`
+
+This is called the .orange[oracle predictor] because it is not achievable in practice.
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+
+]]
+
+.column[.nopadding[
+
+Here the response variable `\(Y\)` is .orange[qualitative].
+
+- e.g., email is one of `\({\cal C} = (\mbox{spam},\mbox{ham})\)`
+- e.g., voters are one of `\({\cal C} = (\mbox{Liberal},\mbox{Labor},\mbox{Green},\mbox{National},\mbox{Other})\)`
+
+Our goals are:
+1. Build a classifier `\(C(x)\)` that assigns a class label from `\({\cal C} = \{\mathcal{C}_1, \dots, \mathcal{C}_K\}\)` to a future unlabeled observation `\(x\)`.
+2. Such a classifier will divide the input space into regions `\(\mathcal{R}_k\)` called decision regions, one for each class, such that all points in `\(\mathcal{R}_k\)` are assigned to class `\(\mathcal{C}_k\)`
+3. Assess the uncertainty in each classification (i.e., the probability of misclassification).
+4. Understand the roles of the different predictors among `\(X = (X_1,X_2,\dots,X_p)\)`.
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+
+]]
+
+.column[.padtop50px[
+
+Recall that we want to minimize the expected prediction error
+
+`\(E_{(Y, X)}[L(Y, C(X))]\)`
+
+where `\(L(y, {\hat{y}})\)` is a non-negative real-valued .orange[loss function]. 
+
+
+In classification, the output `\(Y\)` is a .orange[categorical variable], and our loss function can be represented by a `\(K \times K\)` matrix `\(L\)`, where `\(K = \mbox{card}(\mathcal{C})\)`. `\(L(k, l)\)` is the price paid for classifying `\(C_k\)` as `\(C_l\)`. 
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+    - Optimal classifier
+
+]]
+
+.column[.padtop50px[
+
+We want to minimize the expected prediction error
+
+`\(E_{(Y, X)}[L(Y, C(X))] =\)` &lt;br&gt;
+`\(~~~E_{X} \left[\sum_{k = 1}^K L(C_k, C(X)) P(C_k|X) \right]\)`
+
+It suffices to minimize the error pointwise:
+
+`\(C^{*}(x) = \operatorname{argmin}_{c \in \mathcal{C}} \sum_{k = 1}^K L(C_k, c) P(C_k|X = x)\)`
+
+
+]]
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+    - Optimal classifier
+
+]]
+
+.column[.top50px[
+
+If we use the zero-one loss, i.e. `\(L(y, \hat{y}) = I(y \neq \hat{y})\)` then 
+	
+`\(\sum_{k = 1}^K L(C_k, c) P(C_k|X = x)\)`&lt;br&gt;
+`\(~~~~~~ = \sum_{k = 1}^K  P(C_k|X = x) - P(c|X = x)\)`&lt;br&gt;
+`\(~~~~~~ = 1 - P(c|X = x)\)`
+&lt;br&gt;
+&lt;br&gt;
+
+`\(C^{*}(x) = \operatorname{argmin}_{c \in \mathcal{C}} \sum_{k = 1}^K L(C_k, c) P(C_k|X = x)\)`&lt;br&gt;
+`\(~~~~~~ = \operatorname{argmin}_{c \in \mathcal{C}} 1 - P(c|X = x)\)`&lt;br&gt;
+`\(~~~~~~ = \operatorname{argmax}_{c \in \mathcal{C}} P(c|X = x)\)`
+&lt;br&gt;
+&lt;br&gt;
+
+or
+&lt;br&gt;
+
+`\(C^{*}(x) = C_k \mbox{ if } P(C_k|X = x) = \operatorname{max}_{c \in \mathcal{C} } P(c|X = x)\)`
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+    - Optimal classifier
+
+]]
+
+.column[.top50px[
+
+Let `\({\cal C} = \{\mathcal{C}_1, \dots, \mathcal{C}_K\}\)`, and let
+
+`\(p_k(x) = \text{P}(Y = C_k\mid X = x),\qquad k = 1, 2, \dots , K.\)`
+
+These are the .orange[conditional class probabilities] at `\(x\)`. 
+
+Then the .orange[Bayes] classifier at `\(x\)` is
+
+`\(C(x) = C_j \quad \mbox{ if } p_j(x) = \max\{p_1(x), p_2(x), \dots, p_K(x)\}\)`
+
+
+- This gives the minimum average test error rate. 
+- It is an oracle predictor because we do not usually know `\(p_k(x)\)`.
+
+]]
+
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+    - Optimal classifier
+    - Bayes error 
+
+]]
+
+.column[.top50px[ 
+
+`\(1-\text{E}\left(\max_j \text{P}(Y = C_j | X)\right)\)`
+
+- The .orange[Bayes error rate] is the lowest possible error rate that could be achieved if we knew exactly the .orange[true] probability distribution of the data.
+- It is analagous to the irreducible error in regression.
+- On test data, no classifier can get lower error rates than the Bayes error rate.
+- In reality, the Bayes error rate is not known exactly.
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+    - Optimal classifier
+    - Bayes error 
+    - Bayes optimal 
+
+]]
+
+.column[.top50px[ 
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.13.pdf" style="width: 80%; align: center"/&gt;
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+    - Optimal classifier
+    - Bayes error 
+    - Bayes optimal 
+
+]]
+
+.column[.top50px[ 
+.orange[Compute] `\(\hat{C}\)` from some .orange[training data], `\(Tr=\{x_i,y_i\}_1^n\)`.
+
+In place of MSE, we now use the error rate (fraction of misclassifications).
+
+*Training Error Rate*
+
+`\(\text{Error rate}_{Tr} = \frac{1}{n}\sum_{i=1}^n I(y_i \ne \hat{C}(x_i))\)`
+
+Measure .orange[real accuracy] using .orange[test data] `\(Te=\{x_j,y_j\}_1^m\)`
+
+*Test Error Rate*
+
+`\(\text{Error rate}_{Te} = \frac{1}{m}\sum_{j=1}^m I(y_j \ne \hat{C}(x_j))\)`
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+    - Optimal classifier
+    - Bayes error 
+    - Bayes optimal
+    - kNN
+]]
+
+.column[.top50px[ 
+
+One of the simplest classifiers. Given a test observation `\(x_0\)`:
+
+- Find the `\(K\)` nearest points to `\(x_0\)` in the training data: `\({\cal N}_0\)`.
+- Estimate conditional probabilities
+`\(=P(Y = C_j \mid X=x_0) = \frac{1}{K}\sum_{i\in {\cal N}_0} I(y_i = C_j).\)`
+- Classify `\(x_0\)` to class with largest probability.
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+    - Optimal classifier
+    - Bayes error 
+    - Bayes optimal
+    - kNN
+]]
+
+.column[.top50px[ 
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.14.pdf" style="width: 100%; align: center"/&gt;
+
+]]
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+    - Optimal classifier
+    - Bayes error 
+    - Bayes optimal
+    - kNN
+]]
+
+.column[.top50px[ 
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.16.pdf" style="width: 100%; align: center"/&gt;
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+    - Optimal classifier
+    - Bayes error 
+    - Bayes optimal
+    - kNN
+]]
+
+.column[.top50px[ 
+
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.15.pdf" style="width: 80%; align: center"/&gt;
+
+]]
+
+---
+class: split-30
+.column[.padtop50px[
+## Outline
+
+- Introduction
+- Supervised learning
+- Assessing model accuracy
+    - Classification
+    - Optimal classifier
+    - Bayes error 
+    - Bayes optimal
+    - kNN
+]]
+
+.column[.top50px[ 
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.17.pdf" style="width: 100%; align: center"/&gt;
+
+]]
+---
+### A fundamental picture
+
+
+&lt;img src="images/bias-var-tradeoff.png" style="width: 90%; align: center"/&gt;
+
+
+---
+layout: false
+# 👩‍💻 Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+&lt;br&gt;
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+&lt;br&gt; 
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

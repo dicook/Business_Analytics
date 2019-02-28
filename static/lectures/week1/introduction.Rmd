@@ -2,7 +2,7 @@
 title: "ETC3250: Introduction"
 subtitle: "Semester 1, 2019"
 author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
-date: "Week 1"
+date: "Week 1 (a)"
 output:
   xaringan::moon_reader:
     css: ["kunoichi", "ninjutsu", "mystyle.css"]
