@@ -9,7 +9,7 @@ title: Home
 ## Semester 1 2019
 
 - Lecturers: Professor Di Cook (dicook@monash.edu)
-- Tutors: Earo Wang, Cameron Roach, Zina Quryakos
+- Tutors: Earo, Cameron, Zina
 
 Unless your question is a personal issue or an administrative matter, please do not send us direct email. [Moodle]() is appropriate for questions related to the course material.
 
@@ -23,8 +23,8 @@ Unless your question is a personal issue or an administrative matter, please do 
 ## Consultation times
 
 - Di: Mon 10:30-11:30; Thu 12:30-1:30 Menzies E762A
-- Earo: 
-- Cameron:
+- Earo: Thu 4:30-6:00 Menzies E1105
+- Cameron: Wed 9:00-10:30 E1105
 - Zina: 
 
 ## Lecture notes
