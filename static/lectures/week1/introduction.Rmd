@@ -239,6 +239,47 @@ class: split-40
 .green[Teaching and learning approach: Two 1-hour lectures and a one 1.5 hour lab class each week for 12 weeks.]
 
 ---
+layout: true
+class: shuriken-full white 
+
+.blade1.bg-green[.content.center.vmiddle[
+.white.font_large[How do you do well in this class?]
+]]
+.blade2.bg-purple[.content.center.vmiddle[
+Turn up to class, summarise your notes after each, note what you understand, and what you don't `r emo::ji("ocean")`
+]]
+.blade3.bg-deep-orange[.content.center.vmiddle[
+Do exercises from the textbook related to material each week, check your answers with online solutions `r emo::ji("climber")`
+]]
+.blade4.bg-pink[.content.center.vmiddle[
+Participate actively in computer labs, work with team mates to solve problems, get best answers `r emo::ji("fruit")`
+]]
+
+---
+
+class: hide-blade2 hide-blade3 hide-blade4 hide-hole
+
+---
+
+class: hide-blade3 hide-blade4 hide-hole
+count: false
+
+---
+
+class: hide-blade4 hide-hole
+count: false
+
+---
+
+class: hide-hole
+count: false
+
+---
+
+count: false 
+
+---
+layout: false
 class: split-60
 
 .column[.padtop50px[

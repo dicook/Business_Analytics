@@ -588,6 +588,8 @@ complicated problem by a simpler problem.
 
 ---
 class: split-30
+count: false
+
 .column[.pad10px[
 ## Outline
 
