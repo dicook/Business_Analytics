@@ -29,7 +29,8 @@ Unless your question is a personal issue or an administrative matter, please do 
 
 ## Lecture notes
 
-- Week 1: Introduction to statistical learning, Chapter 2 [slides1](http://monba.dicook.org/lectures/week1/introduction.html) ([Rmd](http://monba.dicook.org/lectures/week1/introduction.Rmd)) [slides2](http://monba.dicook.org/lectures/week1/statlearn.html) ([Rmd](http://monba.dicook.org/lectures/week1/statlearn.Rmd))
+- Week 1: Introduction to statistical learning, Chapter 2 
+<!-- - Week 1: Introduction to statistical learning, Chapter 2 [slides1](http://monba.dicook.org/lectures/week1/introduction.html) ([Rmd](http://monba.dicook.org/lectures/week1/introduction.Rmd)) [slides2](http://monba.dicook.org/lectures/week1/statlearn.html) ([Rmd](http://monba.dicook.org/lectures/week1/statlearn.Rmd))-->
 - Week 2: Linear regression, Chapter 3
 - Week 3: Resampling, Chapter 5
 - Week 4: Dimension reduction, Chapter 10.2 + instructor's notes
