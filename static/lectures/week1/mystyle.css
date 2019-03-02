@@ -22,6 +22,7 @@
   --color-dark-green: #3F9F7A;
   --color-teal: #56a7af; 
   --color-violet: #7570b3; 
+  --color-light-gray: #DCDCDC;
   --main-monashblue: rgba(0, 99, 167, 1);
   --main-monashblue2: #0063A7;
   --link-color: #67b69c;
@@ -174,18 +175,28 @@ body {
   color: var(--color-violet);
 }
 
-li {
+ul li {
   list-style-type: none;
 }
 ul li:before {
   content: "\f080";
+  font-size: 28px;
   font-family: "FontAwesome";
   margin-right: 10px;
   color: var(--color-green);
 }
 ul li li:before {
   content: "\f200";
+  font-size: 20px;
   font-family: "FontAwesome";
-  margin-right: 10px;
+  margin-right: 5px;
   color: var(--color-green);
+}
+
+.boxshadow
+{
+  -moz-box-shadow: 3px 3px 5px #535353;
+  -webkit-box-shadow: 3px 3px 5px #535353;
+  background-color: var(--color-light-gray);
+  box-shadow: 5px 5px 10px var(--color-gray);
 }

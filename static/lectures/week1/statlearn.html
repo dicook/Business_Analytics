@@ -24,77 +24,75 @@ class: center, middle, inverse, title-slide
 
 class: split-30
 
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
-- Introduction
+- .green[Introduction]
     - Learning from data
 
 
 
 ]]
-.column[.nopadding[
+.column[.top50px[
 
 
-- .blue[Better understand] or .blue[make predictions] about a certain
-phenomenon under study
-
-- .blue[Construct a model] of that phenomenon by finding relations between several variables
-
-- If phenomenon is complex or depends on a large number of variables, an .blue[analytical solution] might not be available
-
-- However, we can  .blue[collect data] and learn a model that  .blue[approximates] the true underlying phenomenon
+- .orange[Better understand] or .orange[make predictions] about a certain
+phenomenon under study &lt;br&gt; &lt;br&gt;
+- .orange[Construct a model] of that phenomenon by finding relations between several variables  &lt;br&gt; &lt;br&gt;
+- If phenomenon is complex or depends on a large number of variables, an .orange[analytical solution] might not be available  &lt;br&gt; &lt;br&gt;
+- However, we can  .orange[collect data] and learn a model that  .orange[approximates] the true underlying phenomenon
 
 ]]
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
-- Introduction
+- .green[Introduction]
     - Learning from data
 
 ]]
 .column[.top50px[
 
-&lt;img src="statlearn_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="statlearn_files/figure-html/unnamed-chunk-1-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
 `\(\mathcal{D} = \{(x_i, y_i)\}_{i = 1}^N, ~~~ \mbox{where}~ x_i = (x_{i1}, \dots, x_{ip})^{T}\)`
 
-.blue[Statistical learning] provides a framework for constructing models from `\(\mathcal{D}\)`
+.boxshadow[.green[Statistical learning] provides a framework for constructing models from the data.]
 
 ]]
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
-- Introduction
+- .green[Introduction]
+    - Learning from data
     - Different learning problems
 
 ]]
-.column[.nopadding[
+.column[.top50px[
 
-- Supervised learning, `\(y_i\)` .orange[available] for all `\(x_i\)`
+- .green[Supervised] learning, `\(y_i\)` .orange[available] for all `\(x_i\)`
     - Regression (or prediction)
-    - Classification
-- Unsupervised learning, `\(y_i\)` .orange[unavailable] for all `\(x_i\)`
-- Semi-supervised learning, `\(y_i\)` available only for few `\(x_i\)`
+    - Classification 
+- .green[Unsupervised] learning, `\(y_i\)` .orange[unavailable] for all `\(x_i\)` 
+- .green[Semi-supervised] learning, `\(y_i\)` available only for few `\(x_i\)` 
 - Other types of learning: reinforcement learning, online learning, active learning, etc. 
 
 
-.blue[Identification of the best learning problem is important in practice]
+.boxshadow[Being able to .green[identify] which is the type of learning problem you have is important in practice]]
 
 ]]
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
-- Supervised learning
+- .green[Supervised learning]
 
 ]]
 .column[.top50px[
@@ -106,14 +104,14 @@ where `\((y_i, x_i) \sim P(Y, X) = P(X) \underbrace{P(Y|X)}_{}\)` where `\(P(Y, 
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
-- Supervised learning
+- .green[Supervised learning]
 
 ]]
-.column[.nopadding[
+.column[.top50px[
 
 - `\(Y = (X_1, \dots, X_q)\)`: response (output) (could be multivariate, `\(q=1\)` for us)
 - `\(X = (X_1, \dots, X_p)\)`: set of `\(p\)` predictors (input)
@@ -123,29 +121,34 @@ We seek a function `\(h(X)\)` for predicting `\(Y\)` given values of the input `
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
-- Supervised learning
+- .green[Supervised learning]
 
 ]]
 .column[.top50px[
 
 `\(\mathcal{D} = \{(y_i, x_i)\}_{i = 1}^N \mbox{ where } (y_i, x_i) \sim P(Y, X)\)`
 
-We are interested in minimizing the expected .orange[out-of-sample] prediction error:  `\(\mbox{Err}_{\mbox{out}}(h) = E[L(Y, h(X))]\)`
+We are interested in minimizing the expected .orange[out-of-sample] prediction error: 
 
-where `\(L(y, {\hat{y}})\)` is a non-negative real-valued .orange[loss function]. Examples include `\(L(y, \hat{y}) = (y - \hat{y})^2\)` and `\(L(y, \hat{y}) = I(y \neq \hat{y})\)`.
+`\(\mbox{Err}_{\mbox{out}}(h) = E[L(Y, h(X))]\)`
+
+where `\(L(y, {\hat{y}})\)` is a non-negative real-valued .orange[loss function], such as `\(L(y, \hat{y}) = (y - \hat{y})^2\)` and `\(L(y, \hat{y}) = I(y \neq \hat{y})\)`.
+
+.boxshadow[The goal is that the predictions from the model are accurate for future samples.]
+
 ]]
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
-- Supervised learning
+- .green[Supervised learning]
     - Regression
 
 ]]
@@ -162,11 +165,11 @@ We often assume that our data arose from a statistical model
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
-- Supervised learning
+- .green[Supervised learning]
     - Regression
 
 ]]
@@ -174,35 +177,39 @@ class: split-30
 
 &lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.2.pdf" style="width: 100%; align: center"/&gt;
 
+.light-blue[Blue curve] is `\(f(x)\)`, the true functional relationship.
+
 ]]
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
-- Supervised learning
+- .green[Supervised learning]
     - Regression
 
 ]]
 .column[.nopadding[
 
-&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" style="width: 90%; align: center"/&gt;
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" style="width: 80%; align: center"/&gt;
+
+.light-blue[Blue surface] is `\(f(x)\)`, the true functional relationship.
 
 ]]
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
-- Supervised learning
+- .green[Supervised learning]
     - Regression
     - Why?
 
 ]]
-.column[.nopadding[
+.column[.top50px[
 
 - **Prediction**: 
     - `\(\hat{y}_{*} = \hat f(x_{*})\)` for a new observation `\(x_{*}\)`
@@ -213,17 +220,17 @@ class: split-30
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
-- Supervised learning
+- .green[Supervised learning]
     - Regression
     - Why?
     - Estimation
 
 ]]
-.column[.top50px[
+.column[.pad10px[
 
 &lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" style="width: 45%; align: center"/&gt;
 &lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" style="width: 45%; align: center"/&gt;
@@ -231,17 +238,17 @@ class: split-30
 Linear model: `\(\hat f(\mbox{education}, \mbox{seniority}) =\)` 
 `\(~~~~~~~~\hat \beta_0 + \hat \beta_1 \times \mbox{education} + \hat \beta_2 \times \mbox{seniority}\)`
 
-''Why would we ever choose to use a **more restrictive method** instead of a **very flexible approach**?''
+.boxshadow[Why would we ever choose to use a **more restrictive method** instead of a **very flexible approach**?]
 
 ]]
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
-- Supervised learning
+- .green[Supervised learning]
     - Regression
     - Why?
     - Estimation
@@ -256,37 +263,18 @@ class: split-30
 &lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.6.pdf" style="width: 30%; align: center"/&gt;
 
 ]]
----
-class: split-30
-.column[.padtop50px[
-## Outline
 
-- Introduction
-- Supervised learning
-    - Regression
-    - Why?
-    - Estimation
-    - Classification
-    - Estimation
 
-]]
-.column[.nopadding[
-
-&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.16.pdf" style="width: 100%; align: center"/&gt;
-
-]]
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
-- Supervised learning
+- .green[Supervised learning]
     - Regression
     - Why?
-    - Estimation
-    - Classification
     - Estimation
     - Methods
 
@@ -295,60 +283,38 @@ class: split-30
 
 
 
-- **Parametric methods**
-    - Assumption about the form of `\(f\)`, e.g. linear
-    - 😄 The problem of estimating `\(f\)` reduces to estimating a set of parameters
-    - 😄 Usually a good starting point for many learning problems
-    - 🙁 Poor performance if linearity assumption is wrong
-- **Non-parametric methods**
-    - 😄 No *explicit* assumptions about the  form of `\(f\)`, e.g. nearest neighbours: `\(\hat Y(x) = \frac1k \sum_{x_i \in N_k(x)} y_i\)`
-    - 😄 High flexibility: it can potentially fit a range of shapes
-    - 🙁 A large number of observations is required to estimate `\(f\)` with good accuracy
+- .orange[Parametric methods]
+    &lt;br&gt; ➕ Assumption about the form of `\(f\)`, e.g. linear
+    &lt;br&gt; 😄 The problem of estimating `\(f\)` reduces to estimating a set of parameters
+    &lt;br&gt; 😄 Usually a good starting point for many learning problems
+    &lt;br&gt; 🙁 Poor performance if linearity assumption is wrong
+- .orange[Non-parametric methods]
+    &lt;br&gt; 😄 No *explicit* assumptions about the  form of `\(f\)`, e.g. nearest neighbours: `\(\hat Y(x) = \frac1k \sum_{x_i \in N_k(x)} y_i\)`
+    &lt;br&gt;  😄 High flexibility: it can potentially fit a range of shapes
+    &lt;br&gt; 🙁 A large number of observations is required to estimate `\(f\)` with good accuracy
 
 ]]
 
+
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 
 - Introduction
 - Supervised learning
-    - Regression
-    - Why?
-    - Estimation
-    - Classification
-    - Estimation
-    - Methods
-    - Interpretability vs flexibility
-
-]]
-.column[.nopadding[
-
-&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.7.pdf" style="width: 80%; align: center"/&gt;
- 
- ]]
-
----
-class: split-30
-.column[.padtop50px[
-## Outline
-
-
-- Introduction
-- Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Regression
 ]]
 .column[.top50px[
 
 Suppose we have a regression model `\(y=f(x)+\varepsilon\)`. .orange[Estimate]
-`\(\hat{f}\)` from some .orange[training data], `\(Tr=\{x_i,y_i\}_1^n\)`.
+`\(\hat{f}\)` from some .orange[training data], `\(Tr=\{x_i,y_i\}_{i=1}^n\)`.
 
 One common measure of accuracy is:
 
-**Training Mean Squared Error**
+.orange[Training Mean Squared Error]
 
 `\(MSE_{Tr} = \mathop{\mbox{Ave}}\limits_{i\in Tr}[y_i-\hat{f}(x_i)]^2 = \frac{1}{n}\sum_{i=1}^n [(y_i-\hat{f}(x_i)]^2\)`
 
@@ -358,30 +324,26 @@ One common measure of accuracy is:
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Regression
 ]]
 .column[.top50px[
 
 Suppose we have a regression model `\(y=f(x)+\varepsilon\)`. .orange[Estimate]
-`\(\hat{f}\)` from some .orange[training data], `\(Tr=\{x_i,y_i\}_1^n\)`.
+`\(\hat{f}\)` from some .orange[training data], `\(Tr=\{x_i,y_i\}_{i=1}^n\)`.
 
-One common measure of accuracy is:
-
-**Training Mean Squared Error**
+One common measure of accuracy is: .orange[Training Mean Squared Error]
 
 `\(MSE_{Tr} = \mathop{\mbox{Ave}}\limits_{i\in Tr}[y_i-\hat{f}(x_i)]^2 = \frac{1}{n}\sum_{i=1}^n [(y_i-\hat{f}(x_i)]^2\)`
 
 
-Measure .orange[real accuracy] using .orange[test data] `\(Te=\{x_j,y_j\}_1^m\)`
-
-**Test Mean Squared Error**
+Measure .orange[real accuracy] using .orange[test data] `\(Te=\{x_j,y_j\}_{j=1}^m\)`, .orange[Test Mean Squared Error]
 
 `\(MSE_{Te} = \mathop{\mbox{Ave}}\limits_{j\in Te}[y_j-\hat{f}(x_j)]^2 = \frac{1}{m}\sum_{j=1}^m [(y_j-\hat{f}(x_j)]^2\)`
 
@@ -390,12 +352,12 @@ Measure .orange[real accuracy] using .orange[test data] `\(Te=\{x_j,y_j\}_1^m\)`
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Regression
         - Training vs Test MSEs
 ]]
@@ -403,23 +365,44 @@ class: split-30
 
 - In general, the more .orange[flexible] a method is, the .orange[lower] its
 .orange[training MSE] will be. i.e. it will “fit” the training data very well.
-
 - However, the .orange[test MSE] may be .orange[higher] for a more .orange[flexible] method than for a simple approach like linear regression. 
-
 - Flexibility also makes interpretation more difficult. There is
 a trade-off between .orange[flexibility] and .orange[model interpretability].
 
 ]]
 
 ---
+class: split-30
+.column[.pad10px[
+## Outline
+
+
+- Introduction
+- .green[Supervised learning]
+    - Regression
+    - Why?
+    - Estimation
+    - Methods
+    - Interpretability vs flexibility
+
+]]
+.column[.nopadding[
+
+&lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.7.pdf" style="width: 70%; align: center"/&gt;
+ 
+Simplistic overview of methods on the flexibility vs interpretability scale. Interpretability is when it is clear how the explanatory variable is related to the response, e.g. linear model. .orange[Poor interpretability] is often called a .orange["black box"] method.
+ 
+ ]]
+
+---
 
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Regression
         - Training vs Test MSEs
         - Example
@@ -439,7 +422,7 @@ class: split-30
 
 .black[true curve]&lt;br&gt;
 .orange[linear regression]&lt;br&gt;
-.blue[Smoothing] splines
+.green[Smoothing] splines
 ]
 .column[
 &lt;br&gt;
@@ -458,12 +441,12 @@ class: split-30
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Regression
         - Training vs Test MSEs
         - Example
@@ -483,7 +466,7 @@ class: split-30
 
 .black[true curve]&lt;br&gt;
 .orange[linear regression]&lt;br&gt;
-.blue[Smoothing] splines
+.green[Smoothing] splines
 ]
 .column[
 &lt;br&gt;
@@ -502,12 +485,12 @@ class: split-30
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Regression
         - Training vs Test MSEs
         - Example
@@ -527,7 +510,7 @@ class: split-30
 
 .black[true curve]&lt;br&gt;
 .orange[linear regression]&lt;br&gt;
-.blue[Smoothing] splines
+.green[Smoothing] splines
 ]
 .column[
 &lt;br&gt;
@@ -547,12 +530,12 @@ class: split-30
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Regression
         - Training vs Test MSEs
         - Example
@@ -577,12 +560,12 @@ complicated problem by a simpler problem.
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Regression
         - Training vs Test MSEs
         - Example
@@ -598,7 +581,7 @@ refers to how much your estimate would change if you had different training data
 
 
 - In general, the .orange[more flexible] a method is, the .orange[more variance] it has. 
-- The .orange[size] of the training data has an impact on the variance 
+- The .orange[size] of the training data has an impact on the variance.
 
 
 ]]
@@ -621,7 +604,7 @@ Test MSE = Bias `\(^2\)` + Variance + Irreducible variance
 .nopadding[
 &lt;img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.12.pdf" style="width: 90%; align: center"/&gt;
 
-.blue[squared bias], .orange[variance], Var(ε) (dashed line), and .red[test MSE] for the three data sets shown earlier. The vertical dotted line indicates the flexibility level corresponding to the smallest test MSE.
+.green[squared bias], .orange[variance], Var(ε) (dashed line), and .red[test MSE] for the three data sets shown earlier. The vertical dotted line indicates the flexibility level corresponding to the smallest test MSE.
 ]
 ---
 class: split-30
@@ -630,7 +613,7 @@ class: split-30
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Regression
         - Training vs Test MSEs
         - Example
@@ -654,12 +637,12 @@ This is called the .orange[oracle predictor] because it is not achievable in pra
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Classification
 
 ]]
@@ -680,17 +663,17 @@ Our goals are:
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Classification
 
 ]]
 
-.column[.padtop50px[
+.column[.top50px[
 
 Recall that we want to minimize the expected prediction error
 
@@ -698,83 +681,53 @@ Recall that we want to minimize the expected prediction error
 
 where `\(L(y, {\hat{y}})\)` is a non-negative real-valued .orange[loss function]. 
 
+In classification, the output `\(Y\)` is a .orange[categorical variable], and our loss function can be represented by a `\(K \times K\)` matrix `\(L\)`, where `\(K = \mbox{card}(\mathcal{C})\)`. `\(L(k, l)\)` is the cost of classifying `\(C_k\)` as `\(C_l\)`. With zero-one loss, i.e. `\(L(y, \hat{y}) = I(y \neq \hat{y})\)` the cost is equal for mistakes between any class.
 
-In classification, the output `\(Y\)` is a .orange[categorical variable], and our loss function can be represented by a `\(K \times K\)` matrix `\(L\)`, where `\(K = \mbox{card}(\mathcal{C})\)`. `\(L(k, l)\)` is the price paid for classifying `\(C_k\)` as `\(C_l\)`. 
 
 ]]
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Classification
     - Optimal classifier
+    - Error 
 
 ]]
 
-.column[.padtop50px[
+.column[.top50px[ 
+.orange[Compute] `\(\hat{C}\)` from some .orange[training data], `\(Tr=\{x_i,y_i\}_1^n\)`.
 
-We want to minimize the expected prediction error
+In place of MSE, we now use the error rate (fraction of misclassifications).
 
-`\(E_{(Y, X)}[L(Y, C(X))] =\)` &lt;br&gt;
-`\(~~~E_{X} \left[\sum_{k = 1}^K L(C_k, C(X)) P(C_k|X) \right]\)`
+*Training Error Rate*
 
-It suffices to minimize the error pointwise:
+`\(\text{Error rate}_{Tr} = \frac{1}{n}\sum_{i=1}^n I(y_i \ne \hat{C}(x_i))\)`
 
-`\(C^{*}(x) = \operatorname{argmin}_{c \in \mathcal{C}} \sum_{k = 1}^K L(C_k, c) P(C_k|X = x)\)`
+Measure .orange[real accuracy] using .orange[test data] `\(Te=\{x_j,y_j\}_1^m\)`
 
+*Test Error Rate*
 
-]]
----
-class: split-30
-.column[.padtop50px[
-## Outline
-
-- Introduction
-- Supervised learning
-- Assessing model accuracy
-    - Classification
-    - Optimal classifier
-
-]]
-
-.column[.top50px[
-
-If we use the zero-one loss, i.e. `\(L(y, \hat{y}) = I(y \neq \hat{y})\)` then 
-	
-`\(\sum_{k = 1}^K L(C_k, c) P(C_k|X = x)\)`&lt;br&gt;
-`\(~~~~~~ = \sum_{k = 1}^K  P(C_k|X = x) - P(c|X = x)\)`&lt;br&gt;
-`\(~~~~~~ = 1 - P(c|X = x)\)`
-&lt;br&gt;
-&lt;br&gt;
-
-`\(C^{*}(x) = \operatorname{argmin}_{c \in \mathcal{C}} \sum_{k = 1}^K L(C_k, c) P(C_k|X = x)\)`&lt;br&gt;
-`\(~~~~~~ = \operatorname{argmin}_{c \in \mathcal{C}} 1 - P(c|X = x)\)`&lt;br&gt;
-`\(~~~~~~ = \operatorname{argmax}_{c \in \mathcal{C}} P(c|X = x)\)`
-&lt;br&gt;
-&lt;br&gt;
-
-or
-&lt;br&gt;
-
-`\(C^{*}(x) = C_k \mbox{ if } P(C_k|X = x) = \operatorname{max}_{c \in \mathcal{C} } P(c|X = x)\)`
+`\(\text{Error rate}_{Te} = \frac{1}{m}\sum_{j=1}^m I(y_j \ne \hat{C}(x_j))\)`
 
 ]]
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Classification
-    - Optimal classifier
+    - Error 
+    - Bayes classifier
 
 ]]
 
@@ -799,15 +752,15 @@ Then the .orange[Bayes] classifier at `\(x\)` is
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Classification
-    - Optimal classifier
-    - Bayes error 
+    - Error 
+    - Bayes classifier 
 
 ]]
 
@@ -824,16 +777,15 @@ class: split-30
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Classification
-    - Optimal classifier
-    - Bayes error 
-    - Bayes optimal 
+    - Error 
+    - Bayes classifier 
 
 ]]
 
@@ -843,50 +795,18 @@ class: split-30
 
 ]]
 
+
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Classification
-    - Optimal classifier
-    - Bayes error 
-    - Bayes optimal 
-
-]]
-
-.column[.top50px[ 
-.orange[Compute] `\(\hat{C}\)` from some .orange[training data], `\(Tr=\{x_i,y_i\}_1^n\)`.
-
-In place of MSE, we now use the error rate (fraction of misclassifications).
-
-*Training Error Rate*
-
-`\(\text{Error rate}_{Tr} = \frac{1}{n}\sum_{i=1}^n I(y_i \ne \hat{C}(x_i))\)`
-
-Measure .orange[real accuracy] using .orange[test data] `\(Te=\{x_j,y_j\}_1^m\)`
-
-*Test Error Rate*
-
-`\(\text{Error rate}_{Te} = \frac{1}{m}\sum_{j=1}^m I(y_j \ne \hat{C}(x_j))\)`
-
-]]
-
----
-class: split-30
-.column[.padtop50px[
-## Outline
-
-- Introduction
-- Supervised learning
-- Assessing model accuracy
-    - Classification
-    - Optimal classifier
-    - Bayes error 
-    - Bayes optimal
+    - Error 
+    - Bayes classifier 
     - kNN
 ]]
 
@@ -903,16 +823,15 @@ One of the simplest classifiers. Given a test observation `\(x_0\)`:
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Classification
-    - Optimal classifier
-    - Bayes error 
-    - Bayes optimal
+    - Error 
+    - Bayes classifier 
     - kNN
 ]]
 
@@ -923,16 +842,15 @@ class: split-30
 ]]
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Classification
-    - Optimal classifier
-    - Bayes error 
-    - Bayes optimal
+    - Error 
+    - Bayes classifier 
     - kNN
 ]]
 
@@ -944,16 +862,15 @@ class: split-30
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Classification
-    - Optimal classifier
-    - Bayes error 
-    - Bayes optimal
+    - Error 
+    - Bayes classifier 
     - kNN
 ]]
 
@@ -966,16 +883,15 @@ class: split-30
 
 ---
 class: split-30
-.column[.padtop50px[
+.column[.pad10px[
 ## Outline
 
 - Introduction
 - Supervised learning
-- Assessing model accuracy
+- .green[Assessing model accuracy]
     - Classification
-    - Optimal classifier
-    - Bayes error 
-    - Bayes optimal
+    - Error 
+    - Bayes classifier 
     - kNN
 ]]
 
