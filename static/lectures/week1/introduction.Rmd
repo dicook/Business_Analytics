@@ -111,11 +111,11 @@ James, Witten, Hastie and Tibshirani (2012) An Introduction to Statistical Learn
 ---
 # What is business analytics?
 
-.blue[Business analytics] is the scientific process of learning from data, transforming data into insight for making better decisions
+.green[Business analytics] is the scientific process of learning from data, transforming data into insight for making better decisions
 
-- .orange[Broader] than .blue[business intelligence] which focuses on describing and predicting performance.
-- .orange[Broader] than .blue[econometrics] which typically starts from theory (hypotheses or models), and analysts assess if the data supports or refutes.
-- .orange[Narrower] than .blue[data science] as we are primarily focusing on business problems.
+- .orange[Broader] than .green[business intelligence] which focuses on describing and predicting performance.
+- .orange[Broader] than .green[econometrics] which typically starts from theory (hypotheses or models), and analysts assess if the data supports or refutes.
+- .orange[Narrower] than .green[data science] as we are primarily focusing on business problems.
 
 ---
 
@@ -141,32 +141,32 @@ class: split-40
 - Web Analytics
 ]]
 ---
-class: split-three
+class: split-three with-border
 .column[.pad10x[
 # Related fields
 
 How these other disciplines relate to business analytics
 
-*.blue[These are my sound bites, to create some distinction but in practice there is a lot of overlap between activities]*
+*.green[These are my sound bites, to create some distinction but in practice there is a lot of overlap between activities]*
 
 ]]
 
 .column[.split-50[
 .row[
-.font1[*.blue[Statistics] measuring, controlling, and communicating uncertainty, typically with probabilistic models and antecedent hypotheses*
+.font1[.green[Statistics] measuring, controlling, and communicating uncertainty, typically with .orange[probabilistic models and antecedent hypotheses]
 ]]
 .row[
-.font1[*.blue[Data science] what can the data tell us: cleaning, validation, transformation, visualisation, models, related to exploratory data analysis*
+.font1[.green[Data science] .orange[what can the data tell us]: cleaning, validation, transformation, visualisation, models, related to exploratory data analysis
 ]]
 ]]
 
 
 .column[.split-50[
 .row[
-.font1[*.blue[Machine learning] construction and study of predictive algorithms that improve automatically through experience*
+.font1[.green[Machine learning] construction and study of .orange[predictive algorithms] that improve automatically through experience
 ]]
 .row[
-.font1[*.blue[Data mining] algorithms for discovering patterns in data, including data storage and access, focused more on prediction*
+.font1[.green[Data mining] algorithms for .orange[discovering patterns] in data, including data storage and access, focused more on prediction
 ]]
 ]]
 
@@ -196,10 +196,10 @@ class: split-40
 # Thinking out loud
 
 .font1[
-*What sort of personality makes for an effective data scientist? Definitely curiosity…. The biggest question in data science is ‘Why?’ Why is this happening? If you notice that there’s a pattern, ask, “Why?” Is there something wrong with the data or is this an actual pattern going on? Can we conclude anything from this pattern? A natural curiosity will definitely give you a good foundation.*
+*What sort of personality makes for an effective data scientist? Definitely .green[curiosity]…. The biggest question in data science is ‘Why?’ Why is this happening? If you notice that there’s a pattern, ask, “Why?” Is there something wrong with the data or is this an actual pattern going on? Can we conclude anything from this pattern? A natural curiosity will definitely give you a good foundation.*
 .font_small[.orange[-- Carla Gentry, Data Scientist at Talent Analytics]]
 
-*[Data scientists are] able to think of ways to use data to solve problems that otherwise would have been unsolved, or solved using only intuition.*
+*[Data scientists are] able to think of ways to .green[use data to solve problems] that otherwise would have been unsolved, or solved using only intuition.*
 .font_small[.orange[-- Peter Skomoroch, Former Principal Data Scientist at LinkedIn]]
 ]
 
@@ -207,13 +207,13 @@ class: split-40
 # Thinking out loud
 
 .font1[
-*Always ask yourself how the data can be used to positively impact the lives around you, and use that to guide your design and development.*
+*Always ask yourself .green[how the data can be used to positively impact] the lives around you, and use that to guide your design and development.*
 .font_small[.orange[-- hanjiXiong, Chief Scientist at Experian’s Global DataLab]]
 
-*Data analysts who don’t organize their transformation pipelines often end up not being able to repeat their analyses, so the advice I would give to myself is the same advice often given to traditional scientists: make your experiments repeatable!*
+*Data analysts who don’t organize their transformation pipelines often end up not being able to repeat their analyses, so the advice I would give to myself is the same advice often given to traditional scientists: .green[make your experiments repeatable!]*
 .font_small[.orange[-- Mike Driscoll, Founder & CEO at Metamarkets]]
 
-.footnote[.font_tiny[.blue[All quotes come from https://www.kdnuggets.com/2017/05/42-essential-quotes-data-science-thought-leaders.html/2 which has the links to original sources.]]]
+.footnote[.font_tiny[.green[All quotes come from https://www.kdnuggets.com/2017/05/42-essential-quotes-data-science-thought-leaders.html/2 which has the links to original sources.]]]
 ]
 ---
 class: split-40
@@ -231,12 +231,12 @@ class: split-40
 ---
 # Learning objectives for this class
 
-- .blue[Select and develop] appropriate models for regression, classification or clustering 
-- .blue[Estimate and simulate] from a variety of statistical models, and measure the uncertainty of a prediction using resampling methods
--  Manage large data sets in a modern software environment, and .blue[explain and interpret] the analyses undertaken clearly and effectively
-- .blue[Apply] business analytic tools to produce innovative solutions in finance, marketing, economics and related areas
+- .orange[Select and develop] appropriate models for regression, classification or clustering 
+- .orange[Estimate and simulate] from a variety of statistical models, and measure the uncertainty of a prediction using resampling methods
+-  Manage large data sets in a modern software environment, and .orange[explain and interpret] the analyses undertaken clearly and effectively
+- .orange[Apply] business analytic tools to produce innovative solutions in finance, marketing, economics and related areas
 
-.blue[Teaching and learning approach: Two 1-hour lectures and a one 1.5 hour lab class each week for 12 weeks.]
+.green[Teaching and learning approach: Two 1-hour lectures and a one 1.5 hour lab class each week for 12 weeks.]
 
 ---
 class: split-60
@@ -264,14 +264,14 @@ class: split-50
 # After this course
 
 
-.blue[**ETC3555 - Statistical Machine Learning**]
+.green[**ETC3555 - Statistical Machine Learning**]
 
 .font_small[This unit covers the methods and practice of statistical machine learning for modern data analysis problems. Topics covered will include recommender systems, social networks, text mining, matrix decomposition and completion, and sparse multivariate methods. All computing will be conducted using the R programming language.
 
 Prerequisites: ETC3250 or FIT3154]
 ]]
 .column[.padtop50px[
-.blue[**ETC5550 - Advanced Statistical Modelling**] 
+.green[**ETC5550 - Advanced Statistical Modelling**] 
 
 .font_small[This unit introduces extensions of linear regression models for handling a wide variety of data analysis problems. Three extensions will be considered: generalised linear models for handling counts and binary data; mixed-effect models for handling data with a grouped or hierarchical structure; and non-parametric regression for handling non-linear relationships. All computing will be conducted using R.
 
