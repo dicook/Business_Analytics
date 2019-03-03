@@ -21,7 +21,7 @@ footnotereturnlinkcontents = "↩"
     url = "http://www-bcf.usc.edu/~gareth/ISL/"
     weight = 2
 [[menu.main]]
-    name = "Moodle (Marks, Ass't turn in)"
+    name = "Moodle (Marks, Ass't turn in, Discussion)"
     url = "https://lms.monash.edu/course/view.php?id=49079"
     weight = 3
 [[menu.main]]
