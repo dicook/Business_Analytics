@@ -11,7 +11,7 @@ title: Home
 - Lecturers: Professor Di Cook (dicook@monash.edu)
 - Tutors: Earo, Cameron, Zina
 
-Unless your question is a personal issue or an administrative matter, please do not send us direct email. [Moodle]() is appropriate for questions related to the course material.
+Unless your question is a personal issue or an administrative matter, please do not send us direct email. [Moodle](https://lms.monash.edu/course/view.php?id=49079) is appropriate for questions related to the course material.
 
 ## Schedule
 
