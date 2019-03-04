@@ -288,7 +288,7 @@ You can pull data together yourself, or look at data compiled by someone else.
 
 ## Question 4
 
-1. Read in the OECD PISA data (file `student.rds` is available at from the course web site)
+1. Read in the OECD PISA data (file `student_sub.rds` is available at from the course web site)
 2. Tabulate the countries (CNT)
 3. Extract the values for Australia (AUS) and Shanghai (QCN)
 4. Compute the average and standard deviation of the reading scores (PV1READ), for each country

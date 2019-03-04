@@ -60,6 +60,7 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 ## Data
 
 - [chocolates.csv](http://monba.dicook.org/data/chocolates.csv)
+- [student_sub.rds](http://monba.dicook.org/data/student_sub.rds)
 
 ## Exam information
 
