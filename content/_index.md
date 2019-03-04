@@ -16,6 +16,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 ## Schedule
 
 - Lectures: Mon 12:00-12:50 (H4); Tue 2:00-2:50  (S10)
+
 - Tutorials: M 1:30-2:50 (Menzies E163 - Cameron); M 3-4:20, 4:30-5:50
   (Menzies E160 - Earo); Tue 8-9:20 (S317 - Cameron); 9:30-10:50
   (S317 - Zina)
@@ -24,8 +25,8 @@ Unless your question is a personal issue or an administrative matter, please do 
 ## Consultation times
 
 - Di: Mon 10:30-11:30; Thu 12:30-1:30 Menzies E762A
-- Earo: Thu 4:30-6:00 Menzies E1105
-- Cameron: Wed 9:00-10:30 E1105
+- Earo: Thu 4:30-6:00 Menzies W1105
+- Cameron: Wed 9:00-10:30 W1105
 - Zina: 
 
 ## Lecture notes
