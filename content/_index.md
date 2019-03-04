@@ -17,9 +17,9 @@ Unless your question is a personal issue or an administrative matter, please do 
 
 - Lectures: Mon 12:00-12:50 (H4); Tue 2:00-2:50  (S10)
 
-- Tutorials: M 1:30-2:50 (Menzies E163 - Cameron); M 3-4:20, 4:30-5:50
-  (Menzies E160 - Earo); Tue 8-9:20 (S317 - Cameron); 9:30-10:50
-  (S317 - Zina)
+- Tutorials: Tutorials: M 1:30-2:50 (Menzies E163 - Earo); M 3-4:20
+  (Menzies E160 - Earo); 4:30-5:50 (Menzies E160 - Cameron); Tue
+  8-9:20 (S317 - Cameron); 9:30-10:50 (S317 - Zina)
 - Note: You must **attend the tutorial that you have been assigned to.** Only in exceptional circumstances will changes be allowed, and they need to be approved by the chief examiner, one week in advance of the tutorial. [Moodle](https://lms.monash.edu/course/view.php?id=49079) is used for asking for help, marks and assignment turn in. 
 
 ## Consultation times
