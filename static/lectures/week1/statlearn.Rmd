@@ -139,7 +139,7 @@ class: split-30
 ]]
 .column[.top50px[
 
-- $Y = (X_1, \dots, X_q)$: response (output) (could be multivariate, $q=1$ for us)
+- $Y = (Y_1, \dots, Y_q)$: response (output) (could be multivariate, $q=1$ for us)
 - $X = (X_1, \dots, X_p)$: set of $p$ predictors (input)
 
 We seek a function $h(X)$ for predicting $Y$ given values of the input $X$. This function is computed using $\mathcal{D}$.
