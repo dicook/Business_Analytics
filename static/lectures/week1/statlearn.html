@@ -745,9 +745,7 @@ Then the .orange[Bayes] classifier at `\(x\)` is
 
 `\(C(x) = C_j \quad \mbox{ if } p_j(x) = \max\{p_1(x), p_2(x), \dots, p_K(x)\}\)`
 
-
-- This gives the minimum average test error rate. 
-- It is an oracle predictor because we do not usually know `\(p_k(x)\)`.
+*This gives the minimum average test error rate.* 
 
 ]]
 
@@ -771,7 +769,7 @@ class: split-30
 `\(1-\text{E}\left(\max_j \text{P}(Y = C_j | X)\right)\)`
 
 - The .orange[Bayes error rate] is the lowest possible error rate that could be achieved if we knew exactly the .orange[true] probability distribution of the data.
-- It is analagous to the irreducible error in regression.
+- It is analogous to the irreducible error in regression.
 - On test data, no classifier can get lower error rates than the Bayes error rate.
 - In reality, the Bayes error rate is not known exactly.
 
@@ -812,9 +810,9 @@ class: split-30
     - kNN
 ]]
 
-.column[.top50px[ 
+.column[.pad10px[ 
 
-One of the simplest classifiers. Given a test observation `\(x_0\)`:
+One of the simplest classifiers. Given a test observation `\(x_0\)`,
 
 - Find the `\(K\)` nearest points to `\(x_0\)` in the training data: `\({\cal N}_0\)`.
 - Estimate conditional probabilities
