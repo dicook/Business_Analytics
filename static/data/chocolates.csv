@@ -1,4 +1,4 @@
-"Name","MFR","Country","Type","Calories","CalFat","TotFat","SatFat","Chol","Na","Carbs","Fiber","Sugars","Protein"
+"Name","MFR","Country","Type","Calories","CalFat","TotFat_g","SatFat_g","Chol_mg","Na_mg","Carbs_g","Fiber_g","Sugars_g","Protein_g"
 "Noir 86% Cacao","Cote D'Or","Belgium","Dark",460,380,44,26,0,0,28,10,10,8
 "70% Cocoa","Cote D'Or","Belgium","Dark",600,432,48,30,10,0,42,10,28,8
 "Solid Dark Chocolate Bar","Godiva","Belgium","Dark",534.883721,302.325581,32.5581395,20.9302326,0,0,60.4651163,9.30232558,46.5116279,6.97674419

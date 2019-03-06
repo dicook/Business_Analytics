@@ -1,0 +1,46 @@
+---
+title: "ETC3250 2019 - Lab 2"
+author: "Dianne Cook"
+date: "March 11, 2019"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 8,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Class discussion exercises
+
+Textbook questions, chapter 2: 1, 2, 4
+
+# Do it yourself
+
+Textbook question 7
+
+# Practice
+
+Complete these exercises by writing your responses into an Rmarkdown document. 
+Give your Rmd file to another group member, outputting to `html` and see if they can `knit` it. 
+
+(a) Download the chocolates data set, and read into R (recommend using `read_csv` from the `tidyverse` suite). 
+
+*About the data:* The chocolates data was compiled by students in a previous class of Prof Cook, by collecting nutrition information on the chocolates as listed on their internet sites. All numbers were normalised to be equivalent to a 100g serving. Units of measurement are listed in the variable name.
+
+(b) Take a look at the type of variables in the data. If your question is "How do milk and dark chocolates differ?" what type of problem have you got?
+(c) Compute the means and standard deviations for milk and dark on each of the variables. Make a nice table summary. (Try using the pipe operator, with the wrangling verbs `group_by` and `summarise`, and make the table with the `kableExtra` package.)
+(d) Make side-by-side boxplots for each of the variables, for type of chocolate. (Use the grammar of graphics in `ggplot2`.) Write a paragraph explaining how the type of chocolate differs nutritionally.
+(e) Compute two sample t-tests for each of the variables. Which variable most distinguishes the chocolate type? (This may need to be done using the base R function.)
+
+
