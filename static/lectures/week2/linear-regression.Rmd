@@ -1,0 +1,733 @@
+---
+title: "ETC3250: Regression"
+subtitle: "Semester 1, 2019"
+author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
+date: "Week 2 (a)"
+output:
+  xaringan::moon_reader:
+    css: ["kunoichi", "ninjutsu", "mystyle.css"]
+    lib_dir: libs
+    nature:
+      ratio: '16:9'
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(tidy = FALSE, 
+                      message = FALSE,
+                      warning = FALSE,
+                      echo = FALSE, 
+                      fig.retina = 2)
+options(htmltools.dir.version = FALSE)
+```
+
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- .green[Multiple regression]
+    - Model
+
+]]
+.column[.top50px[
+
+.split-5[
+.row.bg-light-gray[.boxshadow[.content[
+$$Y_i = \beta_0 + \beta_1 X_{1,i} + \beta_2 X_{2,i} + \cdots + \beta_pX_{p,i} + e_i.$$
+]]]
+.row[.content[
+- Each $X_{j,i}$ is .orange[numerical] and is called a .orange[predictor].
+]]
+.row[.content[
+- The coefficients $\beta_1,\dots,\beta_p$ measure the .orange[effect] of each
+predictor after taking account of the effect of all other predictors
+in the model.
+]]
+.row[.content[
+- Predictors may be .orange[transforms] of other predictors. e.g., $X_2=X_1^2$.
+]]
+.row[.content[
+- The model describes a .orange[line, plane or hyperplane] in the predictor space.
+]]]
+
+]]
+---
+class: fade-row3-col2 fade-row4-col2 fade-row5-col2
+count: false
+
+---
+class: fade-row2-col2 fade-row4-col2 fade-row5-col2
+count: false
+
+---
+class: fade-row2-col2 fade-row3-col2 fade-row5-col2
+count: false
+
+---
+class: fade-row2-col2 fade-row3-col2 fade-row4-col2
+count: false
+
+---
+layout: false
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- .green[Multiple regression]
+    - Model
+
+]]
+.column[.top50px[
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.1.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.1.pdf" style="width: 100%; align: center"/> </a>
+
+.font_tiny[(Chapter3/3.1.pdf)]
+
+]]
+
+---
+layout: false
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- .green[Multiple regression]
+    - Model
+
+]]
+.column[.top50px[
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.5.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.5.pdf" style="width: 100%; align: center"/> </a>
+
+.font_tiny[(Chapter3/3.5.pdf)]
+
+]]
+
+---
+layout: false
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- .green[Multiple regression]
+    - Model
+    - Categorical variables
+    
+]]
+.column[.top50px[
+
+Qualitative variables need to be converted to numeric.
+
+$$x_i = \left\{\begin{array}
+{ll}
+1 & if ~~~ i'th ~ obs~ is~ a ~koala  \\
+0 & otherwise  
+\end{array}\right\}$$
+
+which would result in the model
+
+$$\hat{y}_i = \left\{\begin{array}
+{ll}
+\beta_0+\beta_1 & if ~~~ i'th ~ obs~ is~ a ~koala  \\
+\beta_0 & otherwise  
+\end{array}\right\}$$
+
+]]
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- .green[Multiple regression]
+    - Model
+    - Categorical variables
+    
+]]
+.column[.top50px[
+
+More than two categories
+
+$$x_{i1} = \left\{\begin{array}
+{ll}
+1 & if ~~~ i'th ~ obs~ is~ a ~koala  \\
+0 & otherwise  
+\end{array}\right\}$$
+
+$$x_{i2} = \left\{\begin{array}
+{ll}
+1 & if ~~~ i'th ~ obs~ is~ a ~bilby  \\
+0 & otherwise  
+\end{array}\right\}$$
+
+which would result in the model
+
+$$\hat{y}_i = \left\{\begin{array}
+{ll}
+\beta_0+\beta_1 & if ~~~ i'th ~ obs~ is~ a ~koala  \\
+\beta_0+\beta_2 & if ~~~ i'th ~ obs~ is~ a ~bilby  \\
+\beta_0 & otherwise  
+\end{array}\right\}$$
+]]
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- .green[Multiple regression]
+    - Model
+    - Categorical variables
+    - OLS
+]]
+.column[.top50px[
+
+.orange[Ordinary least squares] is the simplest way to fit the model. Geometrically, this is  the sum of the squared distances, parallel to the axis of the dependent variable, between each obsevred data point and the corresponding point on the regression surface – the smaller the sum of differences, the better the model fits the data.
+
+
+]] 
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- .green[Multiple regression]
+    - Model
+    - Categorical variables
+    - OLS
+    - Diagnostics
+]]
+.column[.top50px[
+
+$R^2$ is the proportion of variation explained by the mode, and measures the goodness of the fit, close to 1 the model explains most of the variability in $Y$, close to 0 it explains very little. 
+
+$$R^2 = 1 - \frac{RSS}{TSS}$$
+
+where $RSS = \sum_{i=1}^n (y_i=\hat{y})^2$ (read: Residual Sum of Squares), and $TSS=\sum_{i=1}^n (y_i=\bar{y})^2$ (read: Total Sum of Squares).
+
+]]   
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- .green[Multiple regression]
+    - Model
+    - Categorical variables
+    - OLS
+    - Diagnostics
+]]
+.column[.top50px[
+
+.orange[Residual Standard Error (RSE)] is an estimate of the standard deviation of $\varepsilon$. This is meaningful with the assumption that $\varepsilon \sim N(0, \sigma^2)$. 
+
+$$RSE = \sqrt{\frac{1}{n-2}RSS}$$
+
+]] 
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- .green[Multiple regression]
+    - Model
+    - Categorical variables
+    - OLS
+    - Diagnostics
+]]
+.column[.top50px[
+
+F statistic tests whether any predictor explains response, by testing
+
+$H_o: \beta_1=\beta_2=...=\beta_p=0$ vs $H_a:$ at least one is not 0
+
+]]
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- .green[Multiple regression]
+    - Model
+    - Categorical variables
+    - OLS
+    - Diagnostics
+    - Think about
+]]
+.column[.top50px[
+
+- Is at least one of the predictors useful in predicting the response?
+- Do all the predictors help to explain $Y$, or is only a subset of the predictors useful?
+- How well does the model fit the data?
+- Given a set of predictor values, what response value should we predict and how accurate is our prediction?
+
+]]
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- .green[Example]
+
+]]
+.column[.top50px[
+
+Wage and other data for a group of 3000 male workers in the Mid-Atlantic region. Interested in predicting wage based on worker characteristics.
+
+```{r}
+library(tidyverse)
+library(ISLR)
+glimpse(Wage)
+```
+]]
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- .green[Example]
+    - Take a look
+
+]]
+.column[.top50px[
+
+```{r}
+library(GGally)
+ggpairs(Wage, columns=c(1,2,5,11))
+```
+
+]]
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- .green[Example]
+    - Take a look
+    - Transform
+
+]]
+.column[.top50px[
+```{r}
+library(GGally)
+ggpairs(Wage, columns=c(1,2,5,10))
+```
+]]
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- .green[Example]
+    - Take a look
+    - Transform
+    - Model
+
+]]
+.column[.top50px[
+
+Proposed model
+
+.boxshadow[.content[$ Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3X_3 +  e$]]
+
+where $Y=$ log Wage, $X_1=$ Year information collected, $X_2=Age$, $X_3=$ Education.
+
+]]
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- .green[Example]
+    - Take a look
+    - Transform
+    - Model
+
+]]
+.column[.top50px[
+
+```{r results='hide'}
+fit <- lm(logwage~year+age+education, data=Wage)
+summary(fit)
+```
+```
+lm(formula = logwage ~ year + age + education, data = Wage)
+
+Coefficients:
+                              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                 -1.745e+01  5.469e+00  -3.191  0.00143  
+year                         1.078e-02  2.727e-03   3.952 7.93e-05 
+age                          5.509e-03  4.813e-04  11.447  < 2e-16 
+education2. HS Grad          1.202e-01  2.086e-02   5.762 9.18e-09 
+education3. Some College     2.440e-01  2.195e-02  11.115  < 2e-16 
+education4. College Grad     3.680e-01  2.178e-02  16.894  < 2e-16 
+education5. Advanced Degree  5.411e-01  2.362e-02  22.909  < 2e-16 
+
+Residual standard error: 0.3023 on 2993 degrees of freedom
+Multiple R-squared:  0.2631,	Adjusted R-squared:  0.2616 
+F-statistic: 178.1 on 6 and 2993 DF,  p-value: < 2.2e-16
+```
+
+]]
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- Example
+- .green[Modelling]
+    - Interpretation
+
+]]
+.column[.top50px[
+
+- The ideal scenario is when the predictors are uncorrelated.
+    - Each coefficient can be interpreted and tested separately.
+- Correlations amongst predictors cause problems.
+    - The variance of all coefficients tends to increase, sometimes dramatically.
+    - Interpretations become hazardous -- when $X_j$ changes, everything else changes.
+    - Predictions still work provided new $X$ values are within the range of training $X$ values.
+- Claims of causality should be avoided for observational data.
+
+]]
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- Example
+- .green[Modelling]
+    - Interpretation
+    - Interactions
+
+]]
+.column[.top50px[
+
+- An interaction occurs when the one variable changes the effect of a second variable. (e.g., spending on radio advertising increases the effectiveness of TV advertising).
+- To model an interaction, include the product $X_1X_2$ in the model in addition to $X_1$ and $X_2$.
+- **Hierarchy principle**: If we include an interaction in a model, we should also include the main effects, even if the p-values associated
+with their coefficients are not significant. (This is because the interactions are almost impossible to interpret without the main effects.)
+
+]]
+
+---
+layout: false
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+-  Example
+- .green[Modelling]
+    - Interpretation
+    - Interactions
+
+]]
+.column[.top50px[
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.7.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.7.pdf" style="width: 100%; align: center"/> </a>
+
+.font_tiny[(Chapter3/3.7.pdf)]
+]]
+---
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- Example
+- .green[Modelling]
+    - Interpretation
+    - Interactions
+    - Residuals
+
+]]
+.column[.top50px[
+.split-3[
+.row[.content[
+- If a plot of the residuals vs any predictor in the model shows a pattern, then the .orange[relationship is nonlinear].
+]]
+.row[.content[
+- If a plot of the residuals vs any predictor **not** in the model shows a pattern, then .orange[the predictor should be added to the model].
+]]
+.row[.content[
+- If a plot of the residuals vs fitted values shows a pattern, then there is .orange[heteroscedasticity in the errors]. (Could try a transformation.)
+]]
+]
+]]
+
+---
+class: fade-row2-col2 fade-row3-col2 
+count: false
+
+---
+class: fade-row3-col2 
+count: false
+
+---
+count: false
+
+---
+layout: false
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- Example
+- .green[Modelling]
+    - Interpretation
+    - Interactions
+    - Residuals
+
+]]
+.column[.top50px[
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.9.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.9.pdf" style="width: 100%; align: center"/> </a>
+
+.font_tiny[(Chapter3/3.9.pdf)]
+]]
+
+---
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- Example
+- Modelling
+- .green[Matrix formulation]
+    - Model
+]]
+.column[.top50px[
+
+.boxshadow[.content[
+$$Y_i = \beta_0 + \beta_1 X_{1,i} + \beta_2 X_{2,i} + \cdots + \beta_pX_{p,i} + e_i.$$
+]]
+
+.content[
+Let $Y = (Y_1,\dots,Y_n)'$, $e = (e_1,\dots,e_n)'$, $\beta = (\beta_0,\dots,\beta_p)'$ and
+
+$$X = \begin{bmatrix}
+  1 & X_{1,1} & X_{2,1} & \dots & X_{p,1}\\
+  1 & X_{1,2} & X_{2,2} & \dots & X_{p,2}\\
+\vdots & \vdots & \vdots & & \vdots\\
+  1 & X_{1,n} & X_{2,n} & \dots & X_{p,n}
+  \end{bmatrix}.$$
+Then
+]
+
+.boxshadow[.content[
+${Y} = {X}{\beta} + {e}.$
+]]
+]]
+
+---
+layout: true
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- Example
+- Modelling
+- .green[Matrix formulation]
+    - Model
+    - Estimation
+]]
+.column[.top50px[
+
+.split-3[
+.row[.content[
+**.orange[Least squares estimation]**
+
+Minimize: $(Y - X\beta)'(Y - X\beta)$
+]]
+.row[.content[
+Differentiate wrt $\beta$ and equal to zero gives
+
+$\hat{\beta}=(X'X)^{-1}X'Y$
+
+(The "normal equation".)
+]]
+.row[.content[
+
+$$\hat{\sigma}^2 = \frac{1}{n-p-1}({Y} - {X}\hat{{\beta}})' ({Y} - {X}\hat{{\beta}})$$
+
+**Note:** If you fall for the dummy variable trap, $({X}'{X})$ is a singular matrix.
+
+]]]
+]]
+
+---
+class: fade-row2-col2 fade-row3-col2 
+count: false
+
+---
+class: fade-row3-col2 
+count: false
+
+---
+count: false
+
+---
+layout: true
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- Example
+- Modelling
+- .green[Matrix formulation]
+    - Model
+    - Estimation
+    - Likelihood
+    
+]]
+.column[.top50px[
+.split-2[
+.row[.content[
+If the errors are iid and normally distributed, then
+
+$${Y} \sim \mathcal{N}_n({X}{\beta},\sigma^2{I})$$
+
+So the likelihood is
+
+$$L = \frac{1}{\sigma^n(2\pi)^{n/2}}\exp\left(-\frac1{2\sigma^2}({Y}-{X}{\beta})'({Y}-{X}{\beta})\right)$$
+
+]]
+.row[.content[
+which is maximized when $({Y}-{X}{\beta})'({Y}-{X}{\beta})$ is minimized.
+
+.orange[.content[
+So MLE $\equiv$ OLS.
+]]
+]]]
+
+]]
+
+---
+class: fade-row2-col2
+count: false
+
+---
+count: false
+
+---
+layout: true
+class: split-30
+
+.column[.pad10px[
+## Outline
+
+- Multiple regression
+- Example
+- Modelling
+- .green[Matrix formulation]
+    - Model
+    - Estimation
+    - Likelihood
+    - Predictions
+    
+]]
+.column[.top50px[
+.split-3[
+.row[
+
+.boxshadow[.content[
+**Optimal predictions**
+]]
+
+.content[
+$$\hat{Y}^* = \text{E}(Y^* | {X}^*, {Y},{X}) =
+{X}^*\hat{{\beta}} = {X}^*({X}'{X})^{-1}{X}'{Y}$$
+
+where ${X}^*$ is a row vector containing the values of the regressors for the predictions (in the same format as ${X}$).
+
+]]
+.row[.content[
+
+.boxshadow[.content[
+**Prediction variance**
+]]
+
+.content[
+$$\text{Var}(Y^* | {X}^*, {Y},{X}) = \sigma^2 \left[1 + {X}^* ({X}'{X})^{-1} ({X}^*)'\right]$$
+
+]]]
+.row[.content[
+
+- This ignores any errors in ${X}^*$.
+- 95% prediction intervals assuming normal errors:
+$\hat{Y}^* \pm 1.96 \sqrt{\text{Var}(Y^*| {Y},{X},{X}^*)}$.
+
+]]]
+]]
+
+---
+class: fade-row2-col2 fade-row3-col2 
+count: false
+
+---
+class: fade-row3-col2 
+count: false
+
+---
+count: false
+
+---
+layout: false
+# `r set.seed(2019); emo::ji("technologist")` Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+<br>
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+<br> 
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
