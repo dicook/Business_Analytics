@@ -32,11 +32,11 @@ Unless your question is a personal issue or an administrative matter, please do 
 ## Lecture notes
 
 - Week 1: Introduction to statistical learning, Chapter 2 [slides1](http://monba.dicook.org/lectures/week1/introduction.html) ([Rmd](http://monba.dicook.org/lectures/week1/introduction.Rmd)) [slides2](http://monba.dicook.org/lectures/week1/statlearn.html) ([Rmd](http://monba.dicook.org/lectures/week1/statlearn.Rmd))
-- Week 2: Linear regression, Chapter 3
+- Week 2: Linear regression, Chapter 3 and 7
 - Week 3: Resampling, Chapter 5
 - Week 4: Dimension reduction, Chapter 10.2 + instructor's notes
 - Week 5: Visualisation, Instructor's notes
-- Week 6: Classification,  Chapters 8, 7
+- Week 6: Classification,  Chapters 8
 - Week 7: Classification, Chapter 9
 - Week 8: Ensembles and boosted models, Chapter 8.2
 - Week 9: Regularization methods, Chapter 6
