@@ -27,7 +27,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 - Di: Mon 10:30-11:30; Thu 12:30-1:30 Menzies E762A
 - Earo: Thu 4:30-6:00 Menzies W1105
 - Cameron: Wed 9:00-10:30 W1105
-- Zina: 
+- Zina: Fri 9:45-10:30 W1105
 
 ## Lecture notes
 
