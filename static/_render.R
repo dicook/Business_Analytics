@@ -27,13 +27,13 @@ render_slides <- function(url) {
   dir_name <- dirname(link)
   pdf_dir <- path_expand(paste0("~/Desktop/ETC3250-",
     gsub(".html", "", file_name)))
-  dir.create(pdf_dir)
+  dir_create(pdf_dir)
 
   kunoichi_url <- paste0(dir_name, "/libs/remark-css/kunoichi.css")
   ninjutsu_url <- paste0(dir_name, "/libs/remark-css/ninjutsu.css")
   kunoichi_temp <- paste0(pdf_dir, "/libs/remark-css/kunoichi.css")
   ninjutsu_temp <- paste0(pdf_dir, "/libs/remark-css/ninjutsu.css")
-  dir.create(paste0(pdf_dir, "/libs/remark-css"), recursive = TRUE)
+  dir_create(paste0(pdf_dir, "/libs/remark-css"))
   download.file(kunoichi_url, kunoichi_temp, checkOK = FALSE)
   download.file(ninjutsu_url, ninjutsu_temp, checkOK = FALSE)
 
@@ -43,12 +43,12 @@ render_slides <- function(url) {
 
   content <- readLines(link)
   files_dir <- paste0("/", gsub(".html", "", file_name), "_files/")
-  dir.create(paste0(pdf_dir, files_dir, "figure-html"), recursive = TRUE)
+  dir_create(paste0(pdf_dir, files_dir, "figure-html"))
   png_pattern <- "(figure-html)(.*)\\.png"
   png_lines <- grep(png_pattern, content)
   png_tags <- content[png_lines]
   png_files <- str_extract(str_extract(
-      png_tags, "(figure-html)(.*)\\.png"), png_pattern)
+    png_tags, "(figure-html)(.*)\\.png"), png_pattern)
   for (i in png_files) {
     dl_url <- paste0(dir_name, files_dir, i)
     download.file(dl_url, paste0(pdf_dir, files_dir, i), checkOK = FALSE)
@@ -56,7 +56,7 @@ render_slides <- function(url) {
 
   images_dir <- paste0(dir_name, "/images/")
   images_temp <- paste0(pdf_dir, "/images/")
-  dir.create(paste0(pdf_dir, "/images"))
+  dir_create(paste0(pdf_dir, "/images"))
   img_pattern <- "images/"
   img_lines <- grep(img_pattern, content)
   img_tags <- content[img_lines]
@@ -70,7 +70,7 @@ render_slides <- function(url) {
   pdf_lines <- grep(pdf_pattern, content)
   pdf_tags <- content[pdf_lines]
   pdf_files <- str_extract(str_extract(
-      pdf_tags, "src=\"(http|https)(.*)\\.pdf"), pdf_pattern)
+    pdf_tags, "src=\"(http|https)(.*)\\.pdf"), pdf_pattern)
   for (i in seq_along(pdf_tags)) {
     temp_png <- tempfile(tmpdir = pdf_dir, fileext = ".png")
     image_write(image_read(pdf_files[i], density = 300), temp_png, 
