@@ -240,7 +240,7 @@ class: split-30
 
 .orange[Residual Standard Error (RSE)] is an estimate of the standard deviation of $\varepsilon$. This is meaningful with the assumption that $\varepsilon \sim N(0, \sigma^2)$. 
 
-$$RSE = \sqrt{\frac{1}{n-p}RSS}$$
+$$RSE = \sqrt{\frac{1}{n-p-1}RSS}$$
 
 ]] 
 
