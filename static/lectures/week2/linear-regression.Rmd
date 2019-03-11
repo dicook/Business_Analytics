@@ -197,7 +197,7 @@ class: split-30
 ]]
 .column[.top50px[
 
-.orange[Ordinary least squares] is the simplest way to fit the model. Geometrically, this is  the sum of the squared distances, parallel to the axis of the dependent variable, between each obsevred data point and the corresponding point on the regression surface – the smaller the sum of differences, the better the model fits the data.
+.orange[Ordinary least squares] is the simplest way to fit the model. Geometrically, this is  the sum of the squared distances, parallel to the axis of the dependent variable, between each observed data point and the corresponding point on the regression surface – the smaller the sum of differences, the better the model fits the data.
 
 
 ]] 
