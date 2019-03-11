@@ -216,7 +216,7 @@ class: split-30
 ]]
 .column[.top50px[
 
-$R^2$ is the proportion of variation explained by the mode, and measures the goodness of the fit, close to 1 the model explains most of the variability in $Y$, close to 0 it explains very little. 
+$R^2$ is the proportion of variation explained by the model, and measures the goodness of the fit, close to 1 the model explains most of the variability in $Y$, close to 0 it explains very little. 
 
 $$R^2 = 1 - \frac{RSS}{TSS}$$
 
