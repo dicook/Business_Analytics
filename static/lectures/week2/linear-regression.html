@@ -195,7 +195,7 @@ class: split-30
 ]]
 .column[.top50px[
 
-.orange[Ordinary least squares] is the simplest way to fit the model. Geometrically, this is  the sum of the squared distances, parallel to the axis of the dependent variable, between each obsevred data point and the corresponding point on the regression surface – the smaller the sum of differences, the better the model fits the data.
+.orange[Ordinary least squares] is the simplest way to fit the model. Geometrically, this is  the sum of the squared distances, parallel to the axis of the dependent variable, between each observed data point and the corresponding point on the regression surface – the .orange[smaller the sum] of differences, the .orange[better] the model fits the data.
 
 
 ]] 
@@ -218,7 +218,7 @@ class: split-30
 
 `$$R^2 = 1 - \frac{RSS}{TSS}$$`
 
-where `\(RSS = \sum_{i=1}^n (y_i=\hat{y})^2\)` (read: Residual Sum of Squares), and `\(TSS=\sum_{i=1}^n (y_i=\bar{y})^2\)` (read: Total Sum of Squares).
+where `\(RSS = \sum_{i=1}^n (y_i-\hat{y})^2\)` (read: Residual Sum of Squares), and `\(TSS=\sum_{i=1}^n (y_i-\bar{y})^2\)` (read: Total Sum of Squares).
 
 ]]   
 
@@ -238,7 +238,7 @@ class: split-30
 
 .orange[Residual Standard Error (RSE)] is an estimate of the standard deviation of `\(\varepsilon\)`. This is meaningful with the assumption that `\(\varepsilon \sim N(0, \sigma^2)\)`. 
 
-`$$RSE = \sqrt{\frac{1}{n-2}RSS}$$`
+`$$RSE = \sqrt{\frac{1}{n-p}RSS}$$`
 
 ]] 
 
