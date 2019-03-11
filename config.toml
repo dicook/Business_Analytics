@@ -1,4 +1,4 @@
-baseurl = "https://ba.netlify.com"
+baseurl = "https://monba.dicook.org"
 languageCode = "en-us"
 title = "ETC3250: Business Analytics"
 theme = "hugo-xmin"

@@ -140,6 +140,8 @@ $$\hat{y}_i = \left\{\begin{array}
 \beta_0 & otherwise  
 \end{array}\right\}$$
 
+These are called .orange[dummy variables].
+
 ]]
 
 ---
@@ -177,6 +179,9 @@ $$\hat{y}_i = \left\{\begin{array}
 \beta_0+\beta_2 & if ~~~ i'th ~ obs~ is~ a ~bilby  \\
 \beta_0 & otherwise  
 \end{array}\right\}$$
+
+These are called .orange[dummy variables].
+
 ]]
 
 ---
