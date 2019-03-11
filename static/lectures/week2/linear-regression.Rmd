@@ -362,10 +362,13 @@ class: split-30
 
 Proposed model
 
-.boxshadow[.content[$ Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3X_3 +  e$]]
+.boxshadow[.content[
+$Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3X_3 + e$
+]]
 
+.row[.content[
 where $Y=$ log Wage, $X_1=$ Year information collected, $X_2=Age$, $X_3=$ Education.
-
+]]
 ]]
 
 ---
