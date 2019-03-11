@@ -5,17 +5,7 @@ render_slides <- function(url) {
     available_pkg <- installed.packages()[, "Package"]
     missing_pkg <- pkg[!(pkg %in% available_pkg)]
     if (length(missing_pkg) > 0) {
-      backtick <- function(x) {
-        vapply(x, function(y) paste0("`", y, "`"), character(1))
-      }
-      fmt_pkg <- paste(backtick(missing_pkg), collapse = ", ")
-      msg <- sprintf("Do you want to install %s to proceed?", fmt_pkg)
-      prompt <- menu(c("Yep", "Nope"), title = msg)
-      if (prompt == 1) {
-        install.packages(pkg_chr, dependencies = FALSE)
-      } else {
-        stop(sprintf("Missing packages: %s", fmt_pkg), call. = FALSE)
-      }
+      install.packages(pkg_chr, dependencies = FALSE)
     }
     invisible(lapply(pkg, require, quietly = TRUE, character.only = TRUE))
   }
