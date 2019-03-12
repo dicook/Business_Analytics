@@ -85,7 +85,14 @@ class: split-30
 ]]
 .column[.top50px[
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.1.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.1.pdf" style="width: 100%; align: center"/> </a>
+```{r}
+library(magick)
+if (!file.exists("images/3.1.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.1.pdf", density = 300), "images/3.1.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.1.pdf" target="_BLANK"> <img src="images/3.1.png" style="width: 100%; align: center"/> </a>
 
 .font_tiny[(Chapter3/3.1.pdf)]
 
@@ -104,7 +111,13 @@ class: split-30
 ]]
 .column[.top50px[
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.5.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.5.pdf" style="width: 100%; align: center"/> </a>
+```{r}
+if (!file.exists("images/3.5.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.5.pdf", density = 300), "images/3.5.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.5.pdf" target="_BLANK"> <img src=""images/3.5.png"" style="width: 100%; align: center"/> </a>
 
 .font_tiny[(Chapter3/3.5.pdf)]
 
@@ -471,7 +484,14 @@ class: split-30
 
 ]]
 .column[.top50px[
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.7.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.7.pdf" style="width: 100%; align: center"/> </a>
+
+```{r}
+if (!file.exists("images/3.7.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.7.pdf", density = 300), "images/3.7.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.7.pdf" target="_BLANK"> <img src="images/3.7.png" style="width: 100%; align: center"/> </a>
 
 .font_tiny[(Chapter3/3.7.pdf)]
 ]]
@@ -531,7 +551,14 @@ class: split-30
 
 ]]
 .column[.top50px[
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.9.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.9.pdf" style="width: 100%; align: center"/> </a>
+
+```{r}
+if (!file.exists("images/3.9.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.9.pdf", density = 300), "images/3.9.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.9.pdf" target="_BLANK"> <img src="images/3.9.png" style="width: 100%; align: center"/> </a>
 
 .font_tiny[(Chapter3/3.9.pdf)]
 ]]
