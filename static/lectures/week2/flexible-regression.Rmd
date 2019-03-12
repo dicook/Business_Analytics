@@ -183,8 +183,8 @@ class: split-30
 Piecewise cubic polynomial with a single knot at a point $c$:
 
 $$\hat{y}_i = \left\{ \begin{array}{l} 
-\beta_{01}+\beta_{11}x_i+\beta_{21}x_i^2+\beta_{31}^2~~~if~x_i< c\\
-\beta_{02}+\beta_{12}x_i+ \beta_{22}x_i^2+\beta_{32}^2~~~if~x_i \geq c\end{array}\right\}$$
+\beta_{01}+\beta_{11}x_i+\beta_{21}x_i^2+\beta_{31}x_i^3~~~if~x_i< c\\
+\beta_{02}+\beta_{12}x_i+ \beta_{22}x_i^2+\beta_{32}x_i^3~~~if~x_i \geq c\end{array}\right\}$$
 
 ]]
 ---
