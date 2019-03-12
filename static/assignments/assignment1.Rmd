@@ -1,0 +1,109 @@
+---
+title: "ETC3250 Assignment 1"
+date: "DUE: Tuesday 19/03/2019 before start of class"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Instructions
+
+- Assignment needs to be turned in as Rmarkdown, and as html, to moodle. That is, two files need to be submitted.
+- You need to list your team members on the report. For each of the four assignments, one team member needs to be nominated as the leader, and is responsible for coordinating the efforts of other team members, and submitting the assignment. 
+- It is strongly recommended that you individually complete the assignment, and then compare your answers and explanations with your team mates. Each student will have the opportunity to report on other team member's efforts on the assignment, and if a member does not substantially contribute to the team submission they may get a reduced mark, or even a zero mark.
+- R code should be hidden in the final report, unless it is specifically requested.
+- Original work is expected. Any material used from external sources needs to be acknowledged. 
+- To make it a little easier for you, a skeleton of R code is provided in the `Rmd` file. Where you see `???` means that something is missing and you will need to fill it in with the appropriate function, argument or operator. You will also need to rearrange the code as necessary to do the calculations needed.
+
+## Marks
+
+- Total mark will be out or 25
+- 5 points will be reserved for readability, and appropriate citing of external sources 
+- 5 points will be reserved for reproducibility, that the report can be re-generated from the submitted Rmarkdown. 
+- Accuracy and completeness of answers, and clarity of explanations will be the basis for the remaining 15 points. 
+
+## Exercises
+
+1. This question explores bias-variance trade-off. Read in the simulated data `possum_magic.rds`. This data is generated using the following function:
+
+$$ y = 2x + 10sin(x) + \varepsilon, ~~\text{where}~~x\in [-10, 20], ~~\varepsilon\sim N(0, 4^2)$$
+
+a. Make a plot of the data, overlaying the true model.
+b. Break the data into a $2/3$ training and a $1/3$ test set. (Hint: You can use the function `createDataPartition` from the `caret` package.) Fit a linear model, using the training set. Compute the training MSE and test MSE. Overlay the linear model fit on a plot of the data and true model.
+c. Now examine the behaviour of the training and test MSE, for a `loess` fit. 
+    i. Look up the `loess` model fit, and write a paragraph explaining how this fitting procedure works. In particular, explain what the `span` argument does.
+    ii. Compute the training and test MSE for a range of `span` values, 0.5, 0.3, 0.2, 0.1, 0.05, 0.01. Plot the training and test MSE against the span parameter. (For each model, also make a plot of the data and fitted model, just for yourself, but not to hand in.)
+    iii. Write a paragraph explaining the effect of increasing the flexibility of the fit has on the training and test MSE. Indicate what you think is the optimal span value for this data.
+d. Now examine the relationship between bias, variance and MSE. Compute the bias, MSE and hence variance, for the test set, from the fitted loess models using the `span=0.5, 0.3, 0.2, 0.1, 0.05, 0.01`. Plot these quantities: MSE, bias, variance against span. Write a few sentences explaining what you learn.
+
+```{r eval=FALSE, echo=FALSE}
+# Read data
+possum <- readRDS("data/???")
+
+# Load libraries
+library(caret)
+library(broom)
+library(tidyverse)
+
+# Create training and test sets
+set.seed(12032019)
+tr_indx <- createDataPartition(???, p=0.67)$Resample1
+tr <- ???[tr_indx,]
+ts <- ???[???,]
+
+# Fit linear model
+fit1 <- lm(???, data=tr)
+tr_aug <- ???(fit1, tr)
+ts_aug <- ???(fit1, newdata=???)
+ts_aug$.resid <- ??? - ts_aug$.fitted
+tr_mse <- sum(???)/length(???)
+ts_mse <- sum(???)/length(???)
+
+# Plot the data and true model
+ggplot(tr, aes(x=x, y=y)) + geom_???() +
+  geom_???(aes(y=???)) + geom_???(data=???, aes(x=x, y=???), colour="orange")
+
+# Fit a loess model and compute MSEs
+fit2 <- loess(???, data=tr, span=???)
+tr_aug2 <- ???(fit2, tr)
+ts_aug2 <- ???(fit2, newdata=???)
+ts_aug2$.resid <- ??? - ts_aug2$.fitted
+tr_mse2 <- sum(???)/length(???)
+ts_mse2 <- sum(???, na.rm=TRUE)/
+  length(???[!is.na(ts_aug2$.resid)])
+
+# Plot the data, true model and fitted model
+ggplot(tr, aes(x=x, y=y)) + geom_???() +
+  geom_???(aes(y=???)) + geom_???(data=???, aes(x=x, y=???), colour="orange")
+
+# Bias, variance tradeoff
+ts_bias2 <- sum((ts_aug2$.fitted - ???)^2, na.rm=TRUE)/
+  length(???[!is.na(ts_aug2$.resid)])
+ts_var2 <- ts_mse2 - ???               
+```
+
+2. Using the simulated data set, `wombat_stew.rds`, answer the following questions.
+
+a. Fit a linear model, using both `lm` and `glm`. Make a summary of the model fit, and you will see that they are different: `lm` reports $R^2$ but `glm` reports `deviance`. What is the relationship between these two goodness of fit statistics? Explain it, and write the R code that shows $R^2$ can be computed from the `deviance`.
+
+b. Make a plot of the residuals from the model against each predictor. Overlay a smoother on each.  (Hint: The `ggduo` function from the GGally package can be useful here. You can plot a single $Y$ variable against multiple $X$ variables.) Explain why the linear model may not be appropriate for this data.
+
+c. Explore adding polynomial terms for each or all predictors, to produce the best possible model fit. Report your best $R^2$, the final fitted model, and the residual vs predictor plots. 
+
+
+```{r eval=FALSE, echo=FALSE}
+wombat <- readRDS("data/???")
+fit1 <- lm(???, data=wombat)
+fit2 <- glm(???, data=wombat)
+1-???/???
+library(GGally)
+wombat_aug1 <- ???(fit1, wombat)
+ggduo(???, columnsX=???, columnsY=???)
+
+fit3 <- lm(???, data=wombat)
+wombat_aug3 <- ???(fit3, wombat)
+ggduo(???, columnsX=???, columnsY=???)
+```
+
