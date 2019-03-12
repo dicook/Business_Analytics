@@ -201,7 +201,15 @@ class: split-30
 
 ]]
 .column[.top50px[
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.3.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.3.pdf" style="width: 80%; align: center"/> </a>
+
+```{r}
+library(magick)
+if (!file.exists("images/7.3.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.3.pdf", density = 300), "images/7.3.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.3.pdf" target="_BLANK"> <img src="images/7.3.png" style="width: 80%; align: center"/> </a>
 
 .font_tiny[(Chapter7/7.3.pdf)]
 ]]
@@ -302,7 +310,14 @@ class: split-30
 
 ]]
 .column[.top50px[
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.4.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.4.pdf" style="width: 80%; align: center"/> </a>
+
+```{r}
+if (!file.exists("images/7.4.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.4.pdf", density = 300), "images/7.4.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.4.pdf" target="_BLANK"> <img src="images/7.4.png" style="width: 80%; align: center"/> </a>
 
 .font_tiny[(Chapter7/7.4.pdf)]
 ]]
@@ -323,7 +338,14 @@ class: split-30
 
 ]]
 .column[.top50px[
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.7.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.7.pdf" style="width: 80%; align: center"/> </a>
+
+```{r}
+if (!file.exists("images/7.7.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.7.pdf", density = 300), "images/7.7.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.7.pdf" target="_BLANK"> <img src="images/7.7.png" style="width: 80%; align: center"/> </a>
 
 .font_tiny[(Chapter7/7.7.pdf)]
 ]]
@@ -616,7 +638,13 @@ class: split-30
 
 $$wage = \beta_0 + f_1(year) + f_2(age) + f_3(education) + \varepsilon$$
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.11.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.11.pdf" style="width: 100%; align: center"/> </a>
+```{r}
+if (!file.exists("images/7.11.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.11.pdf", density = 300), "images/7.11.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter7/7.11.pdf" target="_BLANK"> <img src="images/7.11.png" style="width: 100%; align: center"/> </a>
 
 
 .font_tiny[(Chapter7/7.11.pdf)]
