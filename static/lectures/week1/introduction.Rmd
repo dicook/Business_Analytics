@@ -49,9 +49,8 @@ Earo Wang <br> *Teaching Associate*
 Cameron Roach <br> *Teaching Associate* 
 ]
 .row[
-<img src="images/zina.png" style="width: 40%"/>
 <br>
-Zina Quryakos <br> *Teaching Associate*
+Zina  <br> *Teaching Associate*
 ]
 ]]
 

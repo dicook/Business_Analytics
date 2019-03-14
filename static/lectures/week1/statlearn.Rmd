@@ -22,6 +22,7 @@ knitr::opts_chunk$set(tidy = FALSE,
                       echo = FALSE, 
                       fig.retina = 2)
 options(htmltools.dir.version = FALSE)
+library(magick)
 ```
 
 class: split-30
@@ -201,7 +202,13 @@ class: split-30
 ]]
 .column[.nopadding[
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.2.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.2.pdf" style="width: 100%; align: center"/> </a>
+```{r}
+if (!file.exists("images/2.2.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.2.pdf", density = 300), "images/2.2.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.2.pdf" target="_BLANK"> <img src="images/2.2.png" style="width: 100%; align: center"/> </a>
 
 .light-blue[Blue curve] is $f(x)$, the true functional relationship.
 
@@ -221,7 +228,13 @@ class: split-30
 ]]
 .column[.nopadding[
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" style="width: 80%; align: center"/> </a>
+```{r}
+if (!file.exists("images/2.3.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf", density = 300), "images/2.3.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" target="_BLANK"> <img src="images/2.3.png" style="width: 100%; align: center"/> </a>
 
 .light-blue[Blue surface] is $f(x)$, the true functional relationship.
 
@@ -262,8 +275,20 @@ class: split-30
 ]]
 .column[.pad10px[
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" style="width: 45%; align: center"/> </a>
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" style="width: 45%; align: center"/>  </a>
+```{r}
+if (!file.exists("images/2.3.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf", density = 300), "images/2.3.png", 
+      format = "png", density = 300)
+```
+
+```{r}
+if (!file.exists("images/2.4.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf", density = 300), "images/2.4.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" target="_BLANK"> <img src="images/2.3.png" style="width: 45%; align: center"/> </a>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" target="_BLANK"> <img src="images/2.4.png" style="width: 45%; align: center"/>  </a>
 
 Linear model: $\hat f(\mbox{education}, \mbox{seniority}) =$ 
 $~~~~~~~~\hat \beta_0 + \hat \beta_1 \times \mbox{education} + \hat \beta_2 \times \mbox{seniority}$
@@ -288,11 +313,20 @@ class: split-30
 ]]
 .column[.nopadding[
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" style="width: 60%; align: center"/> </a>
+```{r}
+if (!file.exists("images/2.5.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.5.pdf", density = 300), "images/2.5.png", 
+      format = "png", density = 300)
+if (!file.exists("images/2.6.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.6.pdf", density = 300), "images/2.6.png", 
+      format = "png", density = 300)
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" style="width: 30%; align: center"/> </a>
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.5.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.5.pdf" style="width: 30%; align: center"/> </a>
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.6.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.6.pdf" style="width: 30%; align: center"/> </a>
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" target="_BLANK"> <img src="images/2.3.png" style="width: 60%; align: center"/> </a>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" target="_BLANK"> <img src="images/2.4.png" style="width: 30%; align: center"/> </a>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.5.pdf" target="_BLANK"> <img src="images/2.5.png" style="width: 30%; align: center"/> </a>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.6.pdf" target="_BLANK"> <img src="images/2.6.png" style="width: 30%; align: center"/> </a>
 
 .font_tiny[(Chapter2/2.3.pdf, 2.4.pdf, 2.5.pdf, 2.6.pdf)]
 ]]
@@ -423,7 +457,13 @@ class: split-30
 ]]
 .column[.nopadding[
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.7.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.7.pdf" style="width: 70%; align: center"/> </a>
+```{r}
+if (!file.exists("images/2.7.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.7.pdf", density = 300), "images/2.7.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.7.pdf" target="_BLANK"> <img src="images/2.7.png" style="width: 70%; align: center"/> </a>
  
 Simplistic overview of methods on the flexibility vs interpretability scale. Interpretability is when it is clear how the explanatory variable is related to the response, e.g. linear model. .orange[Poor interpretability] is often called a .orange["black box"] method.
 
@@ -448,7 +488,14 @@ class: split-30
 .column[.top50px[
 .split-two[
 .row[
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.9.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.9.pdf" style="width: 90%; align: center"/> </a>
+
+```{r}
+if (!file.exists("images/2.9.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.9.pdf", density = 300), "images/2.9.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.9.pdf" target="_BLANK"> <img src="images/2.9.png" style="width: 90%; align: center"/> </a>
 
 .font_tiny[(Chapter2/2.9.pdf)]
 
@@ -495,7 +542,14 @@ class: split-30
 .column[.top50px[
 .split-two[
 .row[
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.10.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.10.pdf" style="width: 90%; align: center"/> </a>
+
+```{r}
+if (!file.exists("images/2.10.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.10.pdf", density = 300), "images/2.10.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.10.pdf" target="_BLANK"> <img src="images/2.10.png" style="width: 90%; align: center"/> </a>
 
 .font_tiny[(Chapter2/2.9.pdf)]
 
@@ -542,7 +596,13 @@ class: split-30
 .column[.top50px[
 .split-two[
 .row[
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.11.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.11.pdf" style="width: 90%; align: center"/> </a>
+```{r}
+if (!file.exists("images/2.11.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.11.pdf", density = 300), "images/2.11.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.11.pdf" target="_BLANK"> <img src="images/2.11.png" style="width: 90%; align: center"/> </a>
 
 .font_tiny[(Chapter2/2.11.pdf)]
 
@@ -650,7 +710,14 @@ Test MSE = Bias $^2$ + Variance + Irreducible variance
 
 ---
 .nopadding[
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.12.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.12.pdf" style="width: 90%; align: center"/> </a>
+
+```{r}
+if (!file.exists("images/2.12.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.12.pdf", density = 300), "images/2.12.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.12.pdf" target="_BLANK"> <img src="images/2.12.png" style="width: 90%; align: center"/> </a>
 
 .green[squared bias], .orange[variance], Var(ε) (dashed line), and .red[test MSE] for the three data sets shown earlier. The vertical dotted line indicates the flexibility level corresponding to the smallest test MSE.
 
@@ -840,7 +907,13 @@ class: split-30
 
 .column[.top50px[ 
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.13.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.13.pdf" style="width: 80%; align: center"/> </a>
+```{r}
+if (!file.exists("images/2.13.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.13.pdf", density = 300), "images/2.13.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.13.pdf" target="_BLANK"> <img src="images/2.13.png" style="width: 80%; align: center"/> </a>
 
 .font_tiny[(Chapter2/2.13.pdf)]
 
@@ -888,7 +961,13 @@ class: split-30
 
 .column[.top50px[ 
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.14.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.14.pdf" style="width: 100%; align: center"/> </a>
+```{r}
+if (!file.exists("images/2.14.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.14.pdf", density = 300), "images/2.14.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.14.pdf" target="_BLANK"> <img src="images/2.14.png" style="width: 100%; align: center"/> </a>
 
 .font_tiny[(Chapter2/2.14.pdf)]
 
@@ -909,7 +988,13 @@ class: split-30
 
 .column[.top50px[ 
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.16.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.16.pdf" style="width: 100%; align: center"/> </a>
+```{r}
+if (!file.exists("images/2.16.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.16.pdf", density = 300), "images/2.16.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.16.pdf" target="_BLANK"> <img src="images/2.16.png" style="width: 100%; align: center"/> </a>
 
 .font_tiny[(Chapter2/2.16.pdf)]
 
@@ -931,8 +1016,13 @@ class: split-30
 
 .column[.top50px[ 
 
+```{r}
+if (!file.exists("images/2.15.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.15.pdf", density = 300), "images/2.15.png", 
+      format = "png", density = 300)
+```
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.15.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.15.pdf" style="width: 80%; align: center"/> </a>
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.15.pdf" target="_BLANK"> <img src="images/2.15.png" style="width: 80%; align: center"/> </a>
 
 .font_tiny[(Chapter2/2.15.pdf)]
 
@@ -954,7 +1044,13 @@ class: split-30
 
 .column[.top50px[ 
 
-<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.17.pdf" target="_BLANK"> <img src="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.17.pdf" style="width: 100%; align: center"/> </a>
+```{r}
+if (!file.exists("images/2.17.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.17.pdf", density = 300), "images/2.17.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.17.pdf" target="_BLANK"> <img src="images/2.17.png" style="width: 100%; align: center"/> </a>
 
 .font_tiny[(Chapter2/2.17.pdf)]
 

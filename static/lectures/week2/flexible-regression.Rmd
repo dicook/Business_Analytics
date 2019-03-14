@@ -55,7 +55,7 @@ class: split-30
 ]]
 .column[.top50px[
 
-```{r fig.width=12}
+```{r fig.width=11}
 library(splines)
 library(gridExtra)
 library(rpart)
@@ -445,6 +445,15 @@ newdat$fit5 <- predict(fit5, newdat)
 ggplot(hits, aes(x=logCHits, y=logSalary)) + 
   geom_point() +
   geom_line(data=newdat, aes(x=logCHits, y=fit1), colour="blue") + 
+  ylim(c(1.5,3.2))
+```
+
+```{r eval=FALSE}
+fit6 <- lm(logSalary~ns(logCHits, knots=mean(hits$logCHits)), data=hits)
+newdat$fit6 <- predict(fit6, newdat)
+ggplot(hits, aes(x=logCHits, y=logSalary)) + 
+  geom_point() +
+  geom_line(data=newdat, aes(x=logCHits, y=fit6), colour="blue") + 
   ylim(c(1.5,3.2))
 ```
 

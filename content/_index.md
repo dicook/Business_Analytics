@@ -33,7 +33,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 
 - Week 1: Introduction to statistical learning, Chapter 2 [slides1](http://monba.dicook.org/lectures/week1/introduction.html) ([Rmd](http://monba.dicook.org/lectures/week1/introduction.Rmd)) [slides2](http://monba.dicook.org/lectures/week1/statlearn.html) ([Rmd](http://monba.dicook.org/lectures/week1/statlearn.Rmd))
 - Week 2: Linear regression, Chapter 3 and 7 [slides1](http://monba.dicook.org/lectures/week2/linear-regression.html) ([Rmd](http://monba.dicook.org/lectures/week2/linear-regression.Rmd)) [slides2](http://monba.dicook.org/lectures/week2/flexible-regression.html) ([Rmd](http://monba.dicook.org/lectures/week2/flexible-regression.Rmd))
-- Week 3: Resampling, Chapter 5
+- Week 3: Classification, Resampling, Chapter 4, 5
 - Week 4: Dimension reduction, Chapter 10.2 + instructor's notes
 - Week 5: Visualisation, Instructor's notes
 - Week 6: Classification,  Chapters 8
