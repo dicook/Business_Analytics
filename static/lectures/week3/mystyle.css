@@ -1,0 +1,202 @@
+@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700);
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url(https://fonts.googleapis.com/css?family=Sunshiney);
+@import url(https://fonts.googleapis.com/css?family=Lato);
+
+/******************
+ kunoichi.css must also be coupled with ninjutsu.css to be effective
+ See https://emitanaka.github.io/ninja-theme/kunoichi-theme-example.html for an example.
+
+******************/
+
+:root {
+  --main-color1: rgba(0, 99, 167, 1);
+  --main-color2: #0063A7;
+  --color-indigo: #0d3153
+  --color-light-blue: #55aded;
+  --color-blue: #2a83b2;
+  --color-green: #3F9F7A;
+  --color-orange: #CA6627;
+  --color-light-green: #67b69c;
+  --color-dark-green: #3F9F7A;
+  --color-teal: #56a7af; 
+  --color-violet: #7570b3; 
+  --color-light-gray: #DCDCDC;
+  --main-monashblue: rgba(0, 99, 167, 1);
+  --main-monashblue2: #0063A7;
+  --link-color: #67b69c;
+  --color-opacity70: rgba(0, 99, 167, 0.7);
+  --logo: url("https://monba.dicook.org/img/M-large.png");
+}
+
+.bg-monashblue { background-color: var(--color-monashblue2); }
+.monashblue { color: var(--color-monashblue2); }
+
+.title-slide {
+  width: 75%;
+  text-align: left!important;
+  height:100%;
+  display: table;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--color-violet);
+  color: white;
+  padding: 0;
+  border-left-color: white;
+  border-left-style: solid;
+  border-left-width: 0.5em;
+}
+
+.remark-slide {
+  background-color: var(--main-color5);
+  background-image: var(--logo);
+  background-size:  24%;
+  padding: 0;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+}
+
+.title-slide .remark-slide-number {
+  display: none;
+}
+
+.bg-code {
+  color: var(--code-text-color);
+  background-color: var(--code-background);
+}
+
+.title-slide h1 { padding-top: 10%; font-size: 2em;}
+.title-slide h1, .title-slide h2, .title-slide h3  {
+  padding-left: 4%!important;
+  padding-right: 4%!important;
+  color: white;
+}
+
+.bg-main1 { background-color: var(--main-color1); color: var(--text-color1);}
+.bg-main2 { background-color: var(--main-color2); color: var(--text-color2);}
+.bg-main3 { background-color: var(--main-color3); color: var(--text-color3);}
+.bg-main4 { background-color: var(--main-color4); color: var(--text-color4);}
+.bg-main5 { background-color: var(--main-color5); color: var(--text-color5);}
+.bg-maingreen { background-color: var(--green); color: var(--white);}
+.bgcolor_alert { background-color: var(--alert-color)!important; color: var(--text-alert); }
+
+.color-main1 { color: var(--main-color1);}
+.color-main2 { color: var(--main-color2);}
+.color-main3 { color: var(--main-color3);}
+.color-main4 { color: var(--main-color4);}
+.color-main5 { color: var(--main-color5);}
+.color-alert { color: var(--alert-color);}
+
+.shade_main  {
+    background-color: var(--color-opacity70);
+    color: var(--text-opacity);
+    width: 100%;
+    padding: 0;
+}
+
+.remark-visible .remark-slide-scaler {overflow-y: auto;}
+.remark-code, .remark-inline-code {
+  line-height: 1.25;
+}
+
+.font-mono {
+  font-family: monospace;
+}
+
+.remark-slide-content {
+  font-size: 32px;
+}
+
+.remark-code-line-highlighted { 
+  background-color: var(--code-highlight); 
+}
+
+h1, h2, h3 {
+  font-family: 'Lato';
+  font-weight: normal;
+  color: var(--color-orange);
+}
+
+.remark-code, .remark-inline-code {
+  font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace;
+  color: var(--color-blue);
+}
+.remark-code {
+  color: var(--code-text-color);
+  background-color: var(--code-background);
+}
+
+pre {
+  color: var(--code-text-color);
+  background-color: var(--code-background);
+  line-height: 1.5;
+  padding: 5px;
+}
+
+h1, h2, h3, h4 {
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+h1 { font-size: 3.5em; }
+h2 { font-size: 3em; }
+h3 { font-size: 2.5em; }
+h4 { 
+  font-size: 2em; 
+}
+
+a { color: var(--link-color); text-decoration: none; }
+
+.shuriken-full>.blade1 {height: 50%; width:50%; position: absolute; top: 0; left: 0;}
+.shuriken-full>.blade2 {height: 50%; width:50%; position: absolute; top: 0; right: 0;}
+.shuriken-full>.blade3 {height: 50%; width:50%; position: absolute; bottom: 0; right: 0;}
+.shuriken-full>.blade4 {height: 50%; width:50%; position: absolute; bottom: 0; left: 0;}
+.shuriken-full>.hole {height: 0%; width:0%; position: absolute; top: 300px; left: 300px;}
+
+.font2 {font-size: 1.2em;}
+.font_tiny {font-size: 0.5em;}
+.font_small {font-size: 0.8em;}
+
+.pad50px{ padding: 50px; }
+
+.top50px{ top: 150px; }
+
+.padtop50px{ padding: 50px; top: 50px; text-align: left!important;}
+
+.padtopm50px{ padding: -50px; top: -50px; text-align: left!important;}
+
+.split-70>.column:first-of-type {width: 70%; height:100%; position: absolute; top: -50px; left: -50px; }
+
+body {
+  font-family: 'Lato';
+  font-weight: normal;
+  color: var(--color-violet);
+}
+
+ul li {
+  list-style-type: none;
+}
+ul li:before {
+  content: "\f080";
+  font-size: 28px;
+  font-family: "FontAwesome";
+  margin-right: 10px;
+  color: var(--color-green);
+}
+ul li li:before {
+  content: "\f200";
+  font-size: 20px;
+  font-family: "FontAwesome";
+  margin-right: 5px;
+  color: var(--color-green);
+}
+
+.boxshadow
+{
+  -moz-box-shadow: 3px 3px 5px #535353;
+  -webkit-box-shadow: 3px 3px 5px #535353;
+  background-color: var(--color-light-gray);
+  box-shadow: 5px 5px 10px var(--color-gray);
+}
