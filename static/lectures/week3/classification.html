@@ -61,7 +61,7 @@ An online banking service must be able to determine whether or not a transaction
 On the basis of DNA sequence data for a number of patients with and without a given disease, a biologist would like to figure out which DNA mutations are deleterious (disease-causing) and which are not.
 ]]
 .blade4.bg-pink[.content.center.vmiddle[
-An email comes into the server. Should it be moved into the inbox or the junk mail mox, based on header text, sender, origin, time of day, ...?
+An email comes into the server. Should it be moved into the inbox or the junk mail box, based on header text, sender, origin, time of day, ...?
 ]]
 
 ---
@@ -450,11 +450,10 @@ Bayes theorem (for `\(K\)` classes) states:
 .boxshadow[
 .content[
 
-`$$Pr(Y = k|X = x) = \frac{\pi_kf_k(x)}{\sum_{i=1}^K \pi_kf_k(x)}$$`
+`$$Pr(Y = k|X = x) = p_k(x) = \frac{\pi_kf_k(x)}{\sum_{i=1}^K \pi_kf_k(x)}$$`
 ]]
 
-
-where `\(\pi_k = \text{Pr}(Y = k)\)` is the prior probability that the observation comes from class `\(k\)`. We shorten `$$Pr(Y=k|X=x)$$` to `$$p_k(x)$$`.
+where `$$\pi_k = \text{Pr}(Y = k)$$` is the prior probability that the observation comes from class, *k*. 
 
 ]]
 ---
@@ -515,7 +514,7 @@ class: split-30
 .column[.top50px[
 The Bayes classifier is assign new observation `\(X=x_0\)` to the class with the highest `\(p_k(x_0)\)`. A simplification of `\(p_k(x_0)\)` yields the .orange[discriminant functions]: 
 
-`$$\delta_k(x) = x_0 \frac{\mu_k}{\sigma^2} - \frac{\mu_k^2}{2 \sigma^2} + log(\pi_k)$$`
+`$$\delta_k(x_0) = x_0 \frac{\mu_k}{\sigma^2} - \frac{\mu_k^2}{2 \sigma^2} + log(\pi_k)$$`
 and the rule Bayes classifier will assign `\(x_0\)` to the class with the largest value. 
 
 ]]
@@ -538,7 +537,7 @@ When `\(K = 2\)` and `\(\pi_1 = \pi_2\)`, then the Bayes classifier is :
 
 *Assign* `\(x_0\)` *to class 1, if* 
 
-`$$\delta_1(x) &gt; \delta_2(x)$$`
+`$$\delta_1(x_0) &gt; \delta_2(x_0)$$`
 
 $$x_0 \frac{\mu_1}{\sigma^2} - \frac{\mu_1^2}{2 \sigma^2} + log(\pi) &gt; x_0 \frac{\mu_2}{\sigma^2} - \frac{\mu_2^2}{2 \sigma^2} + log(\pi) $$
 
@@ -647,7 +646,7 @@ class: split-30
 
 
 The dashed lines are the Bayes decision boundaries. Ellipses
-that contain 95% of the probability for each of the three classes are shown.
+that contain 95% of the probability for each of the three classes are shown. Solid line corresponds to the class boundaries from the LDA model fit to the sample.
 
 &lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.6.pdf" target="_BLANK"&gt; &lt;img src="images/4.6.png" style="width: 90%; align: center"/&gt; &lt;/a&gt;
 
