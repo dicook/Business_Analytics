@@ -1,0 +1,131 @@
+---
+title: "ETC3250 2019 - Lab 2"
+author: "Dianne Cook"
+date: "March 11, 2019"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 6,
+  fig.width = 8,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Class discussion exercises
+
+Textbook questions, chapter 2: 1, 2, 4
+
+1.
+(a) better performance
+(b) worse performance
+(c) better performance
+(d) worse performance
+
+2. 
+
+(a) regression and inference
+(b) classification and prediction
+(c) regression and prediction
+
+4. Lots of different answers here, try to collect the responses from students
+
+(a) spam filters, credit application success, species (animals, plants) labelling, 
+
+spam filter: response: ham, spam; predictors: from, subject, words used, ...; prediction problem
+
+(b) performance in sports, characteristics that lead to exam scores, 
+
+performance in sports: response: fatigue; predictors: length of match, number of rallies, score differential, ...; probably inference to understand problem, possibly prediction if need to identify players needing interventions
+
+(c) grouping stamps, paintings, companies
+
+
+# Do it yourself
+
+Textbook question 7
+
+(a)
+
+```
+       Obs.   X1   X2   X3  Distance(0, 0, 0)   Y
+       ---------------------------------------------
+       1      0    3    0   3                   Red 
+       2      2    0    0   2                   Red
+       3      0    1    3   sqrt(10) ~ 3.2      Red
+       4      0    1    2   sqrt(5) ~ 2.2       Green
+       5      -1   0    1   sqrt(2) ~ 1.4       Green
+       6      1    1    1   sqrt(3) ~ 1.7       Red
+```
+
+(b) Green. Observation #5 is the closest neighbor for K = 1.
+
+(c) Red, because it is the most common of the three responses
+
+(d)  Red. Observations #2, 5, 6 are the closest neighbors for K = 3. 2 is Red, 5 is Green, and 6 is Red.
+
+# Practice
+
+Complete these exercises by writing your responses into an Rmarkdown document. 
+Give your Rmd file to another group member, outputting to `html` and see if they can `knit` it. 
+
+(a) Download the chocolates data set, and read into R (recommend using `read_csv` from the `tidyverse` suite).
+
+*About the data:* The chocolates data was compiled by students in a previous class of Prof Cook, by collecting nutrition information on the chocolates as listed on their internet sites. All numbers were normalised to be equivalent to a 100g serving. Units of measurement are listed in the variable name.
+
+```{r}
+library(tidyverse)
+choc <- read_csv("http://monba.dicook.org/data/chocolates.csv")
+```
+
+(b) Take a look at the type of variables in the data. If your question is "How do milk and dark chocolates differ?" what type of problem have you got?
+
+*This is a classification problem.*
+
+(c) Compute the means and standard deviations for milk and dark on each of the variables. Make a nice table summary. (Try using the pipe operator, with the wrangling verbs `group_by` and `summarise`, and make the table with the `kableExtra` package.)
+
+```{r}
+library(kableExtra)
+choc %>%
+  gather(var, value, Calories:Protein_g) %>% 
+  group_by(Type, var) %>%
+  summarise(mean = mean(value), sd = sd(value)) %>%
+  arrange(var) %>%
+  kable(digits = 1) %>% 
+  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+```
+
+(d) Make side-by-side boxplots for each of the variables, for type of chocolate. (Use the grammar of graphics in `ggplot2`.) Write a paragraph explaining how the type of chocolate differs nutritionally.
+
+```{r }
+choc %>% 
+  gather(var, value, Calories:Protein_g) %>%
+  ggplot(aes(x = Type, y = value)) + 
+  geom_boxplot() + 
+  facet_wrap(~ var, scales = "free_y")
+```
+
+*Milk chocolates are generally higher on sugar, cholesterol, sodium (Na) and carbs, but lower in calories from fat, and saturated fat. Dark chocolates tend to have more fibre.*
+
+(e) Compute two sample t-tests for each of the variables. Which variable most distinguishes the chocolate type? (This may need to be done using the base R function.)
+
+```{r}
+choc %>% 
+  gather(var, value, Calories:Protein_g) %>% 
+  rowid_to_column() %>% 
+  spread(Type, value) %>% 
+  group_by(var) %>% 
+  summarise(p_val = t.test(Dark, Milk)$p.value) %>% 
+  arrange(p_val)
+```
+
+Fibre is the nutritional item that most distinguishes milk from dark chocolate.
