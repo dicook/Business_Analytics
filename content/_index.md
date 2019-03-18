@@ -42,6 +42,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 [slides2](http://monba.dicook.org/lectures/week2/flexible-regression.html) ([Rmd](http://monba.dicook.org/lectures/week2/flexible-regression.Rmd))
 ([pdf](http://monba.dicook.org/lectures/week2/flexible-regression.pdf))
 - Week 3: Classification, Resampling, Chapter 4, 5 [slides1](http://monba.dicook.org/lectures/week3/classification.html) ([Rmd](http://monba.dicook.org/lectures/week3/classification.Rmd)) ([pdf](http://monba.dicook.org/lectures/week3/classification.pdf))
+[slides2](http://monba.dicook.org/lectures/week3/resampling.html) ([Rmd](http://monba.dicook.org/lectures/week3/resampling.Rmd)) 
 - Week 4: Dimension reduction, Chapter 10.2 + instructor's notes
 - Week 5: Visualisation, Instructor's notes
 - Week 6: Classification,  Chapters 8
