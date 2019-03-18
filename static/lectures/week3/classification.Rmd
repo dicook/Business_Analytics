@@ -701,6 +701,33 @@ that contain 95% of the probability for each of the three classes are shown. Sol
 <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.6.pdf" target="_BLANK"> <img src="images/4.6.png" style="width: 90%; align: center"/> </a>
 
 .font_tiny[(Chapter4/4.6.pdf)]
+
+```{r eval=FALSE}
+library(MASS)
+library(caret)
+choc <- read_csv("data/chocolates.csv")
+tr_indx <- createDataPartition(choc$Type, p=0.67)$Resample1
+choc_tr <- choc[tr_indx, -c(1:3)]
+choc_ts <- choc[-tr_indx, -c(1:3)]
+choc_lda <- lda(Type~., data=choc_tr, prior=c(0.5, 0.5))
+choc_tr_pred <- predict(choc_lda, choc_tr)
+choc_ts_pred <- predict(choc_lda, choc_ts)
+choc_tr <- choc_tr %>% bind_cols(ld1=choc_tr_pred$x, pType=choc_tr_pred$class, set=rep("train", length(tr_indx)))
+choc_ts <- choc_ts %>% bind_cols(ld1=choc_ts_pred$x, pType=choc_ts_pred$class, set=rep("test", nrow(choc)-length(tr_indx)))
+choc_fit <- bind_rows(choc_tr, choc_ts)                              
+ggplot(choc_fit, aes(x=ld1, fill=Type)) + geom_histogram(binwidth=0.5) + 
+  facet_grid(set~Type)
+# Compute means
+choc_mean_pred <- predict(choc_lda, data.frame(choc_lda$means))$x
+ggplot(choc_fit, aes(x=ld1, fill=Type)) + geom_histogram(binwidth=0.5) + 
+  facet_grid(set~Type) + 
+  geom_vline(xintercept=sum(choc_mean_pred)/2, linetype=2)
+# Training error
+table(choc_tr$Type, choc_tr$pType)
+# Test error
+table(choc_ts$Type, choc_ts$pType)
+```
+
 ]]
 
 ---
@@ -733,6 +760,8 @@ if (!file.exists("images/4.9.png"))
 .font_tiny[(Chapter4/4.9.pdf)]
 
 ]]
+
+
 ---
 layout: false
 # `r set.seed(2019); emo::ji("technologist")` Made by a human with a computer
