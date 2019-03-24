@@ -33,7 +33,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 
 ## Lecture notes
 
-*Instructions for printing slides to pdf:* (1) You need to be connected to the internt, (2) Open the slides in your web browser, ideally Google Chrome, (3) Step through each slide, so that the equations are created, (4) using the browser's print function and dialog, print to pdf, with your preferred printing options, eg 2 slides per page.
+*Instructions for printing slides to pdf:* (1) You need to be connected to the internet, (2) Open the slides in your web browser, ideally Google Chrome, (3) Step through each slide, so that the equations are created, (4) using the browser's print function and dialog, print to pdf, with your preferred printing options, eg 2 slides per page.
 
 - Week 1: Introduction to statistical learning, Chapter 2 [slides1](http://monba.dicook.org/lectures/week1/introduction.html) ([Rmd](http://monba.dicook.org/lectures/week1/introduction.Rmd)) ([pdf](http://monba.dicook.org/lectures/week1/introduction.pdf)) [slides2](http://monba.dicook.org/lectures/week1/statlearn.html) ([Rmd](http://monba.dicook.org/lectures/week1/statlearn.Rmd))
 ([pdf](http://monba.dicook.org/lectures/week1/statlearn.pdf))
@@ -46,7 +46,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 - Week 4: Dimension reduction, Chapter 6.3, 10.2 + instructor's notes
 [slides1](http://monba.dicook.org/lectures/week4/dimension_reduction.html) ([Rmd](http://monba.dicook.org/lectures/week4/dimension_reduction.Rmd)) 
 - Week 5: Visualisation, Instructor's notes
-- Week 6: Classification,  Chapters 8
+- Week 6: Classification,  Chapter 8
 - Week 7: Classification, Chapter 9
 - Week 8: Ensembles and boosted models, Chapter 8.2
 - Week 9: Regularization methods, Chapter 6
