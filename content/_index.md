@@ -62,7 +62,8 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 
 - Week 1: [Instructions](http://monba.dicook.org/labs/lab1.html) ([Rmd](http://monba.dicook.org/labs/lab1.Rmd))
 - Week 2: [Instructions](http://monba.dicook.org/labs/lab2.html) ([Rmd](http://monba.dicook.org/labs/lab2.Rmd)) [SOLUTION](http://monba.dicook.org/labs/lab2_solution.html) ([Rmd](http://monba.dicook.org/labs/lab2_solution.Rmd)) 
-- Week 3: [Instructions](http://monba.dicook.org/labs/lab3.html) ([Rmd](http://monba.dicook.org/labs/lab3.Rmd)) [nrc.csv](http://monba.dicook.org/labs/data/nrc.csv)
+- Week 3: [Instructions](http://monba.dicook.org/labs/lab3.html) ([Rmd](http://monba.dicook.org/labs/lab3.Rmd)) [SOLUTION](http://monba.dicook.org/labs/lab3_solution.html) ([Rmd](http://monba.dicook.org/labs/lab3_solution.Rmd))  [nrc.csv](http://monba.dicook.org/labs/data/nrc.csv)
+- Week 4: [Instructions](http://monba.dicook.org/labs/lab4.html) ([Rmd](http://monba.dicook.org/labs/lab4.Rmd))
 
 ## Assignments
 

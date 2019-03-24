@@ -1,0 +1,226 @@
+---
+title: "ETC3250 2019 - Lab 3"
+author: "SOLUTION"
+date: "Week 3"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 6,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Class discussion 
+
+Textbook question, chapter 7 Q4
+
+![](lab3.png)
+
+*This is the full function, extending beyond -2, 2.*
+
+# Do it yourself
+
+Following the textbook lab exercise for Chapter 7. Read through pages 288-297, *BUT* use the code below. 
+
+1. Explore the polynomial model fitting 
+
+a. This builds from the polynomial model fit for the Wage data, using variables wage and age, in Figure 7.1. 
+
+The function `poly` is a convenient way to generate a fourth-degree polynomial. By default it uses "orthonormal polynomials". Look up what an orthonomal polynomial is, on the internet.
+
+```{r}
+library(tidyverse)
+library(ISLR)
+fit <- lm(wage~poly(age,4), data=Wage)
+coef(summary(fit))
+```
+
+We can request that "raw" polynomials are generated instead, with the `raw=TRUE` argument. 
+
+```{r}
+fit2 <- lm(wage~poly(age,4, raw=TRUE), data=Wage)
+coef(summary(fit2))
+```
+
+The coefficients are different, but effectively the fit is the same, which can be seen by plotting the fitted values from the two models.
+
+```{r}
+wage_fit <- Wage %>% 
+  mutate(yhat1 = predict(fit, Wage), yhat2 = predict(fit2, Wage))
+ggplot(wage_fit, aes(x=yhat1, y=yhat2)) + geom_point() + theme(aspect.ratio = 1)
+```
+
+To examine the differences between orthonormal polynomials and "raw" polynomials, we can make scatterplot matrices of the two sets of polynomials. 
+
+```{r}
+library(GGally)
+p_orth <- as_tibble(poly(Wage$age, 4))
+ggscatmat(p_orth)
+p_raw <- as_tibble(poly(Wage$age, 4, raw=TRUE))
+ggscatmat(p_raw)
+```
+
+**Discussion question:** What is the benefit of using orthonomal polynomials?
+
+*As higher order raw polynomials are added multicollinearity is introduced. The orthonormal polynomials add perturbations to the function preventing linear dependency between terms.*
+
+b. Predicting from the model, can use the same data (or the test data if you have separated the data into training and test sets). To examine the structure of the model it can be helpful to generate a new data set, over a grid of values in the domain of the data, and predict the response for this grid. 
+
+```{r}
+library(broom)
+wage_new <- tibble(age=seq(min(Wage$age), max(Wage$age)))
+wage_new <- augment(fit, newdata=wage_new)
+ggplot(Wage, aes(x=age, y=wage)) + geom_point(alpha=0.5) + 
+  geom_line(data=wage_new, aes(x=age, y=.fitted), colour="blue", size=2) +
+  geom_line(data=wage_new, aes(x=age, y=.fitted+2*.se.fit), colour="blue", size=1, linetype=2) +
+  geom_line(data=wage_new, aes(x=age, y=.fitted-2*.se.fit), colour="blue", size=1, linetype=2)
+```
+
+c. We need to determine the appropriate degree of the polynomial to use. One way to do this is by using hypothesis tests, by fitting models ranging from linear to a degree-5 polynomial and determine the simplest model which is sufficient to explain the relationship between `wage` and `age`. The model comparison can be done using an F test with analysis of variance. 
+
+```{r}
+fit.1 <- lm(wage~age, data=Wage)
+fit.2 <- lm(wage~poly(age,2), data=Wage) 
+fit.3 <- lm(wage~poly(age,3), data=Wage) 
+fit.4 <- lm(wage~poly(age,4), data=Wage) 
+fit.5 <- lm(wage~poly(age,5), data=Wage) 
+anova(fit.1, fit.2, fit.3, fit.4, fit.5)
+wage_new$fit1 <- predict(fit.1, newdata=wage_new)
+wage_new$fit2 <- predict(fit.2, newdata=wage_new)
+wage_new$fit3 <- predict(fit.3, newdata=wage_new)
+wage_new$fit4 <- predict(fit.4, newdata=wage_new)
+wage_new$fit5 <- predict(fit.5, newdata=wage_new)
+wage_l <- wage_new %>% gather(fit, yhat, fit1:fit5)
+ggplot(Wage, aes(x=age, y=wage)) + geom_point(alpha=0.5) + 
+  geom_line(data=wage_l, aes(x=age, y=yhat, colour=fit)) 
+```
+**Discussion question:** Which model is the "chosen one"?
+
+*The anova tests suggest that degree-4 polynomial is optimal. Clearly, linear is not as good as quadratic. There is an enormous drop in F statistic value. Although there is a statistically significant difference between degree-2 and -3, there is little predictive (or explanatory) gain, with the additional complexity. The F statistic doesn't drop very much more. I would argue that the quadratic fit is sufficient! The plot really helps make this decision.*
+
+d. Suppose instead we want to model high vs low wage earners, as a binary response variable. A quick way to do this is use a polynomial logistic regression model, part of the generalised linear model family, using the `glm()` function with a `family="binomial"`
+
+```{r}
+fit <- glm(ifelse(wage>250, 1, 0) ~ poly(age,4), data=Wage, family=binomial)
+wage_new <- augment(fit, newdata=wage_new[,1], type.predict="response")
+ggplot(Wage, aes(x=age, y=ifelse(wage>250, 1, 0))) + geom_point(alpha=0.5) + 
+  geom_line(data=wage_new, aes(x=age, y=.fitted), colour="blue", size=2) +
+  geom_line(data=wage_new, aes(x=age, y=.fitted+2*.se.fit), colour="blue", size=1, linetype=2) +
+  geom_line(data=wage_new, aes(x=age, y=.fitted-2*.se.fit), colour="blue", size=1, linetype=2) + ylim(-0.1, 0.2)
+```
+
+**Note that the lower confidence band goes below 0.** The `response` option on prediction doesn't provide correct intervals for a logistic fit. Here's the preferred approach.
+
+```{r}
+preds <- predict(fit, newdata=list(age=wage_new$age), se=T)
+pfit <- exp(preds$fit)/(1+exp(preds$fit))
+se.bands.logit = cbind(preds$fit+2*preds$se.fit, preds$fit-2*preds$se.fit)
+se.bands = exp(se.bands.logit)/(1+exp(se.bands.logit))
+wage_new <- wage_new %>% bind_cols(as_tibble(se.bands))
+ggplot(Wage, aes(x=age, y=ifelse(wage>250, 1, 0))) + geom_point(alpha=0.5) + 
+  geom_line(data=wage_new, aes(x=age, y=.fitted), colour="blue", size=2) +
+  geom_line(data=wage_new, aes(x=age, y=V1), colour="blue", size=1, linetype=2) +
+  geom_line(data=wage_new, aes(x=age, y=V2), colour="blue", size=1, linetype=2) + ylim(-0.1, 0.2)
+```
+
+e. To break the predictor into subsets, and fit separate models, we can use the `cut` function.
+
+```{r}
+wage_fit <- Wage %>% 
+  select(wage, age) %>%
+  mutate(cage = cut(age ,4))
+fit <- lm(wage~cage, data=wage_fit)
+coef(summary(fit))
+wage_fit <- augment(fit, wage_fit)
+ggplot(wage_fit, aes(x=cage, y=wage)) + geom_boxplot() + 
+  geom_point(data=wage_fit, aes(x=cage, y=.fitted), colour="blue", size=3) +
+  geom_point(data=wage_fit, aes(x=cage, y=.fitted+2*.se.fit), colour="blue", size=2, shape=2) +
+  geom_point(data=wage_fit, aes(x=cage, y=.fitted-2*.se.fit), colour="blue", size=2, shape=2)
+```
+
+2. Fitting GAMs
+
+This can be achieved using splines on each predictor, using polynomials on year and age. 
+
+```{r}
+library(splines)
+gam1 <- lm(wage ~ ns(year, 4) + ns(age, 3) + education, data=Wage)
+```
+
+or using the `mgcv` package:
+
+```{r}
+library(mgcv)
+library(voxel)
+wage_gamfit <- gam(wage ~ s(year, k=4) + s(age, k=3) + education, data=Wage)
+```
+
+and we can examine the model fit, by holding one variable value constant, to show the fitted values and se for the other variable. Because education os a categorical variable, displaying separate fits for each level is appropriate. Compare the results from the plots produced by the code below with those shown in the texbook. 
+
+```{r}
+library(ggpubr)
+wage_gam <- augment(wage_gamfit, Wage)
+p1 <- ggplot(wage_gam, aes(x=year, y=wage, colour=education)) + 
+  geom_point(alpha=0.1) +
+  geom_ribbon(data=filter(wage_gam, age == 50),
+              aes(ymin=.fitted-2*.se.fit, ymax=.fitted+2*.se.fit,
+                   fill=education), alpha=0.5) +
+  geom_line(data=filter(wage_gam, age == 50),
+            aes(y=.fitted, colour=education)) 
+p2 <- ggplot(wage_gam, aes(x=age, y=wage, colour=education)) + 
+  geom_point(alpha=0.1) +
+  geom_ribbon(data=filter(wage_gam, year == 2006),
+              aes(ymin=.fitted-2*.se.fit, ymax=.fitted+2*.se.fit,
+                   fill=education), alpha=0.5) +
+  geom_line(data=filter(wage_gam, year == 2006),
+            aes(y=.fitted, colour=education)) 
+ggarrange(p1, p2, ncol=2, common.legend = TRUE)
+```
+
+Fit a models with (a) linear year, (b) quadratic year, and (c) linear year with order 2 polynomial on age. Determine using `anova` which of the four models is the best fit.
+
+```{r}
+wage_gamfit2 <- gam(wage ~ year + s(age, k=3) + education, data=Wage)
+wage_gamfit3 <- gam(wage ~ s(year, k=2) + s(age, k=3) + education, data=Wage)
+wage_gamfit4 <- gam(wage ~ year + s(age, k=2) + education, data=Wage)
+anova(wage_gamfit, wage_gamfit2, wage_gamfit3, wage_gamfit4)
+```
+
+*There is no difference between these models, thus use the simplest, which is model 4.*
+
+# Practice
+
+In 2010, the National Research Council released rankings for all doctorate programs in the USA (https://en.wikipedia.org/wiki/United_States_National_Research_Council_rankings). The data was initially released and then only available for a fee. I managed to get a copy during the free period, and this is the data that we will use for this exercise. There hasn't been another set of rankings publicly released since then, and I don't know why. Only the rankings and statistics for Statistics programs are included in this data set.
+
+Your job is to answer the question: "How is R Ranking related to rankings on research, student support and diversity?" using the 5th percentile for each of these quantities. Fit your best model, try using splines, and justify your choices.
+
+```{r fig.width=8}
+nrc <- read_csv("data/nrc.csv")
+library(GGally)
+ggduo(nrc, columnsX = c(14, 16, 18), columnsY = 10)
+```
+
+```{r}
+nrc <- nrc %>% rename(R.rank = R.Rankings.5th.Percentile,
+                      Research = Research.Activity.5th.Percentile,
+                      Student = Student.Support.Outcomes.5th.Percentile,
+                      Diversity = Diversity.5th.Percentile)
+fit1 <- lm(R.rank~Research+Student+Diversity, data=nrc)
+summary(fit1)
+fit2 <- gam(R.rank~s(Research, k=2)+s(Student, k=2)+s(Diversity, k=2), data=nrc)
+summary(fit2)
+anova(fit1, fit2)
+```
+
+*The linear model is as good as any spline model for this data, despite what the anova test suggests.*
