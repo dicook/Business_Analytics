@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ETC3250: Dimension reduction</title>
+    <meta charset="utf-8">
+    <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
+    <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ETC3250: Dimension reduction
+## Semester 1, 2019
+### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
+### Week 4 (b)
+
+---
+
+
+
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[LDA]
+    - Compare with PCA
+
+]]
+.column[.top50px[
+
+.boxshadow[.orange[.content[Discriminant space]].content[: is the low-dimensional space where the class means are the furthest apart relative to the common variance-covariance.]]
+
+The discriminant space is provided by the eigenvectors after making an eigen-decomposition of `\(\Sigma^{-1}\Sigma_B\)`, where
+
+`$$\Sigma_B = \frac{1}{K}\sum_{i=1}^{K} (\mu_i-\mu)(\mu_i-\mu)'$$`
+
+and
+
+`$$\Sigma = \frac{1}{n}\sum_{i=1}^{n} (x_i-\mu_i)(x_i-\mu_i)'$$`
+
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[LDA]
+    - Compare with PCA
+    - Mahalanobis distance
+
+]]
+.column[.top50px[
+
+.split-two[
+.column[.content[
+
+
+
+&lt;img src="dimension_reduction_more_files/figure-html/unnamed-chunk-2-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]]
+
+.column[.content[
+
+&lt;br&gt;
+&lt;br&gt;
+
+Which points are closest according to .orange[Euclidean] distance?
+
+
+Which points are closest relative to the .orange[variance-covariance]?
+]]]
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[LDA]
+    - Compare with PCA
+    - Mahalanobis distance
+    - Discriminant space
+
+]]
+.column[.top50px[
+
+Both means the same. Two different variance-covariance matrices. .purple[Discriminant space] depends on the variance-covariance matrix.
+
+&lt;img src="dimension_reduction_more_files/figure-html/unnamed-chunk-3-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- LDA
+- .green[PP vs PCA]
+
+]]
+.column[.top50px[
+
+.boxshadow[.content[Projection pursuit (PP) generalises PCA]]
+
+PCA:
+
+`$$\mathop{\text{maximize}}_{\phi_{11},\dots,\phi_{p1}} \frac{1}{n}\sum_{i=1}^n 
+\left(\sum_{j=1}^p \phi_{j1}x_{ij}\right)^{\!\!\!2} \text{ subject to }
+\sum_{j=1}^p \phi^2_{j1} = 1$$`
+
+PP:
+
+`$$\mathop{\text{maximize}}_{\phi_{11},\dots,\phi_{p1}} f\left(\sum_{j=1}^p \phi_{j1}x_{ij}\right) \text{ subject to }
+\sum_{j=1}^p \phi^2_{j1} = 1$$`
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- LDA
+- PP vs PCA
+- .green[MDS]
+]]
+.column[.top50px[
+
+.boxshadow[.orange[.content[Multidimensional scaling (MDS)]] finds a low-dimensional layout of points that minimises the difference between distances computed in the *p*-dimensional space, and those computed in the low-dimensional space. ]
+
+`$$\mbox{Stress}_D(x_1, ..., x_N) = \left(\sum_{i, j=1; i\neq j}^N (d_{ij} - d_k(i,j))^2\right)^{1/2}$$`
+
+where `\(D\)` is an `\(N\times N\)` matrix of distances `\((d_{ij})\)` between all pairs of points, and `\(d_k(i,j)\)` is the distance between thee points in the low-dimensional space.
+
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- LDA
+- PP vs PCA
+- .green[MDS]
+]]
+.column[.top50px[
+
+&lt;br&gt;
+&lt;br&gt;
+- Classical MDS is the same as PCA
+- Metric MDS incorporates power transformations on the distances, `\(d_{ij}^r\)`.
+- Non-metric MDS incorporates a monotonic transformation of the distances, e.g. rank
+
+]]
+
+---
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- LDA
+- PP vs PCA
+- MDS
+- .green[nonlinear]
+]]
+.column[.top50px[
+.row[.content[
+- .orange[T-distributed Stochastic Neighbor Embedding (t-SNE)]: similar to MDS, except emphasis is placed on grouping observations into clusters. Observations within a cluster are placed close in the low-dimensional representation, but clusters themselves are placed far apart.
+]]
+.row[.content[
+- .orange[Local linear embedding (LLE)]: Finds nearest neighbours of points, defines interpoint distances relative to neighbours, and preserves these proximities in the low-dimensional mapping. Optimisation is used to solve an eigen-decomposition of the knn distance construction.
+]]
+.row[.content[
+- .orange[Self-organising maps (SOM)]: First clusters the observations into `\(k \times k\)` groups. Uses the mean of each group laid out in a constrained 2D grid to create a 2D projection.
+]]
+]]
+
+---
+class: fade-row2-col2 fade-row3-col2 
+
+---
+class:fade-row3-col2 
+count: false
+
+---
+count: false
+
+---
+layout: false
+# 👩‍💻 Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+&lt;br&gt;
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+&lt;br&gt; 
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

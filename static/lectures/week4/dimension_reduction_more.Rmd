@@ -1,0 +1,294 @@
+---
+title: "ETC3250: Dimension reduction"
+subtitle: "Semester 1, 2019"
+author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
+date: "Week 4 (b)"
+output: 
+  xaringan::moon_reader:
+    css: ["kunoichi", "ninjutsu", "mystyle.css", "libs/animate.css"]
+    lib_dir: libs
+    nature:
+      ratio: '16:9'
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(tidy = FALSE, 
+                      message = FALSE,
+                      warning = FALSE,
+                      echo = FALSE, 
+                      fig.width=8,
+                      fig.height=6,
+                      fig.align = "center",
+                      fig.retina = 2)
+options(htmltools.dir.version = FALSE)
+library(magick)
+```
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[LDA]
+    - Compare with PCA
+
+]]
+.column[.top50px[
+
+.boxshadow[.orange[.content[Discriminant space]].content[: is the low-dimensional space where the class means are the furthest apart relative to the common variance-covariance.]]
+
+The discriminant space is provided by the eigenvectors after making an eigen-decomposition of $\Sigma^{-1}\Sigma_B$, where
+
+$$\Sigma_B = \frac{1}{K}\sum_{i=1}^{K} (\mu_i-\mu)(\mu_i-\mu)'$$
+
+and
+
+$$\Sigma = \frac{1}{n}\sum_{i=1}^{n} (x_i-\mu_i)(x_i-\mu_i)'$$
+
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[LDA]
+    - Compare with PCA
+    - Mahalanobis distance
+
+]]
+.column[.top50px[
+
+.split-two[
+.column[.content[
+
+```{r}
+# Utility functions
+library(tidyverse)
+f.norm.vec<-function(x) {
+  x<-x/f.norm(x)
+  x
+}
+f.norm<-function(x) { sqrt(sum(x^2)) }
+f.gen.sphere<-function(n=100,p=5) {
+  x<-matrix(rnorm(n*p),ncol=p)
+  xnew<-t(apply(x,1,f.norm.vec))
+  xnew
+}
+f.vc.ellipse <- function(vc, xm, n=500) {
+  p<-ncol(vc)
+  x<-f.gen.sphere(n,p)
+
+  evc<-eigen(vc)
+  vc2<-(evc$vectors)%*%diag(sqrt(evc$values))%*%t(evc$vectors)
+  x<-x%*%vc2
+
+  x + matrix(rep(xm, each=n),ncol=p)
+}
+df <- f.vc.ellipse(vc=matrix(c(1,1.2,1.2,2), ncol=2), xm=c(0,0), n=1000)
+df <- as_tibble(df)
+```
+
+```{r out.width="80%", fig.width=4}
+pts <- tibble(V1=c(0, -0.5, -0.8), V2=c(0, 0.5, -1.1), label=c("A", "B", "C"))
+ggplot(df, aes(x=V1, y=V2)) + geom_point() + 
+  geom_point(data=pts, aes(x=V1, y=V2, colour=label)) +
+  geom_text(data=pts, aes(x=V1, y=V2, label=label), nudge_x = 0.1, nudge_y = 0.1) +
+  scale_colour_brewer("", palette="Dark2") +
+  xlim(c(-1.5, 1.5)) + ylim(c(-1.5, 1.5)) +
+  theme(legend.position = "none", aspect.ratio=1)
+```
+]]
+
+.column[.content[
+
+<br>
+<br>
+
+Which points are closest according to .orange[Euclidean] distance?
+
+
+Which points are closest relative to the .orange[variance-covariance]?
+]]]
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[LDA]
+    - Compare with PCA
+    - Mahalanobis distance
+    - Discriminant space
+
+]]
+.column[.top50px[
+
+Both means the same. Two different variance-covariance matrices. .purple[Discriminant space] depends on the variance-covariance matrix.
+
+```{r out.width="80%", fig.width=8}
+library(gridExtra)
+df1 <- f.vc.ellipse(vc=matrix(c(1,1.2,1.2,2), ncol=2), xm=c(0,0), n=1000)
+df1 <- as_tibble(df1)
+df2 <- f.vc.ellipse(vc=matrix(c(1,-0.3,-0.3,0.5), ncol=2), xm=c(0,0), n=1000)
+df2 <- as_tibble(df2)
+means <- tibble(V1=c(0.5, -0.5), V2=c(-0.5, 0.5), label=c("mu1", "mu2"))
+
+df3 <- df1 %>% mutate(V1=V1+means$V1[1], 
+                      V2=V2+means$V2[1])
+df4 <- df1 %>% mutate(V1=V1+means$V1[2], 
+                      V2=V2+means$V2[2])
+df <- bind_rows(df3, df4)
+p1 <- ggplot(df, aes(x=V1, y=V2)) + geom_point() + 
+  geom_point(data=means, aes(x=V1, y=V2, colour=label)) +
+  geom_text(data=means, aes(x=V1, y=V2, label=label), nudge_x = 0.2, nudge_y = 0.2) +
+  geom_abline(intercept=0, slope=-0.67, colour="purple") +
+  scale_colour_brewer("", palette="Dark2") +
+  xlim(c(-1.7, 1.7)) + ylim(c(-2, 2)) +
+  theme(legend.position = "none", aspect.ratio=1) +
+  ggtitle("Scenario 1")
+df3 <- df2 %>% mutate(V1=V1+means$V1[1], 
+                      V2=V2+means$V2[1])
+df4 <- df2 %>% mutate(V1=V1+means$V1[2], 
+                      V2=V2+means$V2[2])
+df <- bind_rows(df3, df4)
+p2 <- ggplot(df, aes(x=V1, y=V2)) + geom_point() + 
+  geom_point(data=means, aes(x=V1, y=V2, colour=label)) +
+  geom_text(data=means, aes(x=V1, y=V2, label=label), nudge_x = 0.2, nudge_y = 0.2) +
+  geom_abline(intercept=0, slope=2.14, colour="purple") +
+  scale_colour_brewer("", palette="Dark2") +
+  xlim(c(-1.7, 1.7)) + ylim(c(-1.7, 1.7)) +
+  theme(legend.position = "none", aspect.ratio=1) +
+  ggtitle("Scenario 2")
+grid.arrange(p1, p2, ncol=2)
+```
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- LDA
+- .green[PP vs PCA]
+
+]]
+.column[.top50px[
+
+.boxshadow[.content[Projection pursuit (PP) generalises PCA]]
+
+PCA:
+
+$$\mathop{\text{maximize}}_{\phi_{11},\dots,\phi_{p1}} \frac{1}{n}\sum_{i=1}^n 
+\left(\sum_{j=1}^p \phi_{j1}x_{ij}\right)^{\!\!\!2} \text{ subject to }
+\sum_{j=1}^p \phi^2_{j1} = 1$$
+
+PP:
+
+$$\mathop{\text{maximize}}_{\phi_{11},\dots,\phi_{p1}} f\left(\sum_{j=1}^p \phi_{j1}x_{ij}\right) \text{ subject to }
+\sum_{j=1}^p \phi^2_{j1} = 1$$
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- LDA
+- PP vs PCA
+- .green[MDS]
+]]
+.column[.top50px[
+
+.boxshadow[.orange[.content[Multidimensional scaling (MDS)]] finds a low-dimensional layout of points that minimises the difference between distances computed in the *p*-dimensional space, and those computed in the low-dimensional space. ]
+
+$$\mbox{Stress}_D(x_1, ..., x_N) = \left(\sum_{i, j=1; i\neq j}^N (d_{ij} - d_k(i,j))^2\right)^{1/2}$$
+
+where $D$ is an $N\times N$ matrix of distances $(d_{ij})$ between all pairs of points, and $d_k(i,j)$ is the distance between thee points in the low-dimensional space.
+
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- LDA
+- PP vs PCA
+- .green[MDS]
+]]
+.column[.top50px[
+
+<br>
+<br>
+- Classical MDS is the same as PCA
+- Metric MDS incorporates power transformations on the distances, $d_{ij}^r$.
+- Non-metric MDS incorporates a monotonic transformation of the distances, e.g. rank
+
+]]
+
+---
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- LDA
+- PP vs PCA
+- MDS
+- .green[nonlinear]
+]]
+.column[.top50px[
+.row[.content[
+- .orange[T-distributed Stochastic Neighbor Embedding (t-SNE)]: similar to MDS, except emphasis is placed on grouping observations into clusters. Observations within a cluster are placed close in the low-dimensional representation, but clusters themselves are placed far apart.
+]]
+.row[.content[
+- .orange[Local linear embedding (LLE)]: Finds nearest neighbours of points, defines interpoint distances relative to neighbours, and preserves these proximities in the low-dimensional mapping. Optimisation is used to solve an eigen-decomposition of the knn distance construction.
+]]
+.row[.content[
+- .orange[Self-organising maps (SOM)]: First clusters the observations into $k \times k$ groups. Uses the mean of each group laid out in a constrained 2D grid to create a 2D projection.
+]]
+]]
+
+---
+class: fade-row2-col2 fade-row3-col2 
+
+---
+class:fade-row3-col2 
+count: false
+
+---
+count: false
+
+---
+layout: false
+# `r set.seed(2019); emo::ji("technologist")` Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+<br>
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+<br> 
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
