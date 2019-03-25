@@ -48,7 +48,7 @@ $$\Sigma_B = \frac{1}{K}\sum_{i=1}^{K} (\mu_i-\mu)(\mu_i-\mu)'$$
 
 and
 
-$$\Sigma = \frac{1}{n}\sum_{i=1}^{n} (x_i-\mu_i)(x_i-\mu_i)'$$
+$$\Sigma = \frac{1}{K}\sum_{k=1}^K\frac{1}{n_k}\sum_{i=1}^{n_k} (x_i-\mu_k)(x_i-\mu_k)'$$
 
 
 ]]
