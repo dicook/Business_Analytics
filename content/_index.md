@@ -45,6 +45,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 [slides2](http://monba.dicook.org/lectures/week3/resampling.html) ([Rmd](http://monba.dicook.org/lectures/week3/resampling.Rmd)) 
 - Week 4: Dimension reduction, Chapter 6.3, 10.2 + instructor's notes
 [slides1](http://monba.dicook.org/lectures/week4/dimension_reduction.html) ([Rmd](http://monba.dicook.org/lectures/week4/dimension_reduction.Rmd)) 
+[slides2](http://monba.dicook.org/lectures/week4/dimension_reduction_more.html) ([Rmd](http://monba.dicook.org/lectures/week4/dimension_reduction_more.Rmd)) 
 - Week 5: Visualisation, Instructor's notes
 - Week 6: Classification,  Chapter 8
 - Week 7: Classification, Chapter 9
