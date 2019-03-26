@@ -155,7 +155,7 @@ p1 <- ggplot(df, aes(x=V1, y=V2)) + geom_point() +
   geom_text(data=means, aes(x=V1, y=V2, label=label), nudge_x = 0.2, nudge_y = 0.2) +
   geom_abline(intercept=0, slope=-0.67, colour="purple") +
   scale_colour_brewer("", palette="Dark2") +
-  xlim(c(-1.7, 1.7)) + ylim(c(-2, 2)) +
+  xlim(c(-2, 2)) + ylim(c(-2, 2)) +
   theme(legend.position = "none", aspect.ratio=1) +
   ggtitle("Scenario 1")
 df3 <- df2 %>% mutate(V1=V1+means$V1[1], 
@@ -220,7 +220,7 @@ layout: false
 
 $$\mbox{Stress}_D(x_1, ..., x_N) = \left(\sum_{i, j=1; i\neq j}^N (d_{ij} - d_k(i,j))^2\right)^{1/2}$$
 
-where $D$ is an $N\times N$ matrix of distances $(d_{ij})$ between all pairs of points, and $d_k(i,j)$ is the distance between thee points in the low-dimensional space.
+where $D$ is an $N\times N$ matrix of distances $(d_{ij})$ between all pairs of points, and $d_k(i,j)$ is the distance between the points in the low-dimensional space.
 
 
 ]]
