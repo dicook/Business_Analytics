@@ -1,0 +1,36 @@
+---
+title: "ETC3250 2019 - Lab 5"
+author: "Dianne Cook"
+date: "Week 5"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 6,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Class discussion 
+
+Textbook question, chapter 10 Q6a,b
+
+# Activities
+
+If you need to use the lab time to coordinate the team submission for assignment 2, please do.
+
+If your team has completed and coordinated their submission, and you would like to practice doing principal component analysis, work your way through the textbook lab activity 10.6.1. If you are comfortable with your tidyverse coding skills, please improve the code from that used in the textbook. (And share it with your tutor!)
+
+Also, questions 10.8, 10.10a,b are good questions to attempt. 
+
