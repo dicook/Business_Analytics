@@ -1,0 +1,179 @@
+---
+title: "ETC3250 2019 - Lab 4"
+author: "SOLUTION"
+date: "Week 4"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 6,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Class discussion 
+
+Textbook question, chapter 4 Q8
+
+*Logistic regression: 20% training error rate, 30% test error rate KNN(K=1): average error rate of 18%*
+
+*For KNN with K=1, the training error rate is 0% because for any training observation, its nearest neighbor will be the response itself. So, KNN has a test error rate of 36%. I would choose logistic regression because of its lower test error rate of 30%.*
+
+# Do it yourself
+
+1. Run the K-Nearest Neighbours classification example, in the textbook section 4.6.5. The code below, fits the model for $k=1$.
+
+```{r}
+library(tidyverse)
+library(ISLR)
+library(class)
+data(Smarket)
+Smarket_tr <- Smarket %>% 
+  dplyr::filter(Year < 2005) %>%
+  dplyr::select(Lag1, Lag2, Direction)
+Smarket_ts <- Smarket %>% 
+  dplyr::filter(Year >= 2005) %>%
+  dplyr::select(Lag1, Lag2, Direction)
+knn.pred <- knn(Smarket_tr[,1:2], Smarket_ts[,1:2],
+                Smarket_tr[,3], k=1)
+table(knn.pred, Smarket_ts[,3])
+```
+a. Compute the test error for $k=1$
+b. Re-fit the model for $k=3$, and compute the test error. How does this compare with the smaller $k$?
+c. Fit a range of values for $k$, and find the best value.
+d. Would you put your money on this classification model, to invest in stock purchases?
+
+2. Run the linear discriminant analysis for the chocolates data from the lecture notes, and compute the training and test error.
+
+# Practice
+
+1. This data is an oldy, but a goody, and contains physical measurements on three species of flea beetles. You can find it at http://www.ggobi.org/book/data/flea.csv. 
+
+*Source:* Lubischew, A. A. (1962), On the Use of Discriminant Functions in Taxonomy, Biometrics 18, 455–477.
+
+|Variable | Explanation|
+|---------|------------|
+|species | Ch. concinna, Ch. heptapotamica, and Ch. heikertingeri |
+|tars1 | width of the first joint of the first tarsus in microns|
+|tars2 | width of the second joint of the first tarsus in microns|
+|head | the maximal width of the head between the external edges of the eyes in 0.01 mm |
+|aede1 | the maximal width of the aedeagus in the fore-part in microns |
+|aede2 | the front angle of the aedeagus (1 unit = 7.5 degrees)|
+|aede3 | the aedeagus width from the side in microns|
+
+a. Read in the data, and make a scatterplot matrix, with the points coloured by species. Write a few sentences explaining what you learn about the data, and which variables seem to be most promising for distinguishing the species.
+
+```{r}
+library(MASS)
+library(caret)
+library(GGally)
+flea <- read_csv("http://www.ggobi.org/book/data/flea.csv")
+ggscatmat(flea, column=2:7, color="species") +
+  scale_colour_brewer(palette="Dark2") 
+```
+
+b. Split the data into training and test sets. Fit an LDA model, and compute training and test error. Use equal prior probabilities.
+
+```{r}
+set.seed(20190320)
+tr_indx <- createDataPartition(flea$species, p=0.67)$Resample1
+flea_tr <- flea[tr_indx,]
+flea_ts <- flea[-tr_indx,]
+flea_lda <- lda(species~., data=flea, prior=c(1/3,1/3,1/3))
+flea_tr <- flea_tr %>% mutate(pspecies = predict(flea_lda, flea_tr)$class)
+flea_ts <- flea_ts %>% mutate(pspecies = predict(flea_lda, flea_ts)$class)
+table(flea_tr$species, flea_tr$pspecies)
+table(flea_ts$species, flea_ts$pspecies)
+```
+
+c. Plot the data in the discriminant space. 
+
+```{r}
+flea_tr <- flea_tr %>% 
+  mutate(d1 = predict(flea_lda, flea_tr)$x[,1], 
+         d2 = predict(flea_lda, flea_tr)$x[,2])
+flea_ts <- flea_ts %>%   
+  mutate(d1 = predict(flea_lda, flea_ts)$x[,1], 
+         d2 = predict(flea_lda, flea_ts)$x[,2])
+ggplot(flea_tr, aes(x=d1, y=d2, colour=species)) + 
+  geom_point(alpha=0.5) +
+  geom_point(data=flea_ts, aes(x=d1, y=d2, colour=species), shape=2) +
+  scale_colour_brewer(palette="Dark2") +
+  theme(aspect.ratio=1)
+```
+
+d. Write a few sentences explaining the difference between the species in scatterplot matrix, and the 2D projection provided by the discriminant space.
+
+*The discriminant space produces a much clearer separation between the three groups.*
+
+e. Determine which variables are most important in separating the species, by computing the correlation between each variable, and the two variables defining the discriminant space.
+
+```{r}
+options(digits=2)
+cor(flea_tr[,-c(1, 8)])
+```
+
+*The highest correlations between d1 and the original variables are tars1, aede2 and aede3. d1 separates all three groups, so these three variables are important for that purpose, and aede3 contrasts tars1 and aede2 to produce the separation. With d2 the highest correlation is with aede1, and d2 separates Concinna from the other two species, which means it is also an important variable especially for distinguishing this species. This can be verified by examining the scatterplot matrix plot carefully. All of these variables in association can be seen to help to distinguish the three species.*
+
+2. This data consists of the percentage composition of fatty acids found in the lipid fraction of Italian olive oils. The data arises from a study to determine the authenticity of an olive oil. You can find it at http://www.ggobi.org/book/data/olive.csv. 
+
+*Source:* Forina, M., Armanino, C., Lanteri, S. & Tiscornia, E. (1983), Classi- fication of Olive Oils from their Fatty Acid Composition, in Martens, H. and Russwurm Jr., H., eds, Food Research and Data Analysis, Applied Science Publishers, London, pp. 189–214. It was brought to our attention by Glover & Hopke (1992).
+
+|Variable|Explanation|
+|--------|-----------|
+|region| Three "super-classes" of Italy: North, South, and the island of Sardinia|
+|area|Nine collection areas: three from the region North (Umbria, East and West Liguria), four from South (North and South Apulia, Calabria, and Sicily), and two from the island of Sardinia (inland and coastal Sardinia).|
+|palmitic, palmitoleic, stearic, oleic, linoleic, linolenic, arachidic, eicosenoic|fatty acids, % × 100|
+
+a. Download the data, and select just the variables, region, eicosenoic and linoleic. Make a plot of eicosenoic vs linoleic, coloured by region. (You will need to set region to be a factor variable.)
+
+```{r}
+olive <- read_csv("http://www.ggobi.org/book/data/olive.csv") %>%
+  mutate(region = factor(region))
+ggplot(olive, aes(x=eicosenoic, y=linoleic, colour=region)) +
+  scale_colour_brewer(palette="Dark2") +
+  geom_point() + theme(aspect.ratio=1)
+```
+
+b. Split the data into traing and test sets. Fit a linear discriminant classifier. Compute the training and test error. 
+
+```{r}
+set.seed(20190320)
+tr_indx <- createDataPartition(olive$region, p=0.67)$Resample1
+olive_tr <- olive[tr_indx,]
+olive_ts <- olive[-tr_indx,]
+olive_lda <- lda(region~eicosenoic+linoleic, data=olive, prior=c(1/3,1/3,1/3))
+olive_tr <- olive_tr %>% mutate(pregion = predict(olive_lda, olive_tr)$class)
+olive_ts <- olive_ts %>% mutate(pregion = predict(olive_lda, olive_ts)$class)
+table(olive_tr$region, olive_tr$pregion)
+table(olive_ts$region, olive_ts$pregion)
+```
+
+c. Examine the boundaries between groups. Generate a grid of points between the minimum and maximum values for the two predictors. Predict the region at these locations. Make a plot of the this data, coloured by predicted region. Overlay the data, using different plotting symbols on the grid.
+
+```{r}
+olive_grid <- expand.grid(eicosenoic=seq(0,60,1), 
+                          linoleic=seq(400, 1500, 20))
+olive_grid <- olive_grid %>% 
+  mutate(region = predict(olive_lda, olive_grid)$class)
+ggplot(olive_grid, aes(x=eicosenoic, y=linoleic, colour=region)) +
+  geom_point(alpha=0.3) + 
+  geom_point(data=olive_tr, aes(x=eicosenoic, y=linoleic, colour=region)) +
+  geom_point(data=olive_ts, aes(x=eicosenoic, y=linoleic, colour=region), shape=2) +
+  scale_colour_brewer(palette="Dark2") +
+  theme_bw() + theme(aspect.ratio=1)
+```
+
+d. Write a few sentences on why, despite the big gap between region 1 and the other two regions, LDA misclassifies several of the region 1 observations.
+
+*LDA assumes that the variance-covariance matrix for each group is the same. They are clearly not for this data, and region 1 has a much larger variability. The consequence is that the boundary is placed too close to region 1, leading to the misclassifications.*
