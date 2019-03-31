@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ETC3250: Visualisation</title>
+    <meta charset="utf-8">
+    <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
+    <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ETC3250: Visualisation
+## Semester 1, 2019
+### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
+### Week 5 (a)
+
+---
+
+
+
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Why]
+
+]]
+.column[.top50px[
+
+.split-two[
+.column[.content[
+Plots provide a more detailed statistical summary. 
+
+&lt;img src="visualisation_files/figure-html/unnamed-chunk-1-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+[Anscombe's quartet](https://en.wikipedia.org/wiki/Anscombe%27s_quartet)
+
+]]
+.column[.content[
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+All of these sets of data have the same numerical statistical summary.
+
+.font_small[.content[
+&lt;table class="table table-striped" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;font-family: monospace;background-color: #CA6627;"&gt; set &lt;/th&gt;
+   &lt;th style="text-align:right;font-family: monospace;background-color: #CA6627;"&gt; mx &lt;/th&gt;
+   &lt;th style="text-align:right;font-family: monospace;background-color: #CA6627;"&gt; my &lt;/th&gt;
+   &lt;th style="text-align:right;font-family: monospace;background-color: #CA6627;"&gt; sx &lt;/th&gt;
+   &lt;th style="text-align:right;font-family: monospace;background-color: #CA6627;"&gt; sy &lt;/th&gt;
+   &lt;th style="text-align:right;font-family: monospace;background-color: #CA6627;"&gt; r &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;border-right:1px solid;border-left:1px solid;font-family: monospace;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 7.5 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 3.32 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 0.82 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;border-right:1px solid;border-left:1px solid;font-family: monospace;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 7.5 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 3.32 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 0.82 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;border-right:1px solid;border-left:1px solid;font-family: monospace;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 7.5 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 3.32 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 0.82 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;border-right:1px solid;border-left:1px solid;font-family: monospace;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 7.5 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 3.32 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;font-family: monospace;"&gt; 0.82 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]]
+]]]
+]]
+
+
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Why]
+
+]]
+.column[.top50px[
+
+.boxshadow[Why visualise? Very .orange[different data] can have the .orange[same numerical summaries].]
+
+[Datasaurus dozen](https://www.autodeskresearch.com/publications/samestats): all have the same means, standard deviations and correlation, also.
+
+&lt;img src="visualisation_files/figure-html/unnamed-chunk-3-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Why]
+
+]]
+.column[.top50px[
+In machine learning visualisation is used for:
+
+- .orange[initial data analysis]: to examine whether the data 
+    - satisfies assumptions required for the method
+    - has unexpected complications like outliers or nonlinearity
+- .orange[assess the model fit]:    
+    - predicted vs observed
+    - residuals
+    - boundaries between classes
+
+    
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- .green[High-dim vis]
+
+]]
+.column[.top50px[
+Common methods for visualising high-dimensions
+
+- Tour
+- Parallel coordinate plot
+- Scatterplot matrix
+- Mosaic plot
+
+Most of what you find when you google "visualising high-dimensions" is awful, e.g. use colour and symbol after 3D to show 5D; PCA, MDS, tSNE, are visualisation methods; "you can't see beyond 3D".... Rubbish!
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- High-dim vis
+- .green[Tours]
+    - Dimension
+
+]]
+.column[.top50px[
+
+&lt;img src="images/cubes.png" style="width: 90%; align: center" /&gt;
+
+- When you add another variable, you implicitly add another orthogonal axis. 
+- The space is effectively a `\(p\)`-dimensional cube
+- The data might not fill the cube, and then dimension reduction might make it a `\(k(&lt;p)\)`-dimensional cube
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- High-dim vis
+- .green[Tours]
+    - Dimension
+    - Grand
+
+]]
+.column[.top50px[
+
+A .orange[grand tour] is by definition a movie of low-dimensional projections constructed in such a way that it comes arbitrarily close to showing all possible low-dimensional projections; in other words, a grand tour is a space-filling curve in the manifold of low-dimensional projections of high-dimensional data spaces.
+
+&lt;img src="img/bilby.jpeg" width="75%"&gt;
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- High-dim vis
+- .green[Tours]
+    - Dimension
+    - Grand
+    - Notation
+
+]]
+.column[.top50px[
+
+.split-60[
+.column[
+.content[
+- `\({\mathbf x}_i \in \mathcal{R}^p\)`, `\(i^{th}\)` data vector
+- `\(d\)` projection dimension
+- `\(F\)` is a `\(p\times d\)` orthonormal basis, `\(F'F=I_d\)`
+- The projection of `\({\mathbf x}\)` onto `\(F\)` is `\({\mathbf y}_i=F'{\mathbf x}_i\)`.
+- Its a movie, so the tour is indexed by time, `\(F(t)\)`, where `\(t\in [a, z]\)`. Starting and target frame denoted as `\(F_a = F(a), F_z=F(t)\)`.
+- The animation of the projected data is given by a path `\({\mathbf y}_i(t)=F'(t){\mathbf x}_i\)`.
+]]
+.column[
+.content[
+&lt;img src="images/tour_path.png" style="width: 90%; align: center" /a&gt;
+]]]
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- High-dim vis
+- .green[Tours]
+    - Dimension
+    - Grand
+    - Notation
+    - Examples
+
+]]
+.column[.top50px[
+
+
+
+`\(p=3, d=2\)`
+
+&lt;iframe src="flea3d.html" width="800" height="500" scrolling="yes" seamless="seamless" frameBorder="0"&gt; &lt;/iframe&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- High-dim vis
+- .green[Tours]
+    - Dimension
+    - Grand
+    - Notation
+    - Examples
+
+]]
+.column[.top50px[
+
+
+
+`\(p=6, d=2\)`
+
+&lt;iframe src="flea6d.html" width="800" height="500" scrolling="yes" seamless="seamless" frameBorder="0"&gt; &lt;/iframe&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- High-dim vis
+- .green[Tours]
+    - Dimension
+    - Grand
+    - Notation
+    - Examples
+
+]]
+.column[.top50px[
+
+
+
+`\(p=7, d=2\)`
+
+&lt;iframe src="track.html" width="800" height="500" scrolling="yes" seamless="seamless" frameBorder="0"&gt; &lt;/iframe&gt;
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- High-dim vis
+- .green[Tours]
+    - Dimension
+    - Grand
+    - Notation
+    - Examples
+
+]]
+.column[.top50px[
+With the grand tour, you can get a good overall sense of the distribution (shape) of the data in its `\(p\)`-dimensional space:
+
+- in the first data set, the primary shape are .orange[three well separated clusters]
+- in the track data, the primary shape is that it lives in essentially a .orange[1-D] subspace, with a small amount of variation in other directions. It is also possible to see several .orange[outliers].
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- High-dim vis
+- .green[Tours]
+    - Dimension
+    - Grand
+    - Notation
+    - Examples
+    - Guided
+
+]]
+.column[.top50px[
+
+
+.boxshadow[.font_small[.content[
+Remember: projection pursuit
+
+`$$\mathop{\text{maximize}}_{\phi_{11},\dots,\phi_{p1}} f\left(\sum_{j=1}^p \phi_{j1}x_{ij}\right) \text{ subject to }
+\sum_{j=1}^p \phi^2_{j1} = 1$$`
+]]]
+
+The guided tour chooses new target projections by optimising a function of interest:
+.font_small[
+- `holes`: This is an inverse Gaussian filter, which is optimised wheren there is not much data in the center of the projection, i.e. a "hole" or donut shape in 2D.
+- `central mass`: The opposite of holes, high density in the centre of the projection, and often "outliers" on the edges. 
+- `LDA`: An index based on the linear discrimination dimension reduction, optimised by projections where the named classes are most separated.
+]
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- High-dim vis
+- .green[Tours]
+    - Dimension
+    - Grand
+    - Notation
+    - Examples
+    - Guided
+
+]]
+.column[.top50px[
+
+
+`\(p=6, d=2,\)` guidance using the LDA index
+
+&lt;iframe src="flea6d_lda.html" width="800" height="500" scrolling="yes" seamless="seamless" frameBorder="0"&gt; &lt;/iframe&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- High-dim vis
+- .green[Tours]
+    - Dimension
+    - Grand
+    - Notation
+    - Examples
+    - Guided
+    - Usage
+
+]]
+.column[.top50px[
+
+To run a tour live:
+
+
+```r
+library(tourr)
+# On a Mac use this graphics device
+# quartz() 
+animate_xy(flea[, 1:6])
+animate(flea[, 1:6], tour_path=grand_tour(),
+  display=display_xy(axes = "bottomleft"))
+library(colorspace)
+pal &lt;- rainbow_hcl(length(levels(flea$species)))
+col &lt;- pal[as.numeric(flea$species)]
+animate_xy(flea[,-7], col=col)
+```
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- High-dim vis
+- .green[Tours]
+    - Dimension
+    - Grand
+    - Notation
+    - Examples
+    - Guided
+    - Usage
+    - Others
+
+]]
+.column[.top50px[
+
+- .orange[Little]: Interpolates between all possible pairs of variables. Like the scatterplot matrix, but animated between them.
+- .orange[Local]: Rocks back and forth from a given projection, so shows all possible projections within a radius.
+- .orange[Frozen]: Fixes some of the values of the orthonormal projection matrix and allows the others to vary freely according to any of the other tour methods. 
+- .orange[Manual]: Control the contribution of a single variable, and move along this axis. This is really useful to examine the sensitivity of structure (e.g. clustering) to the contribution of a variable. Maybe the variable can be "zero'd out" and the structure would not be affected, thus simplifying the "model". This is available in the .orange[spinifex] package.
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Why
+- High-dim vis
+- .green[Tours]
+    - Dimension
+    - Grand
+    - Notation
+    - Examples
+    - Guided
+    - Usage
+    - Others
+    - Rendering
+
+]]
+.column[.top50px[
+
+.boxshadow[
+.content[
+The projection dimension `\(d\)` can be 1, 2, 3, ... It is just a projection of the data, and then you need to decide how to *render* the data.
+]
+]
+
+- *d=1* : The projected data can be displayed as a dotplot, density, histogram, boxplot, ...
+- *d&gt;2* : Use stereo (for *d=3* ) or a scatterplot matrix (or parallel coordinate plot)
+
+
+
+]]
+---
+layout: false
+# 👩‍💻 Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+&lt;br&gt;
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+&lt;br&gt; 
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
