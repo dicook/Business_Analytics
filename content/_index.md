@@ -70,7 +70,7 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 
 ## Assignments
 
-- Assignment 1: [Instructions](http://monba.dicook.org/assignments/assignment1.html) ([Rmd](http://monba.dicook.org/assignments/assignment1.Rmd)) [possum_magic.rds](http://monba.dicook.org/assignments/data/possum_magic.rds) [wombat_stew.rds](http://monba.dicook.org/assignments/data/wombat_stew.rds)
+- Assignment 1: [Instructions](http://monba.dicook.org/assignments/assignment1.html) ([Rmd](http://monba.dicook.org/assignments/assignment1.Rmd)) [SOLUTION](http://monba.dicook.org/assignments/assignment1_solution.html) ([Rmd](http://monba.dicook.org/assignments/assignment1_solution.Rmd)) [possum_magic.rds](http://monba.dicook.org/assignments/data/possum_magic.rds) [wombat_stew.rds](http://monba.dicook.org/assignments/data/wombat_stew.rds)
 - Assignment 2: [Instructions](http://monba.dicook.org/assignments/assignment2.html) ([Rmd](http://monba.dicook.org/assignments/assignment2.Rmd))
 
 ## Data

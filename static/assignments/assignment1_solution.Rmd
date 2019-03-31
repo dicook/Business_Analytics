@@ -1,0 +1,183 @@
+---
+title: "ETC3250 Assignment 1"
+date: "SOLUTION"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      warning = FALSE, 
+                      message = FALSE)
+```
+
+## Marks
+
+- Total mark ______/25
+- Readability/citation  ______/5
+- Reproducibility  ______/5
+- Answers ______/15 
+
+## Exercises
+
+1. This question explores bias-variance trade-off. Read in the simulated data `possum_magic.rds`. This data is generated using the following function:
+
+$$ y = 2x + 10sin(x) + \varepsilon, ~~\text{where}~~x\in [-10, 20], ~~\varepsilon\sim N(0, 4^2)$$
+
+a. (1)Make a plot of the data, overlaying the true model.
+
+
+```{r echo=FALSE}
+# Read data
+possum <- readRDS("data/possum_magic.rds")
+
+# Load libraries
+library(caret)
+library(broom)
+library(tidyverse)
+
+ggplot(possum, aes(x=x, y=y)) + geom_point() +
+  geom_line(aes(y=true))
+```
+
+b. (1)Break the data into a $2/3$ training and a $1/3$ test set. (Hint: You can use the function `createDataPartition` from the `caret` package.) Fit a linear model, using the training set. Compute the training MSE and test MSE. Overlay the linear model fit on a plot of the data and true model.
+
+```{r echo=FALSE}
+# Create training and test sets
+set.seed(12032019)
+tr_indx <- createDataPartition(possum$y, p=0.67)$Resample1
+tr <- possum[tr_indx,]
+ts <- possum[-tr_indx,]
+
+# Fit linear model
+fit1 <- lm(y~x, data=tr)
+tr_aug <- augment(fit1, tr)
+ts_aug <- augment(fit1, newdata=ts)
+ts_aug$.resid <- ts_aug$y - ts_aug$.fitted
+tr_mse <- sum(tr_aug$.resid^2)/length(tr_aug$.resid)
+ts_mse <- sum(ts_aug$.resid^2)/length(ts_aug$.resid)
+
+# Plot the data and true model
+ggplot(tr, aes(x=x, y=y)) + geom_point() +
+  geom_line(aes(y=true)) + geom_line(data=tr_aug, aes(x=x, y=.fitted), colour="orange")
+```
+
+c. Now examine the behaviour of the training and test MSE, for a `loess` fit. 
+    i. (1)Look up the `loess` model fit, and write a paragraph explaining how this fitting procedure works. In particular, explain what the `span` argument does.
+    **`loess` fits a polynomial model on subsets of the data. The subsets are produced using a sliding window across the `x` variable. Within each window, the model is fitted. The predicted values are combined from all of the fits, weighted by distance from the centre of the window, and aggregated to produce a fitted value at each `x`. By default, a quadratic polynomial is used.**
+    ii. (1)Compute the training and test MSE for a range of `span` values, 0.5, 0.3, 0.2, 0.1, 0.05, 0.01. Plot the training and test MSE against the span parameter. (For each model, also make a plot of the data and fitted model, just for yourself, but not to hand in.)
+```{r echo=FALSE}
+span <- c(0.5, 0.3, 0.2, 0.1, 0.05, 0.01)
+tr_mse2 <- NULL
+ts_mse2 <- NULL
+
+# Fit a loess model and compute MSEs
+for (i in 1:length(span)) {
+  fit2 <- loess(y~x, data=tr, span=span[i])
+  tr_aug2 <- augment(fit2, tr)
+  ts_aug2 <- augment(fit2, newdata=ts)
+  ts_aug2$.resid <- ts_aug2$y - ts_aug2$.fitted
+  trm <- sum(tr_aug2$.resid^2)/length(tr_aug2$.resid)
+  tsm <- sum(ts_aug2$.resid^2, na.rm=TRUE)/
+    length(ts_aug2$.resid[!is.na(ts_aug2$.resid)])
+  tr_mse2 <- c(tr_mse2, trm)
+  ts_mse2 <- c(ts_mse2, tsm)
+}
+
+mse_df <- tibble(span, `train MSE`=tr_mse2, `test MSE`=ts_mse2)
+mse_df <- mse_df %>% gather(type, mse, -span)
+ggplot(mse_df, aes(x=-span, y=mse, colour=type)) + 
+  geom_line() + 
+  scale_x_continuous("span", labels=c(0.5, 0.3, 0.2, 0.1, 0.05, 0.01)) +
+  ylab("MSE") +
+  scale_colour_brewer("", palette="Dark2")
+```
+```{r echo=FALSE, eval=FALSE}
+# Plot the data, true model and fitted model
+ggplot(tr, aes(x=x, y=y)) + geom_point() +
+  geom_line(aes(y=true)) + geom_line(data=tr_aug2, aes(x=x, y=.fitted), colour="orange")
+```
+    iii. (2)Write a paragraph explaining the effect of increasing the flexibility of the fit has on the training and test MSE. Indicate what you think is the optimal span value for this data.
+
+**As the span gets smaller, the fit approaches the true model, as indicated by the training MSE and test NSE decreasing. At some point, it begins to fit the noise in the data, to overfit, and this can be seen by test MSE increasing. Between `0.1-0.05` would be optimal span values.**
+
+d. (2)Now examine the relationship between bias, variance and MSE. Compute the bias, MSE and hence variance, for the test set, from the fitted loess models using the `span=0.5, 0.3, 0.2, 0.1, 0.05, 0.01`. Plot these quantities: MSE, bias, variance against span. Write a few sentences explaining what you learn.
+
+```{r echo=FALSE}
+ts_mse2 <- NULL
+ts_bias2 <- NULL
+ts_var2 <- NULL
+ts_sigmasq <- NULL # provided by the simulation setup = 16
+
+for (i in 1:length(span)) {
+  fit2 <- loess(y~x, data=tr, span=span[i])
+  ts_aug2 <- augment(fit2, newdata=ts)
+  ts_aug2$.resid <- ts_aug2$y - ts_aug2$.fitted
+  tsm <- sum(ts_aug2$.resid^2, na.rm=TRUE)/
+    length(ts_aug2$.resid[!is.na(ts_aug2$.resid)])
+  tsb <- sum((ts_aug2$.fitted - ts_aug2$true)^2, na.rm=TRUE)/
+    length(ts_aug2$.resid[!is.na(ts_aug2$.resid)])
+  tsv <- tsm - tsb - 4
+  if (tsv < 0) tsv <- 0 # shouldn't have negative variance!
+  ts_mse2 <- c(ts_mse2, tsm)
+  ts_bias2 <- c(ts_bias2, tsb)
+  ts_var2 <- c(ts_var2, tsv)
+  ts_sigmasq <- c(ts_sigmasq, 4)
+}
+bv_df <- tibble(span, `test MSE`=ts_mse2, `bias sq`=ts_bias2, `variance`=ts_var2, `var epsilon`=ts_sigmasq)
+bv_df <- bv_df %>% gather(type, var, -span)
+ggplot(bv_df, aes(x=-span, y=var, colour=type)) + 
+  geom_line() + 
+  scale_x_continuous("span", labels=c(0.5, 0.3, 0.2, 0.1, 0.05, 0.01))
+```
+
+**The "irreducible error" is 16, as specified by the data generating process in the simulation setup, and corresponds to the flat blue line - I made a mistake and used 4 when simulating the data, so set this to be 4. The test error for this split is represented by the green line. The red line indicates squared bias. Purple indicates the variance.** 
+
+**With a larger span, the bias dominates the test MSE, but as the model flexibility increases, the variance becomes the dominant component of the MSE. This means that predictions on future samples are less reliable, because the model fits this particular training sample too well.**
+
+2. Using the simulated data set, `wombat_stew.rda`, answer the following questions.
+
+a. (3)Fit a linear model, using both `lm` and `glm`. Make a summary of the model fit, and you will see that they are different: `lm` reports $R^2$ but `glm` reports `deviance`. What is the relationship between these two goodness of fit statistics? Explain it, and write the R code that shows $R^2$ can be computed from the `deviance`.
+
+```{r eval=FALSE, echo=FALSE}
+# Code used to generate the data
+x1 <- runif(156, -1, 1)
+x2 <- runif(156, -1, 1)
+x3 <- runif(156, -1, 1)
+y <- 4 + 6*x1 - 2*x1^2 - 4*x2 + 3*x2^3 + 12*x3 - 10*x3^2 + rnorm(156)
+df <- tibble(x1, x2, x3, y)
+```
+
+```{r echo=FALSE}
+wombat <- readRDS("data/wombat_stew.rds")
+fit1 <- lm(y~x1+x2+x3, data=wombat)
+fit2 <- glm(y~x1+x2+x3, data=wombat)
+cat("R^2 ")
+summary(fit1)$r.squared
+cat("\n 1-deviance/null.deviance ")
+1-summary(fit2)$deviance/summary(fit2)$null.deviance
+```
+
+b. (2)Make a plot of the residuals from the model against each predictor. Overlay a smoother on each.  (Hint: The `ggduo` function from the GGally package can be useful here. You can plot a single $Y$ variable against multiple $X$ variables.) Explain why the linear model may not be appropriate for this data.
+
+**Particularly, the relationship between $e$ and $x_3$ is very nonlinear. There are also hints of nonlinearity with the other two predictors. This means that the linear model has not adequately captured the relationship between the response and predictors.**
+
+```{r echo=FALSE}
+library(GGally)
+wombat_aug1 <- augment(fit1, wombat)
+ggduo(wombat_aug1, columnsX=1:3, columnsY=7)
+```
+
+c. (2)Explore adding polynomial terms for each or all predictors, to produce the best possible model fit. Report your best $R^2$, the final fitted model, and the residual vs predictor plots. 
+
+**Using the true functional form - which the students don't know - the fitted model would be:**
+
+$$ \hat{y} = 4.075 = 5.9x_1 - 2.2x_1^2 -3.7x_2+2.4x_2^3+12.0x_3-9.9x_3^2$$
+**and:** $R^2=0.986$. **The residual plots no longer show any nonlinear patterns.**
+
+```{r echo=FALSE}
+fit3 <- lm(y~x1+I(x1^2)+x2+I(x2^3)+x3+I(x3^2), data=wombat)
+wombat_aug3 <- augment(fit3, wombat)
+ggduo(wombat_aug3, columnsX=1:3, columnsY=7)
+```
+
+**(It is not necessary for the students to get precisely the best model, but the model should have some nonlinear terms, especially in $x_3$, and the $R^2$ should be close to 0.986)**
