@@ -760,7 +760,7 @@ Summary of the principal components:
 ```{r}
 library(kableExtra)
 library(knitr)
-track_pca_smry <- tibble(evl=track_pca$sdev) %>%
+track_pca_smry <- tibble(evl=track_pca$sdev^2) %>%
   mutate(p = evl/sum(evl), cum_p = cumsum(evl/sum(evl))) %>% t() 
 colnames(track_pca_smry) <- colnames(track_pca$rotation)
 rownames(track_pca_smry) <- c("Variance", "Proportion", "Cum. prop")
@@ -772,7 +772,7 @@ kable(track_pca_smry, digits=2, align="r") %>%
   row_spec(3, color="white", background = "#CA6627")
 ```
 
-Increase in variance explained large until $k=3$ PCs, and then tapers off. A choice of .orange[3 PCs] would explain 80% of the total variance. 
+Increase in variance explained large until $k=3$ PCs, and then tapers off. A choice of .orange[3 PCs] would explain 97% of the total variance. 
 ]]
 
 ---
