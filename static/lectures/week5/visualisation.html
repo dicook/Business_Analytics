@@ -438,11 +438,13 @@ library(tourr)
 animate_xy(flea[, 1:6])
 animate(flea[, 1:6], tour_path=grand_tour(),
   display=display_xy(axes = "bottomleft"))
-library(colorspace)
-pal &lt;- rainbow_hcl(length(levels(flea$species)))
+library(RColorBrewer)
+pal &lt;- brewer.pal(3, "Dark2")
 col &lt;- pal[as.numeric(flea$species)]
 animate_xy(flea[,-7], col=col)
 ```
+
+
 
 ]]
 ---
