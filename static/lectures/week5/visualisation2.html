@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ETC3250: Visualisation</title>
+    <meta charset="utf-8">
+    <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
+    <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ETC3250: Visualisation
+## Semester 1, 2019
+### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
+### Week 5 (b)
+
+---
+
+
+
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Parallel coordinate plots]
+    - Definition
+
+]]
+.column[.top50px[
+
+.boxshadow[Parallel coordinate plots show the data using parallel axes]
+
+- Scatterplots use orthogonal axes, and are thus limited to two variables on the page.
+- Turning the axes parallel allows for many more variables to be displayed together.
+- Lines connecting the points show associations between variables.
+
+
+
+&lt;img src="images/flea_example.jpeg" style="width: 100%; align: center"&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Parallel coordinate plots]
+    - Definition
+
+]]
+.column[.top50px[
+
+Compare the tour of the flea data, with three clusters:
+
+&lt;iframe src="flea6d.html" width="800" height="500" scrolling="yes" seamless="seamless" frameBorder="0"&gt; &lt;/iframe&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Parallel coordinate plots]
+    - Definition
+    - How to read
+
+]]
+.column[.top50px[
+
+with the parallel coordinate plot:
+
+
+
+&lt;img src="images/flea_parcoord_raw.jpeg" style="width: 80%; align: center"&gt;
+
+Note: the trend in lines, that there seem to be three patterns of lines.
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Parallel coordinate plots]
+    - Definition
+    - How to read
+
+]]
+.column[.top50px[
+
+- A set of points in `\(p\)`-dimensional space map to a set of lines in `\(p\)` parallel axes
+- The pattern among and between the lines indicate structure in high-dimensions
+    - Groups of lines trending together indicate clustering
+    - Single lines trending differently to other indicate outliers
+    - Between pairs of axes intersecting lines indicate strong negative association, and parallel lines indicate strong positive association
+    
+.boxshadow[.content[
+Points in Euclidean space `\(\equiv\)` lines in parallel coordinates
+]]
+
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Parallel coordinate plots]
+    - Definition
+    - How to read
+    - Control
+
+]]
+.column[.top50px[
+
+Details that need to be controlled:
+
+- .orange[Order of axes] can affect perception of structure. Placing axes next to each other emphasizes that association
+- Variables need to be on a similar scale, and may need to be .orange[standardised]
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Parallel coordinate plots]
+    - Definition
+    - How to read
+    - Control
+    
+]]
+.column[.top50px[
+
+
+
+Unordered, default standardised scale
+
+&lt;img src="images/flea_parcoord_raw.jpeg" style="width: 80%; align: center"&gt;
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Parallel coordinate plots]
+    - Definition
+    - How to read
+    - Control
+
+]]
+.column[.top50px[
+
+.orange[Ordered], default standardised scale
+
+&lt;img src="images/flea_parcoord_ord.jpeg" style="width: 80%; align: center"&gt;
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Parallel coordinate plots]
+    - Definition
+    - How to read
+    - Control
+
+]]
+.column[.top50px[
+
+Ordered, .orange[centered] standardised scale
+
+&lt;img src="images/flea_parcoord_cntr.jpeg" style="width: 80%; align: center"&gt;
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Parallel coordinate plots]
+    - Definition
+    - How to read
+    - Control
+
+]]
+.column[.top50px[
+
+Ordered, .orange[scaled univariately to 0-1]
+
+&lt;img src="images/flea_parcoord_uni01.jpeg" style="width: 80%; align: center"&gt;
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Parallel coordinate plots]
+    - Definition
+    - How to read
+    - Control
+
+]]
+.column[.top50px[
+
+Ordered, scaled .orange[globally] to 0-1
+
+&lt;img src="images/flea_parcoord_glob01.jpeg" style="width: 80%; align: center"&gt;
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Parallel coordinate plots]
+    - Definition
+    - How to read
+    - Control
+    - Andrews curves
+
+]]
+.column[.top50px[
+
+.orange[Andrews curves]: For the `\(p\)` variables `\((x_1, ..., x_p)\)` make a fourier transform `\(f_x(t) = x_1/\sqrt{2} +\)` `\(x_2\sin(t) +\)` `\(x_3\cos(t) +\)` `\(x_4\sin(2t) +\)` `\(x_5\cos(2t)+...\)`
+
+&lt;img src="visualisation2_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+Preceded the tour, but like a tour `\((d=1)\)` laid out on a page, but algorithm is not space-filling. 
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Parallel coordinate plots
+- .green[Categorical variables]
+    - Hammock plots
+    - Mosaic plot
+
+]]
+.column[.top50px[
+
+.orange[Hammock plots] are a variation of parallel coordinate plots for categorical variables. They show the flow of groups between stacked barcharts, providing information about the association between multiple categorical variables.
+
+&lt;img src="visualisation2_files/figure-html/unnamed-chunk-5-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Parallel coordinate plots
+- .green[Categorical variables]
+    - Hammock plots
+    - Mosaic plot
+
+]]
+.column[.top50px[
+
+.orange[Mosaic plots] partition the axes sequentially on the categorical variables. 
+
+&lt;img src="visualisation2_files/figure-html/unnamed-chunk-6-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+For this data, titanic, there is a response variable, "Survived" and good practice would have this variable mapped to fill colour, because we are interested in the proportion change in response across the predictor categories.
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Parallel coordinate plots
+- .green[Categorical variables]
+    - Hammock plots
+    - Mosaic plot
+
+]]
+.column[.top50px[
+
+.orange[Mosaic plots] can handle multiple categorical variables. 
+
+&lt;img src="visualisation2_files/figure-html/unnamed-chunk-7-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Parallel coordinate plots
+- Categorical variables
+- .green[Model in the data space]
+
+]]
+.column[.top50px[
+
+.split-50[
+.column[
+Data in the model space
+
+
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter3/3.9.pdf" target="_BLANK"&gt; &lt;img src="images/3.9.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
+
+.font_tiny[(Chapter3/3.9.pdf)]
+]
+.column[
+Model in the data space
+
+
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.3.pdf" target="_BLANK"&gt; &lt;img src="images/2.3.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
+
+.orange[Try to do more of this.]
+
+]
+]
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Parallel coordinate plots
+- Categorical variables
+- Model in the data space
+- .green[Inference]
+
+]]
+.column[.top50px[
+
+Its hard to read residual plots. How do you know if the residual plot "really" has no structure?
+
+&lt;img src="visualisation2_files/figure-html/unnamed-chunk-10-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Parallel coordinate plots
+- Categorical variables
+- Model in the data space
+- .green[Inference]
+    - Which one is different?
+
+]]
+.column[.top50px[
+
+.split-three[
+.row[
+Bootstrapped residuals. If there is still structure in the residual plot, the "true" residual plot should be identifiable from the plots of bootstrapped residuals. 
+]
+.row[
+.split-50[
+.column[
+&lt;img src="visualisation2_files/figure-html/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="visualisation2_files/figure-html/unnamed-chunk-11-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+.column[
+&lt;img src="visualisation2_files/figure-html/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="visualisation2_files/figure-html/unnamed-chunk-12-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+]
+]]
+]]
+---
+layout: false
+# 👩‍💻 Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+&lt;br&gt;
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+&lt;br&gt; 
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
