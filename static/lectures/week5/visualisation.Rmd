@@ -287,19 +287,24 @@ df <- as_tibble(mydat) %>%
   mutate(species = rep(flea$species, d[3]))
 dfaxes <- as_tibble(myaxes) %>%
   mutate(labels=rep(colnames(flea[,1:3]), d[3]))
+dfaxes_mat <- dfaxes %>%
+  mutate(xloc = rep(max(df$d1)+0.4, d[3]*3), yloc=rep(seq(-0.25, 0.25, 0.2), d[3]), 
+         coef=paste(round(dfaxes$d1, 2), ", ", round(dfaxes$d2, 2)))
 p <- ggplot() +
-       geom_segment(data=dfaxes, aes(x=d1/2, xend=origin1, 
+       geom_segment(data=dfaxes, aes(x=d1/2-1.4, xend=origin1-1.4, 
                                      y=d2/2, yend=origin2, 
                                      frame = indx), colour="grey70") +
-       geom_text(data=dfaxes, aes(x=d1/2, y=d2/2, label=labels, 
+       geom_text(data=dfaxes, aes(x=d1/2-1.4, y=d2/2, label=labels, 
                                   frame = indx), colour="grey70") +
        geom_point(data = df, aes(x = d1, y = d2, colour=species, 
                                  frame = indx), size=1) +
        scale_colour_brewer(palette = "Dark2") +
+       geom_text(data=dfaxes_mat, aes(x=xloc, y=yloc, 
+                                  label=coef, frame = indx)) + 
        theme_void() +
        coord_fixed() +
   theme(legend.position="none")
-pg <- ggplotly(p, width=400, height=400) %>%
+pg <- ggplotly(p, width=700, height=400) %>%
   animation_opts(200, redraw = FALSE, 
                  easing = "linear", transition=0)
 save_html(pg, file="flea3d.html")
@@ -354,19 +359,24 @@ df <- as_tibble(mydat) %>%
   mutate(species = rep(flea$species, d[3]))
 dfaxes <- as_tibble(myaxes) %>%
   mutate(labels=rep(colnames(flea[,1:6]), d[3]))
+dfaxes_mat <- dfaxes %>%
+  mutate(xloc = rep(max(df$d1)+0.4, d[3]*6), yloc=rep(seq(-0.25, 0.25, 0.1), d[3]), 
+         coef=paste(round(dfaxes$d1, 2), ", ", round(dfaxes$d2, 2)))
 p <- ggplot() +
-       geom_segment(data=dfaxes, aes(x=d1/2, xend=origin1, 
+       geom_segment(data=dfaxes, aes(x=d1/2-1.4, xend=origin1-1.4, 
                                      y=d2/2, yend=origin2, 
                                      frame = indx), colour="grey70") +
-       geom_text(data=dfaxes, aes(x=d1/2, y=d2/2, label=labels, 
+       geom_text(data=dfaxes, aes(x=d1/2-1.4, y=d2/2, label=labels, 
                                   frame = indx), colour="grey70") +
        geom_point(data = df, aes(x = d1, y = d2, colour=species, 
                                  frame = indx), size=1) +
+       geom_text(data=dfaxes_mat, aes(x=xloc, y=yloc, 
+                                  label=coef, frame = indx)) + 
        scale_colour_brewer(palette = "Dark2") +
        theme_void() +
        coord_fixed() +
   theme(legend.position="none")
-pg <- ggplotly(p, width=400, height=400) %>%
+pg <- ggplotly(p, width=700, height=400) %>%
   animation_opts(200, redraw = FALSE, 
                  easing = "linear", transition=0)
 save_html(pg, file="flea6d.html")
@@ -422,18 +432,23 @@ df <- as_tibble(mydat) %>%
   mutate(cnt = rep(1:55, d[3]))
 dfaxes <- as_tibble(myaxes) %>%
   mutate(labels=rep(colnames(track[,1:7]), d[3]))
+dfaxes_mat <- dfaxes %>%
+  mutate(xloc = rep(max(df$d1)+0.4, d[3]*7), yloc=rep(seq(-0.45, 0.45, 0.15), d[3]), 
+         coef=paste(round(dfaxes$d1, 2), ", ", round(dfaxes$d2, 2)))
 p <- ggplot() +
-       geom_segment(data=dfaxes, aes(x=d1/2, xend=origin1, 
+       geom_segment(data=dfaxes, aes(x=d1/2-1.4, xend=origin1-1.4, 
                                      y=d2/2, yend=origin2, 
                                      frame = indx), colour="grey70") +
-       geom_text(data=dfaxes, aes(x=d1/2, y=d2/2, label=labels, 
+       geom_text(data=dfaxes, aes(x=d1/2-1.4, y=d2/2, label=labels, 
                                   frame = indx), colour="grey70") +
        geom_point(data = df, aes(x = d1, y = d2, 
             frame = indx, label=cnt), size=1) +
+       geom_text(data=dfaxes_mat, aes(x=xloc, y=yloc, 
+                                  label=coef, frame = indx)) + 
        theme_void() +
        coord_fixed() +
   theme(legend.position="none")
-pg <- ggplotly(p, width=400, height=400, tooltip = "label") %>%
+pg <- ggplotly(p, width=700, height=400, tooltip = "label") %>%
   animation_opts(200, redraw = FALSE, 
                  easing = "linear", transition=0)
 save_html(pg, file="track.html")
@@ -542,19 +557,24 @@ df <- as_tibble(mydat) %>%
   mutate(species = rep(flea$species, d[3]))
 dfaxes <- as_tibble(myaxes) %>%
   mutate(labels=rep(colnames(flea[,1:6]), d[3]))
+dfaxes_mat <- dfaxes %>%
+  mutate(xloc = rep(max(df$d1)+0.4, d[3]*6), yloc=rep(seq(-0.25, 0.25, 0.1), d[3]), 
+         coef=paste(round(dfaxes$d1, 2), ", ", round(dfaxes$d2, 2)))
 p <- ggplot() +
-       geom_segment(data=dfaxes, aes(x=d1/2, xend=origin1, 
+       geom_segment(data=dfaxes, aes(x=d1/2-1.4, xend=origin1-1.4, 
                                      y=d2/2, yend=origin2, 
                                      frame = indx), colour="grey70") +
-       geom_text(data=dfaxes, aes(x=d1/2, y=d2/2, label=labels, 
+       geom_text(data=dfaxes, aes(x=d1/2-1.4, y=d2/2, label=labels, 
                                   frame = indx), colour="grey70") +
        geom_point(data = df, aes(x = d1, y = d2, colour=species, 
                                  frame = indx), size=1) +
+       geom_text(data=dfaxes_mat, aes(x=xloc, y=yloc, 
+                                  label=coef, frame = indx)) + 
        scale_colour_brewer(palette = "Dark2") +
        theme_void() +
        coord_fixed() +
   theme(legend.position="none")
-pg <- ggplotly(p, width=400, height=400) %>%
+pg <- ggplotly(p, width=700, height=400) %>%
   animation_opts(200, redraw = FALSE, 
                  easing = "linear", transition=0)
 save_html(pg, file="flea6d_lda.html")
@@ -595,10 +615,27 @@ library(tourr)
 animate_xy(flea[, 1:6])
 animate(flea[, 1:6], tour_path=grand_tour(),
   display=display_xy(axes = "bottomleft"))
-library(colorspace)
-pal <- rainbow_hcl(length(levels(flea$species)))
+library(RColorBrewer)
+pal <- brewer.pal(3, "Dark2")
 col <- pal[as.numeric(flea$species)]
 animate_xy(flea[,-7], col=col)
+```
+
+```{r eval=FALSE}
+animate_xy(flea[,-7], col=col, axes = "bottomleft")
+animate_xy(flea[,-7], tour_path=guided_tour(holes()), sphere = TRUE, col=col, axes = "bottomleft")
+animate_xy(flea[,-7], tour_path=guided_tour(lda_pp(flea$species)), sphere = TRUE, col=col, axes = "bottomleft")
+library(geozoo)
+cube3 <- cube.face()$points
+animate_xy(cube3, axes = "bottomleft")
+cube4 <- cube.face(4)$points
+animate_xy(cube4, axes = "bottomleft")
+cube10 <- cube.face(10)$points
+animate_xy(cube10, axes = "bottomleft")
+sphere3 <- data.frame(sphere.hollow()$points)
+animate_xy(sphere3, axes = "bottomleft")
+sphere10 <- data.frame(sphere.hollow(10)$points)
+animate_xy(sphere10, axes = "bottomleft")
 ```
 
 ]]
