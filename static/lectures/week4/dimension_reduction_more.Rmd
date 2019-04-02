@@ -166,12 +166,28 @@ df <- bind_rows(df3, df4)
 p2 <- ggplot(df, aes(x=V1, y=V2)) + geom_point() + 
   geom_point(data=means, aes(x=V1, y=V2, colour=label)) +
   geom_text(data=means, aes(x=V1, y=V2, label=label), nudge_x = 0.2, nudge_y = 0.2) +
-  geom_abline(intercept=0, slope=2.14, colour="purple") +
+  geom_abline(intercept=0, slope=3.03, colour="purple") +
   scale_colour_brewer("", palette="Dark2") +
   xlim(c(-1.7, 1.7)) + ylim(c(-1.7, 1.7)) +
   theme(legend.position = "none", aspect.ratio=1) +
   ggtitle("Scenario 2")
 grid.arrange(p1, p2, ncol=2)
+```
+
+```{r eval=FALSE}
+# This code helps estimate the slope in the above diagram
+library(mvtnorm)
+library(MASS)
+mydat1 <- data.frame(rbind(rmvnorm(250, mean=c(0.5, -0.5), sigma=matrix(c(1,1.2,1.2,2), ncol=2)),
+                rmvnorm(250, mean=c(-0.5, 0.5), sigma=matrix(c(1,1.2,1.2,2), ncol=2))))
+mydat1$class <- c(rep(1, 250), rep(2, 250))
+lda(class~X1+X2, data=mydat1)
+
+mydat2 <- data.frame(rbind(
+  rmvnorm(250, mean=c(0.5, -0.5), sigma=matrix(c(1,-0.3,-0.3,0.5), ncol=2)),
+  rmvnorm(250, mean=c(-0.5, 0.5), sigma=matrix(c(1,-0.3,-0.3,0.5), ncol=2))))
+mydat2$class <- c(rep(1, 250), rep(2, 250))
+lda(class~X1+X2, data=mydat2)
 ```
 
 ]]
