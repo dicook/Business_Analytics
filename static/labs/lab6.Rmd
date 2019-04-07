@@ -70,7 +70,7 @@ save_html(pg, file="tour1.html")
 
 ```
 
-- In tour 2, where three classes have been coloured, how many additional clusters do you see?
+- In tour 2, where three classes have been coloured, how many additional clusters do you see? [tour2](https://monba.dicook.org/labs/tour2.html)
 
 ```{r eval=FALSE}
 quartz()
