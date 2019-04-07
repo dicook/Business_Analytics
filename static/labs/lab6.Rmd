@@ -1,0 +1,157 @@
+---
+title: "ETC3250 2019 - Lab 6"
+author: "Dianne Cook"
+date: "Week 6"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 6,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Class discussion 
+
+- In tour 1, how many clusters do you see? [tour1](https://monba.dicook.org/labs/tour1.html)
+
+```{r eval=FALSE}
+library(tidyverse)
+olive <- read_csv("http://www.ggobi.org/book/data/olive.csv") %>%
+  select(-X1)
+library(tourr)
+quartz()
+animate_xy(olive[,3:10], axes="off")
+```
+
+```{r eval=FALSE}
+# create animation
+library(plotly)
+library(htmltools)
+set.seed(20190331)
+bases <- save_history(olive[,3:10], grand_tour(2), 
+    start=matrix(c(1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0), ncol=2, byrow=TRUE), 
+    max = 15)
+# Re-set start bc seems to go awry
+bases[,,1] <- matrix(c(1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0), ncol=2, byrow=TRUE)
+tour_path <- interpolate(bases, 0.1)
+d <- dim(tour_path)
+olive_std <- tourr::rescale(olive[,3:10])
+mydat <- NULL; 
+for (i in 1:d[3]) {
+  fp <- as.matrix(olive_std) %*% matrix(tour_path[,,i], ncol=2)
+  fp <- tourr::center(fp)
+  colnames(fp) <- c("d1", "d2")
+  mydat <- rbind(mydat, cbind(fp, rep(i+10, nrow(fp))))
+}
+colnames(mydat)[3] <- "indx"
+df <- as_tibble(mydat) 
+p <- ggplot() +
+       geom_point(data = df, aes(x = d1, y = d2, 
+                                 frame = indx), size=1) +
+       theme_void() +
+       coord_fixed() +
+  theme(legend.position="none")
+pg <- ggplotly(p, width=400, height=400) %>%
+  animation_opts(200, redraw = FALSE, 
+                 easing = "linear", transition=0)
+save_html(pg, file="tour1.html")
+
+```
+
+- In tour 2, where three classes have been coloured, how many additional clusters do you see?
+
+```{r eval=FALSE}
+quartz()
+library(RColorBrewer)
+pal <- brewer.pal(3, "Dark2")
+col <- pal[olive$Region]
+animate_xy(olive[,3:10], axes="off", col=col)
+```
+
+```{r eval=FALSE}
+# create animation
+df <- df %>%
+  mutate(region=factor(rep(olive$region, d[3])))
+p <- ggplot() +
+       geom_point(data = df, aes(x = d1, y = d2, colour=region,
+                                 frame = indx), size=1) +
+       scale_colour_brewer("", palette="Dark2") +
+       theme_void() +
+       coord_fixed() +
+  theme(legend.position="none")
+pg <- ggplotly(p, width=400, height=400) %>%
+  animation_opts(200, redraw = FALSE, 
+                 easing = "linear", transition=0)
+save_html(pg, file="tour2.html")
+
+```
+
+# Do it yourself
+
+This is basically replicating the plots made in the class notes. 
+
+1. Compute the means, standard deviations and correlation for the datasaurus dozen, and check that they are indeed all the same.
+2. Run a 2D projection grand tour for
+    a. the 6D flea data
+    b. the 7D womens track data
+3. Run a 2D guided tour 
+    a. using the holes index for the 6D flea data
+    b. using the lda_pp index for the 6D flea data, using species as the class
+    c. using the cmass index for the 7D womens track data
+4. Make a parallel coordinate plot for 6D flea data, coloured by species, with
+    a. axes ordered by any class
+    b. axes ordered by all classes
+
+# Practice
+
+
+This exercise uses the chocolates data. 
+
+*About the data*: The chocolates data was compiled by students in a previous class of Prof Cook, by collecting nutrition information on the chocolates as listed on their internet sites. All numbers were normalised to be equivalent to a 100g serving. Units of measurement are listed in the variable name.
+
+```{r eval=FALSE}
+library(tidyverse)
+choc <- read_csv("data/chocolates.csv")
+choc <- choc %>% mutate(Type = as.factor(Type))
+```
+
+1. Use the tour, with type of chocolate mapped to colour, and write a paragraph on whether the two types of chocolate differ on the nutritional variables. 
+
+```{r eval=FALSE}
+quartz()
+library(RColorBrewer)
+pal <- brewer.pal(3, "Dark2")
+col <- pal[as.numeric(choc$Type)]
+animate_xy(???, axes="bottomleft", col=col)
+```
+
+2. Make a parallel coordinate plot of the chocolates, coloured by type, with the variables sorted by how well they separate the groups. Maybe the "uniminmax" scaling might work best for this data. Write a paragraph explaining how the types of chocolates differ in nutritional characteristics.
+
+```{r eval=FALSE}
+library(GGally)
+library(plotly)
+p <- ggparcoord(choc, columns = ???, groupColumn = ???, order=???, scale=???) +
+  scale_color_brewer(palette="Dark2") + ylab("")
+ggplotly(???)
+```
+
+3. Identify one dark chocolate that is masquerading as dark, that is, nutritionally looks more like a milk chocolate. Explain your answer. 
+
+```{r eval=FALSE}
+ggplot(choc, aes(x=???, y=???, colour=???, label=paste(MFR, Name))) + geom_point() +
+  scale_color_brewer(palette="Dark2") + theme(aspect.ratio=1)
+ggplotly()
+```
+
