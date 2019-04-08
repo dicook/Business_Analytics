@@ -1,0 +1,88 @@
+---
+title: "ETC3250 Assignment 3"
+date: "DUE: Tuesday 16/4/2019 before start of class"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  eval = FALSE,
+  message = FALSE,
+  warning = FALSE)
+```
+
+## Instructions
+
+- Assignment needs to be turned in as Rmarkdown, and as html, to moodle. That is, two files need to be submitted.
+- You need to list your team members on the report. For each of the four assignments, one team member needs to be nominated as the leader, and is responsible for coordinating the efforts of other team members, and submitting the assignment. 
+- It is strongly recommended that you individually complete the assignment, and then compare your answers and explanations with your team mates. Each student will have the opportunity to report on other team member's efforts on the assignment, and if a member does not substantially contribute to the team submission they may get a reduced mark, or even a zero mark.
+- R code should be hidden in the final report, unless it is specifically requested.
+- Original work is expected. Any material used from external sources needs to be acknowledged. 
+- To make it a little easier for you, a skeleton of R code is provided in the `Rmd` file. Where you see `???` means that something is missing and you will need to fill it in with the appropriate function, argument or operator. You will also need to rearrange the code as necessary to do the calculations needed.
+
+## Marks
+
+- Total mark will be out or 25
+- 5 points will be reserved for readability, and appropriate citing of external sources 
+- 5 points will be reserved for reproducibility, that the report can be re-generated from the submitted Rmarkdown. 
+- Accuracy and completeness of answers, and clarity of explanations will be the basis for the remaining 15 points. 
+
+## Exercises
+
+1. *About the data*: The chocolates data was compiled by students in a previous class of Prof Cook, by collecting nutrition information on the chocolates as listed on their internet sites. All numbers were normalised to be equivalent to a 100g serving. Units of measurement are listed in the variable name.
+```{r eval=FALSE}
+library(tidyverse)
+choc <- read_csv("data/chocolates.csv")
+choc <- choc %>% mutate(Type = as.factor(Type))
+```
+    a. Use the tour, with type of chocolate mapped to colour, and write a paragraph on whether the two types of chocolate differ on the nutritional variables. 
+```{r eval=FALSE}
+quartz()
+library(RColorBrewer)
+pal <- brewer.pal(3, "Dark2")
+col <- pal[as.numeric(choc$Type)]
+animate_xy(???, axes="bottomleft", col=col)
+```
+    b. Make a parallel coordinate plot of the chocolates, coloured by type, with the variables sorted by how well they separate the groups. Maybe the "uniminmax" scaling might work best for this data. Write a paragraph explaining how the types of chocolates differ in nutritional characteristics.
+```{r eval=FALSE}
+library(GGally)
+library(plotly)
+p <- ggparcoord(choc, columns = ???, groupColumn = ???, order=???, scale=???) +
+  scale_color_brewer(palette="Dark2") + ylab("")
+ggplotly(???)
+```
+    c. Identify one dark chocolate that is masquerading as dark, that is, nutritionally looks more like a milk chocolate. Explain your answer. 
+```{r eval=FALSE}
+ggplot(choc, aes(x=???, y=???, colour=???, label=paste(MFR, Name))) + geom_point() +
+  scale_color_brewer(palette="Dark2") + theme(aspect.ratio=1)
+ggplotly()
+```
+2. Subset the olive oil data to regions 2, 3 only. 
+    a. Fit a linear discriminant analysis model. 
+    b. Write down the rule. Make it clear which region is class 1 and class 2 relative to the formula in the notes.
+
+3. This question is about decision trees. Here is a sample data set to work with:
+```
+# A tibble: 6 x 2
+id    x     class
+1    -4     1
+2     1     1
+3     3     2
+4     4     1
+5     5     1
+6     6     2
+7     8     2
+```
+    a. Write down the formulae for the impurity metric, entropy. Show that the entropy function ($-plog(p)-(1-p)log(1-p))$) has its highest value at 0.5. Does it matter what base (2, e, 10, ...) for the log you use? Explain why a value of 0.5 leads to the worst possible split. 
+    b. Write an function to compute impurity measure, entropy, for a data partitition. 
+    c. Use your function to compute the entropy impurity measure for every possible split of the sample data. 
+    d. Make a plot of your splits and the impurity measure. Where would the split be made?
+    e. Subset the olive oil data to regions 2, 3 only. Fit a classification tree to this data. Summarise the model fit, by writing out the decision tree.
+    e. Compute entropy impurity measure for all possible splits on linoleic acid. Plot this against the splits. Explain where the best split is.
+    f. Compute entropy impurity measure for all possible splits on all of the other variables, except for eicosenoic acid. Plot all of these values against the split, all six plots. Are there other possible candiadates for splitting, that are almost as good as the one chosen by the tree? Explain yourself.
+
+4. In the simulated data provided, `vis_challenge.csv`, determine how many groups there are, and whether there are any outliers. Explain your answers.
+
