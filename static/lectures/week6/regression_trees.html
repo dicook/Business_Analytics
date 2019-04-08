@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>ETC3250: Tree-based Models</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
+    <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ETC3250: Tree-based Models
+## Semester 1, 2019
+### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
+### Week 6 (a)
+
+---
+
+
+
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[What is a tree?]
+
+]]
+.column[.top50px[
+
+
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-1-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+```
+## n= 263 
+## 
+## node), split, n, deviance, yval
+##       * denotes terminal node
+## 
+## 1) root 263 39.071620 2.574160  
+##   2) Years&lt; 4.5 90  7.988302 2.217851 *
+##   3) Years&gt;=4.5 173 13.713070 2.759523  
+##     6) Hits&lt; 117.5 90  5.298802 2.605063 *
+##     7) Hits&gt;=117.5 83  3.938792 2.927009 *
+```
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[What is a tree?]
+ 
+
+]]
+.column[.top50px[
+
+
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-2-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+]]
+
+---
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[What is a tree?]
+
+
+]]
+.column[.top50px[
+
+
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[What is a tree?]
+ 
+
+]]
+.column[.top50px[
+
+
+
+```
+## n= 263 
+## 
+## node), split, n, deviance, yval
+##       * denotes terminal node
+## 
+##  1) root 263 53319110.0  535.9259  
+##    2) Years&lt; 4.5 90  6769171.0  225.8315 *
+##    3) Years&gt;=4.5 173 33393450.0  697.2467  
+##      6) Hits&lt; 117.5 90  5312120.0  464.9167 *
+##      7) Hits&gt;=117.5 83 17955720.0  949.1708  
+##       14) Hits&lt; 185 76 13290200.0  914.3246  
+##         28) Years&lt; 5.5 8    82787.5  622.5000 *
+##         29) Years&gt;=5.5 68 12445970.0  948.6570 *
+##       15) Hits&gt;=185 7  3571312.0 1327.5000 *
+```
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[What is a tree?]
+
+]]
+.column[.top50px[
+
+
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-5-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- What is a tree?
+- .green[Regression]
+    - Description
+
+]]
+.column[.top50px[
+
+
+- We divide the predictor space - that is, the set of possible values for `\(X_1,X_2, . . .,X_p\)` - into `\(J\)` .orange[distinct] and .orange[non-overlapping] regions, `\(R_1,R_2, . . . , R_J\)`.
+- The regions could have any shape. However, for simplicity and for ease of interpretation, we divide the predictor space into high-dimensional .orange[rectangles].
+- We model the response as a constant `\(c_j\)` in each region
+`\(f(x) = \sum_{j = 1}^J c_j ~ I(x \in R_j)\)`
+
+e.g.
+
+ `\({R_1} = \{X | Years &lt; 4.5 \}\)`
+ `\({R_2} = \{X | Years \geq 4.5, Hits &lt; 117.5 \}\)`
+ `\({R_3} = \{X | Years \geq 4.5, Hits \geq 117.5 \}\)`
+]]
+
+---
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- What is a tree?
+- .green[Regression]
+    - Description
+
+]]
+.column[.top50px[
+
+.split-two[
+.row[.content[
+- `\(R_1\)`, `\(R_2\)`, `\(R_3\)` are .orange[terminal nodes] or .orange[leaves].
+- The points where we split are .orange[internal nodes].
+- The segments that connect the nodes are .orange[branches].
+]]
+.row[.content[
+.split-70[
+.column[.font_tiny[.content[
+
+```
+## n= 263 
+## 
+## node), split, n, deviance, yval
+##       * denotes terminal node
+## 
+## 1) root 263 39.071620 2.574160  
+##   2) Years&lt; 4.5 90  7.988302 2.217851 *
+##   3) Years&gt;=4.5 173 13.713070 2.759523  
+##     6) Hits&lt; 117.5 90  5.298802 2.605063 *
+##     7) Hits&gt;=117.5 83  3.938792 2.927009 *
+```
+]]]
+.column[.content[
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+]]
+]]]
+]
+]]	
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- What is a tree?
+- .green[Regression]
+    - Description
+
+]]
+.column[.top50px[
+
+
+
+.split-40[
+.column[
+
+
+`\(f(X) = \beta_0 + \sum_{j = 1}^p X_j	\beta_j\)`
+
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter2/2.4.pdf" target="_BLANK"&gt; &lt;img src="images/2.4.png" style="width: 80%; align: center"/&gt;  &lt;/a&gt;
+
+]
+
+.column[.content[
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+.boxshadow[.content[
+`$$f(X) = \sum_{m = 1}^M c_m ~ I(X \in R_m)$$`
+]]
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter8/8.3.pdf" target="_BLANK"&gt; &lt;img src="images/8.3a.png" style="width: 80%; align: center"/&gt; &lt;/a&gt;
+
+
+
+
+]]]
+]]
+
+---
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- What is a tree?
+- .green[Regression]
+    - Description
+    - Algorithm
+
+]]
+.column[.top50px[
+
+.row[.content[
+1. Given a partition `\(R_1, R_2, \dots, R_M\)`, what are the optimal values of `\(c_m\)` if we want to minimize `\(\sum_i (y_i - f(x_i) )^2\)`?
+2.  How do we construct the regions `\(R_1, . . .,R_M\)`?
+]]
+.row[.content[
+ The best `\(c_m\)` is just the average of `\(y_i\)` in region `\(R_m\)`: `\(\hat{c}_m = \text{average}(y_i|x_i \in R_m).\)`
+]]
+.row[.content[
+Finding the best binary partition in terms of minimum sum of squares is generally *computationally infeasible*. For this reason, we take a *top-down*, *greedy* approach that is known as .orange[recursive binary splitting].
+]]
+
+]]
+
+---
+class: fade-row2 fade-row3
+count: false
+---
+class: fade-row3
+count: false
+---
+count: false
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- What is a tree?
+- .green[Regression]
+    - Description
+    - Algorithm
+
+]]
+.column[.top50px[
+
+- .orange[Top-down]: it begins at the top of the tree (all observations belong to a single region) and then successively splits the predictor space; each split is indicated via two new branches further down on the tree.
+- .orange[Greedy]: at each step of the tree-building process, the best split is made at that particular step, rather than looking ahead and picking a split that will lead to a better tree in some future step.
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- What is a tree?
+- .green[Regression]
+    - Description
+    - Algorithm
+
+]]
+.column[.top50px[
+
+1. Start with a single region `\(R_1\)` (entire input space), and iterate:
+
+    a. Select a region `\(R_m\)`, a predictor `\(X_j\)` , and a splitting point `\(s\)`, such that splitting `\(R_m\)` with the criterion `\(X_j &lt; s\)` produces the largest decrease in RSS
+    
+    b.  Redefine the regions with this additional split.
+    
+2. Continues until stopping criterion reached.
+]]	
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- What is a tree?
+- .green[Regression]
+    - Description
+    - Algorithm
+    - Stopping
+
+]]
+.column[.top50px[
+
+- `\(N_m &lt; a\)`: Number of observations in `\(R_m\)` is too small to further splitting (`minsplit`). (There is usually another control criteria, even if `\(N_m\)` is large enough, you can't split it small number of observations off, e.g. 1 and `\(N_m-1\)`, `minbucket`. )
+- RSS `\(&lt; tol\)`: If reduction of error is too small to bother splitting further. (`cp` parameter in `rpart` measures this as a proportional drop. )
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- What is a tree?
+- .green[Regression]
+    - Description
+    - Algorithm
+    - Stopping
+    - Diagnostics
+
+]]
+.column[.top50px[
+
+.boxshadow[.content[Residual Sum of Squared Error]]
+
+`$$\mbox{RSS}(T) = \sum_{m = 1}^{|T|}  N_m Q_m(T), ~~ N_m = \#\{x_i \in R_m\},$$`
+where `\(Q_m(T) = \frac{1}{N_m } \sum_{x_i \in R_m} (y_i - \hat{c}_m)^2\)` and `\(|T|\)` is the number of terminal nodes in `\(T\)`.
+
+]]
+---
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- What is a tree?
+- .green[Regression]
+    - Description
+    - Algorithm
+    - Stopping
+    - Size of tree
+
+]]
+.column[.top50px[
+
+.row[.content[
+- It is possible to produce good predictions on the **training set**, but is likely to .orange[overfit] the data (trees are very flexible).
+]]
+.row[.content[
+- A smaller tree with fewer splits (that is, fewer regions) might lead to .orange[lower variance] and better interpretation at the cost of a .orange[little bias].
+]]
+.row[.content[
+- Tree size is a tuning parameter governing the **model’s complexity**, and the optimal tree size should be adaptively chosen from the data
+]]
+.row[.content[
+- Produce splits only if RSS decrease exceeds some **(high) threshold** can mean that a low gain split early on, might stop the fitting, even though there may be a very good split later.
+]]
+
+]]
+---
+class: fade-row2 fade-row3 fade-row4
+count: false
+---
+class: fade-row3 fade-row4
+count: false
+---
+class: fade-row4
+count: false
+---
+count: false
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- What is a tree?
+- .green[Regression]
+    - Description
+    - Algorithm
+    - Stopping
+    - Size of tree
+    - Pruning
+
+]]
+.column[.top50px[
+
+Grow a big tree, `\(T_0\)`, and then **prune** it back. The *pruning* procedure is:
+
+- Starting with with the initial full tree `\(T_0\)`, replace a subtree with a leaf node to obtain a new tree `\(T_1\)`. Select subtree to prune by minimizing 
+`$$\frac{ \text{RSS}(T_1) - \text{RSS}(T_0) }{|T_1| - |T_0| }$$`
+- Iteratively prune to obtain a sequence `\(T_0, T_1, T_2, \dots, T_{R}\)` where `\(T_{R}\)` is the tree with a single leaf node.
+- Select the optimal tree `\(T_m\)` by cross validation
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- What is a tree?
+- .green[Regression]
+    - Description
+    - Algorithm
+    - Stopping
+    - Size of tree
+    - Pruning
+    - Model selection
+
+]]
+.column[.top50px[
+
+Using a 50-50 training test set split.
+
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-9-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+class: split-50
+layout: false
+
+.column[.pad10px[
+
+Yielding this model: 
+
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]]
+.column[.top10px[
+
+&lt;br&gt;
+&lt;br&gt;
+
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-11-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+]]
+
+---
+class: split-50
+layout: false
+
+.column[.pad10px[
+
+Cross-validation recommendation suggests more. 
+
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-12-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+]]
+.column[.top10px[
+&lt;br&gt;
+&lt;br&gt;
+
+&lt;img src="regression_trees_files/figure-html/unnamed-chunk-13-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]]
+
+
+
+---
+layout: false
+# 👩‍💻 Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+&lt;br&gt;
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+&lt;br&gt; 
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
