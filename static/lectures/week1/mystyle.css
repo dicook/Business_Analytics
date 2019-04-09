@@ -200,3 +200,7 @@ ul li li:before {
   background-color: var(--color-light-gray);
   box-shadow: 5px 5px 10px var(--color-gray);
 }
+
+table, th, td {   
+  border: 10px; 
+}

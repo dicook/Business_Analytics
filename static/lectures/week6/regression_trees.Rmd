@@ -161,10 +161,10 @@ layout: false
 .column[.top50px[
 
 
-- We divide the predictor space - that is, the set of possible values for $X_1,X_2, . . .,X_p$ - into $J$ .orange[distinct] and .orange[non-overlapping] regions, $R_1,R_2, . . . , R_J$.
+- We divide the predictor space - that is, the set of possible values for $X_1,X_2, . . .,X_p$ - into $J$ .orange[distinct] and .orange[non-overlapping] regions, $R_1,R_2, . . . , R_M$.
 - The regions could have any shape. However, for simplicity and for ease of interpretation, we divide the predictor space into high-dimensional .orange[rectangles].
 - We model the response as a constant $c_j$ in each region
-$f(x) = \sum_{j = 1}^J c_j ~ I(x \in R_j)$
+$f(x) = \sum_{j = 1}^J c_j ~ I(x \in R_m)$
 
 e.g.
 

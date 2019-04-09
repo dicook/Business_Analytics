@@ -51,6 +51,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 [slides2](http://monba.dicook.org/lectures/week5/visualisation2.html) ([Rmd](http://monba.dicook.org/lectures/week5/visualisation2.Rmd)) 
 - Week 6: Classification,  Chapter 8
 [slides1](http://monba.dicook.org/lectures/week6/regression_trees.html) ([Rmd](http://monba.dicook.org/lectures/week6/regression_trees.Rmd)) 
+[slides2](http://monba.dicook.org/lectures/week6/classification_trees.html) ([Rmd](http://monba.dicook.org/lectures/week6/classification_trees.Rmd)) 
 - Week 7: Classification, Chapter 9
 - Week 8: Ensembles and boosted models, Chapter 8.2
 - Week 9: Regularization methods, Chapter 6
