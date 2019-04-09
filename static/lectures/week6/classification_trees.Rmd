@@ -48,12 +48,7 @@ layout: false
 - A classification tree is used to predict a .orange[qualitative response] rather than a quantitative one
 - We predict that each observation belongs to the .orange[most commonly occurring class] of training observations in the region to which it belongs
 - Just as in the regression setting, we use recursive binary splitting to grow a classification tree
-- However RSS cannot be used as a criterion for making the binary splits. A natural alternative to RSS is the classification error rate:
-
-$$1 - \text{~max}_k~\hat{p}_{mk}$$
-
-where $\hat{p}_{mk}$ is the proportion of training observations in the $m$th region that are from the $k$th class.
-
+- However RSS cannot be used as a criterion for making the binary splits. A natural alternative to RSS is the classification error rate. 
 ]]
 
 ---
