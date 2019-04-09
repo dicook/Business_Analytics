@@ -37,10 +37,6 @@ layout: false
 ## Outline
 
 - .green[Classification]
-    - Split criteria
-    - Model choice
-- Comparison with linear
-- Pros and cons
 
 ]]
 .column[.top50px[
