@@ -96,7 +96,7 @@ library(caret)
 heart <- read_csv("http://www-bcf.usc.edu/~gareth/ISL/Heart.csv") %>%
   select(-X1) %>% mutate(AHD=factor(AHD))
 heart <- heart %>% filter(!is.na(Ca)) %>% filter(!is.na(Thal))
-set.seed(3)
+set.seed(2019)
 tr_indx <- createDataPartition(heart$AHD)$Resample1
 heart_tr <- heart[tr_indx,]
 heart_ts <- heart[-tr_indx,]
