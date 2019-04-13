@@ -260,13 +260,15 @@ library(boot)
 library(forcats)
 compute_PC <- function(data, index, k=1, anchor=1) {
   pc <- prcomp(data[index,], center=TRUE, scale=TRUE)$rotation[,k]
-  if (sign(pc[anchor]) > 0)
+  if (sign(pc[anchor]) < 0)
     pc <- -pc
   return(pc)
 }
 # Make sure the first coefficient of the PC is positive.
 #x <- WDI_nomiss_wide %>%
 #  filter(`Country Name` != "China")
+# Determine which variable should provide the directional anchor
+# colnames(WDI_nomiss_wide[,3:34]) #"SH.DYN.MORT" is 25
 PC1_boot <- boot(data=WDI_nomiss_wide[,3:34], compute_PC, anchor=25, R=1000)
 colnames(PC1_boot$t) <- colnames(WDI_nomiss_wide[,3:34])
 PC1_boot_t0 <- tibble(var=factor(names(PC1_boot$t0), levels=names(PC1_boot$t0)), t0=PC1_boot$t0)
@@ -279,17 +281,23 @@ PC1_boot_ci <- as_tibble(PC1_boot$t) %>%
             q97.5 = quantile(coef, 0.975)) %>%
   left_join(PC1_boot_t0) 
 #PC1_boot_ci %>% arrange(t0) %>% print(n=32)
-ggplot(PC1_boot_ci, aes(x=fct_reorder(var, q2.5), y=t0)) + 
+PC1_boot_all <- as_tibble(PC1_boot$t) %>%
+  gather(var, coef) %>% 
+  mutate(var = factor(var, levels=levels(PC1_boot_t0$var)))
+ggplot() + 
   geom_hline(yintercept=0, colour="white", size=2) +
-  geom_point() + 
-  geom_errorbar(aes(ymin=q2.5, ymax=q97.5)) +
+  geom_point(data=PC1_boot_all, aes(x=fct_reorder(var, coef), y=coef), alpha=0.05) +
+  geom_point(data=PC1_boot_ci, aes(x=var, y=t0), colour="red") + 
+  #geom_errorbar(aes(ymin=q2.5, ymax=q97.5)) +
   xlab("") + ylab("Coeffient") + 
   coord_flip()
-PC2_boot <- boot(data=WDI_nomiss_wide[,3:34], compute_PC, k=2,  anchor=29, R=1000)
-colnames(PC2_boot$t) <- colnames(WDI_nomiss_wide[,3:34])
 ```
 
 ```{r eval=FALSE}
+# Determine which variable should provide the directional anchor
+# colnames(WDI_nomiss_wide[,3:34]) #"SP.POP.TOTL" is 29
+# Using "SP.POP.TOTL" creates a problem for "SM.POP.NETM" 27 
+PC2_boot <- boot(data=WDI_nomiss_wide[,3:34], compute_PC, k=2,  anchor=29, R=1000)
 PC2_boot_t0 <- tibble(var=factor(names(PC2_boot$t0), levels=names(PC2_boot$t0)), t0=PC2_boot$t0)
 PC2_boot_ci <- as_tibble(PC2_boot$t) %>%
   gather(var, coef) %>% 
@@ -299,13 +307,21 @@ PC2_boot_ci <- as_tibble(PC2_boot$t) %>%
             q5 = median(coef),
             q97.5 = quantile(coef, 0.975)) %>%
   left_join(PC2_boot_t0) 
-ggplot(PC2_boot_ci, aes(x=fct_reorder(var, q2.5), y=t0)) + 
+PC2_boot_all <- as_tibble(PC2_boot$t) %>%
+  gather(var, coef) %>% 
+  mutate(var = factor(var, levels=levels(PC2_boot_t0$var)))
+ggplot() + 
   geom_hline(yintercept=0, colour="white", size=2) +
-  geom_point() + 
-  geom_errorbar(aes(ymin=q2.5, ymax=q97.5)) +
+  geom_point(data=PC2_boot_all, aes(x=fct_reorder(var, coef), y=coef), alpha=0.05) +
+  geom_point(data=PC2_boot_ci, aes(x=var, y=t0), colour="red") + 
+#  geom_point() + 
+#  geom_errorbar(aes(ymin=q2.5, ymax=q97.5)) +
   xlab("") + ylab("Coeffient") + 
   coord_flip()
 #PC2_boot_ci %>% arrange(t0) %>% print(n=32)
+# Determine which variable should provide the directional anchor
+# colnames(WDI_nomiss_wide[,3:34]) #"NV.IND.TOTL.ZS" is 16
+# but it has a negative coefficient, so we may need to flip the original 
 PC3_boot <- boot(data=WDI_nomiss_wide[,3:34], compute_PC, k=3, anchor=16, R=1000)
 colnames(PC3_boot$t) <- colnames(WDI_nomiss_wide[,3:34])
 PC3_boot_t0 <- tibble(var=factor(names(PC3_boot$t0), levels=names(PC3_boot$t0)), t0=PC3_boot$t0)
@@ -317,17 +333,23 @@ PC3_boot_ci <- as_tibble(PC3_boot$t) %>%
             q5 = median(coef),
             q97.5 = quantile(coef, 0.975)) %>%
   left_join(PC3_boot_t0) 
+PC3_boot_all <- as_tibble(PC3_boot$t) %>%
+  gather(var, coef) %>% 
+  mutate(var = factor(var, levels=levels(PC3_boot_t0$var)))
 #PC3_boot_ci %>% arrange(t0) %>% print(n=32)
-ggplot(PC3_boot_ci, aes(x=fct_reorder(var, q2.5), y=t0)) + 
+ggplot() + 
   geom_hline(yintercept=0, colour="white", size=2) +
-  geom_point() + 
-  geom_errorbar(aes(ymin=q2.5, ymax=q97.5)) +
+  geom_point(data=PC3_boot_all, aes(x=fct_reorder(var, coef), y=coef), alpha=0.05) +
+  geom_point(data=PC3_boot_ci, aes(x=var, y=t0), colour="red") + 
+#  geom_point() + 
+#  geom_errorbar(aes(ymin=q2.5, ymax=q97.5)) +
   xlab("") + ylab("Coeffient") + 
   coord_flip()
 ```
 
 **The direction of the eigenvector needs to be fixed to one of the larger variables. I've used SH.DYN.MORT. Several of the variables have significant coefficients, for PC1. PC1 would still be interpreted similarly, it is basically financially wealthy, (plus good statistical capacity, and imunization program), against population growth, high mortality and prevalence of AIDS.**
 
-(*Interestingly, the coefficients are more stable in the bootstrapping if China is removed, because it has a high influence on the PCA. Also PC3 would be dropped with the bootstrap analysis because no variable has a coefficient substantially different from 0.*)
+(*Dotplots are better than the confidence intervals because if there is a conflict in signs it shows up in bimodality in the distribution of the coefficients.*
+*Interestingly, the coefficients are more stable in the bootstrapping if China is removed, because it has a high influence on the PCA. Also PC3 would be dropped with the bootstrap analysis because no variable has a coefficient substantially different from 0.*)
 
 j. (1)True or false. *Principal* has the same meaning as *principle*. **FALSE**
