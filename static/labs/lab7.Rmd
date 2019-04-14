@@ -1,0 +1,71 @@
+---
+title: "ETC3250 2019 - Lab 7"
+author: "Dianne Cook"
+date: "Week 7"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 6,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Class discussion 
+
+For the olive oil data set, the classification tree will use just one variable for its model. It splits on linoleic acid as shown. 
+
+```{r out.width="70%"}
+library(tidyverse)
+library(rpart)
+olive <- read_csv("http://www.ggobi.org/book/data/olive.csv") %>%
+  rename(name=X1) %>%
+  filter(region != 1) %>%
+  dplyr::select(-name, -area) %>%
+  mutate(region = factor(region))
+rpart(region~., data=olive)
+ggplot(olive, aes(x=linoleic, y=region, colour=region)) + 
+  geom_point(alpha=0.5) + scale_colour_brewer("", palette="Dark2") +
+  theme(legend.position="none") +
+  geom_vline(xintercept=1053.5)
+```
+
+*Question 1: There is no gap. Do you think this might be a problem with future data? Why?*
+
+If we look at some other variables, oleic and arachidic acid, in relation to linoleic. 
+
+```{r out.width="100%", fig.width=8}
+library(gridExtra)
+p1 <- ggplot(olive, aes(x=linoleic, y=oleic, colour=region)) + 
+  geom_point() + scale_colour_brewer("", palette="Dark2") +
+  theme(legend.position="none", aspect.ratio=1) 
+p2 <- ggplot(olive, aes(x=linoleic, y=arachidic, colour=region)) + 
+  geom_point() + scale_colour_brewer("", palette="Dark2") +
+  theme(legend.position="none", aspect.ratio=1) 
+grid.arrange(p1, p2, ncol=2)
+```
+
+*Question 2: If you got to choose two variables for splitting the two groups, which would you choose, oleic or arachidic, in association with linoleic?*
+
+*Question 3: Suppose you work with linoleic and arachidic. Would quadratic discriminant analysis produce a better separation than the tree? Argue your viewpoint.*
+
+*Question 4: Find a linear combination of linoleic and arachidic, and create a new variable to pass to the tree. Re-fit the tree with this variable instead of the original two. What does the model look like now? Is this better than the original tree?*
+
+*Question 5: In general, why is it often important to create new variables (feature engineering) when building models?*
+
+# Activities
+
+If you need to use the lab time to coordinate the team submission for assignment 3, please do.
+
+

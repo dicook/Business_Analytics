@@ -72,7 +72,7 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 - Week 4: [Instructions](http://monba.dicook.org/labs/lab4.html) ([Rmd](http://monba.dicook.org/labs/lab4.Rmd)) [SOLUTION](http://monba.dicook.org/labs/lab4_solution.html) ([Rmd](http://monba.dicook.org/labs/lab4_solution.Rmd)) 
 - Week 5: [Instructions](http://monba.dicook.org/labs/lab5.html) ([Rmd](http://monba.dicook.org/labs/lab5.Rmd))
 - Week 6: [Instructions](http://monba.dicook.org/labs/lab6.html) ([Rmd](http://monba.dicook.org/labs/lab6.Rmd)) [womens_track.csv](http://monba.dicook.org/labs/data/womens_track.csv)
-
+- Week 7: [Instructions](http://monba.dicook.org/labs/lab7.html) ([Rmd](http://monba.dicook.org/labs/lab7.Rmd)) 
 ## Assignments
 
 - Assignment 1: [Instructions](http://monba.dicook.org/assignments/assignment1.html) ([Rmd](http://monba.dicook.org/assignments/assignment1.Rmd)) [SOLUTION](http://monba.dicook.org/assignments/assignment1_solution.html) ([Rmd](http://monba.dicook.org/assignments/assignment1_solution.Rmd)) [possum_magic.rds](http://monba.dicook.org/assignments/data/possum_magic.rds) [wombat_stew.rds](http://monba.dicook.org/assignments/data/wombat_stew.rds)
