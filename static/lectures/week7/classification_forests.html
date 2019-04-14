@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>ETC3250: Random forests</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
+    <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link href="libs/font-awesome-animation/font-awesome-animation-emi.css" rel="stylesheet" />
+    <script src="libs/fontawesome/js/fontawesome-all.min.js"></script>
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ETC3250: Random forests
+## Semester 1, 2019
+### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
+### Week 7 (a)
+
+---
+
+
+
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Bootstrap aggregation]
+
+]]
+.column[.top50px[
+
+- Take `\(B\)` different *bootstrapped* training sets:
+`$$D_1, D_2, \dots, D_B$$`
+- Build a separate prediction model using each `\(D_{(\cdot)}\)`:
+`$$\hat{f}_1(x), \hat{f}_2(x), \dots, \hat{f}_B(x)$$`
+- Combine resulting predictions, e.g. average
+`$$\hat{f}_{\text{avg}}(x) = \frac1B \sum_{b = 1}^{B} \hat{f}_b(x)$$`
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Bootstrap aggregation]
+    - Bagging trees
+
+]]
+.column[.top50px[
+
+.orange[Bagged trees]
+
+- Construct `\(B\)` regression trees using `\(B\)` bootstrapped training sets, and average the resulting predictions. 
+- Each individual tree has .orange[high variance, but low bias]. 
+- Averaging these `\(B\)` trees .orange[reduces the variance]. 
+- For classification trees, there are several possible aggregation methods, but the simplest is the **majority vote**. 
+	
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Bootstrap aggregation]
+    - Bagging trees
+    - Out-of-bag-error
+
+]]
+.column[.top50px[
+
+- .orange[No need to use (cross-)validation] to **estimate the test error** of a bagged model (**debatable by some**).
+- On average, each bagged tree makes use of around .orange[two-thirds of the observations]. (Check the textbook exercise.)
+- The remaining observations not used to fit a given bagged tree are referred to as the .orange[out-of-bag (OOB)] observations.
+- We can predict the response for the `\(i^{th}\)` observation using each of the trees in which that observation was OOB. This will yield around .orange[B/3 predictions] for the `\(i^{th}\)` observation.
+- To obtain a single prediction for the `\(i^{th}\)` observation, average these predicted responses (regression) or can take a majority vote (classification).
+	
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Bootstrap aggregation
+- .green[Random forests]
+    - Algorithm
+
+]]
+.column[.top50px[
+
+
+1. Input: `\(L = {(x_i, y_i), i=1, ..., n}, y_i \in \{1, ..., k\}, m &lt; p\)`, number of variables chosen for each tree, `\(B\)` is the number of bootstrap samples.
+2. For `\(b =1, 2, ..., B\)`:
+
+    i. Draw a bootstrap sample, `\(L^{*b}\)` of size `\(n^{*b}\)` from `\(L\)`.
+    
+    ii. Grow tree classifier, `\(T^{*b}\)`. At each node use a random selection of `\(m\)` variables, and grow to maximum depth without pruning.
+    
+    iii. Predict the class of each case not drawn in `\(L^{*b}\)`.
+    
+3. Combine the predictions for each case, by majority vote, to give predicted class.
+	
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Bootstrap aggregation
+- .green[Random forests]
+    - Algorithm
+    - Diagnostics
+
+]]
+.column[.top50px[
+
+
+
+<span class=" faa-burst animated-hover faa-slow " data-fa-transform="rotate-5 " style=" display: -moz-inline-stack; display: inline-block; transform: rotate(5deg);">.orange[Useful by-products]</span>
+
+- Error is computed automatically on the out-of-bag cases.
+- .orange[Variable importance]: more complicated than one might think
+- .orange[Vote matrix], `\(n\times K\)`: Proportion of times a case is predicted to the class `\(k\)`.
+- .orange[Proximities], `\(n\times n\)`: Closeness of cases measured by how often they are in the same terminal node.
+
+]]
+
+---
+layout: true
+
+<span class=" faa-burst animated faa-slow " data-fa-transform="rotate--5 " style=" display: -moz-inline-stack; display: inline-block; transform: rotate(-5deg);">.orange[Variable importance]</span>
+
+.row[.content[
+1.For every tree predict the oob cases and count the number of votes .orange[cast for the correct class]. 
+]]
+.row[.content[
+2..orange[Randomly permute] the values on a variable in the oob cases and predict the class for these cases. 
+]]
+.row[.content[
+3.Difference the votes for the correct class in the variable-permuted oob cases and the real oob cases. Average this number over all trees in the forest. If the .orange[value is large, then the variable is very important]. 
+]]
+.row[.content[
+Alternatively, .orange[Gini importance] adds up the difference in impurity value of the descendant nodes with the parent node. Quick to compute.
+]]
+---
+class: fade-row2 fade-row3 fade-row4
+count: false
+---
+class: fade-row3 fade-row4
+count: false
+---
+class: fade-row4
+count: false
+---
+count: false
+
+---
+layout: false
+
+.boxshadow[.orange[.content[
+Vote matrix
+]]]
+
+- .orange[Proportion of trees] the case is predicted to be each class, ranges between 0-1
+- Can be used to .orange[identify troublesome] cases.
+- Used with plots of the actual data can help determine if it is the record itself that is the problem, or if method is biased.
+- Understand the difference in accuracy of prediction for different classes.
+
+---
+layout: false
+
+<span class=" faa-shake animated faa-slow " data-fa-transform="flip-h " style=" display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">.orange[Proximities]</span>
+
+
+
+- Measure how each pair of observations land in the forest
+- Run both in- and out-of-bag cases down the tree, and increase proximity value of cases `\(i, j\)` by 1 each time they are in the same terminal node. 
+- Normalize by dividing by `\(B\)`.
+
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Bootstrap aggregation
+- .green[Random forests]
+    - Algorithm
+    - Diagnostics
+    - Example
+
+]]
+.column[.top50px[
+
+.split-50[
+.column[.content[
+![](images/Italian-olive-oils-map.png)
+]]
+.column[.content[
+
+Olive oils data: Distinguish the region where oils were produced by their fatty acid signature. Quality control. Fraudulent marketing. 
+
+Areas in the south:
+
+1 North-Apulia &lt;br&gt;
+2 Calabria &lt;br&gt;
+3 South-Apulia &lt;br&gt;
+4 Sicily
+]]
+]
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Bootstrap aggregation
+- .green[Random forests]
+    - Algorithm
+    - Diagnostics
+    - Example
+
+]]
+.column[.top50px[
+
+Classifying the olive oils in the south of Italy - difficult classification task.
+
+
+
+
+
+
+
+&lt;iframe src="olive1.html" width="800" height="500" scrolling="yes" seamless="seamless" frameBorder="0"&gt; &lt;/iframe&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Bootstrap aggregation
+- .green[Random forests]
+    - Algorithm
+    - Diagnostics
+    - Example
+
+]]
+.column[.top50px[
+
+A single tree
+
+&lt;img src="classification_forests_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Bootstrap aggregation
+- .green[Random forests]
+    - Algorithm
+    - Diagnostics
+    - Example
+
+]]
+.column[.top50px[
+.split-50[
+.column[.content[
+Training confusion and error
+
+
+```
+##           Reference
+## Prediction   1   2   3   4
+##          1  10   0   0   0
+##          2   0  31   0   0
+##          3   1   0 101   1
+##          4   0   1   1  16
+```
+
+```
+## [1] 0.025
+```
+
+```
+## Class: 1 Class: 2 
+##    0.091    0.031
+```
+
+```
+## Class: 3 Class: 4 
+##   0.0098   0.0588
+```
+]]
+.column[.content[
+Test confusion and error
+
+
+```
+##           Reference
+## Prediction  1  2  3  4
+##          1 13  0  0  2
+##          2  0 23  0  2
+##          3  2  1 99  1
+##          4  1  2  4 11
+```
+
+```
+## [1] 0.093
+```
+
+```
+## Class: 1 Class: 2 
+##     0.19     0.12
+```
+
+```
+## Class: 3 Class: 4 
+##    0.039    0.312
+```
+]]
+]
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Bootstrap aggregation
+- .green[Random forests]
+    - Algorithm
+    - Diagnostics
+    - Example
+
+]]
+.column[.top50px[
+
+
+```
+## 
+## Call:
+##  randomForest(formula = area ~ ., data = olive_tr, importance = TRUE,      proximity = TRUE) 
+##                Type of random forest: classification
+##                      Number of trees: 500
+## No. of variables tried at each split: 2
+## 
+##         OOB estimate of  error rate: 7.4%
+## Confusion matrix:
+##   1  2   3  4 class.error
+## 1 9  0   1  0       0.100
+## 2 0 29   2  0       0.065
+## 3 0  1 101  1       0.019
+## 4 1  3   3 11       0.389
+```
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Bootstrap aggregation
+- .green[Random forests]
+    - Algorithm
+    - Diagnostics
+    - Example
+
+]]
+.column[.top50px[
+
+.split-50[
+.column[.content[
+Training confusion and error
+
+
+```
+##           Reference
+## Prediction   1   2   3   4
+##          1  10   0   0   0
+##          2   0  31   0   0
+##          3   0   0 103   0
+##          4   0   0   0  18
+```
+
+```
+## [1] 0
+```
+
+```
+## Class: 1 Class: 2 
+##        0        0
+```
+
+```
+## Class: 3 Class: 4 
+##        0        0
+```
+]]
+.column[.content[
+Test confusion and error
+
+
+```
+##           Reference
+## Prediction   1   2   3   4
+##          1  14   0   0   1
+##          2   0  23   0   2
+##          3   0   1 102   0
+##          4   1   2   6   9
+```
+
+```
+## [1] 0.081
+```
+
+```
+## Class: 1 Class: 2 
+##    0.067    0.115
+```
+
+```
+## Class: 3 Class: 4 
+##    0.056    0.250
+```
+]]
+]
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Bootstrap aggregation
+- .green[Random forests]
+    - Algorithm
+    - Diagnostics
+    - Example
+
+]]
+.column[.top50px[
+
+Diagnostics: variable importance
+
+
+```
+##                   1     2     3     4
+## palmitic     0.2845 0.023 0.015 0.043
+## palmitoleic  0.2637 0.101 0.076 0.185
+## stearic      0.0030 0.079 0.023 0.091
+## oleic        0.3182 0.156 0.086 0.043
+## linoleic     0.2301 0.241 0.119 0.021
+## linolenic   -0.0088 0.152 0.023 0.055
+## arachidic    0.0390 0.015 0.003 0.066
+```
+
+```
+##             MeanDecreaseAccuracy MeanDecreaseGini
+## palmitic                   0.034              8.5
+## palmitoleic                0.102             17.6
+## stearic                    0.039              8.4
+## oleic                      0.106             20.0
+## linoleic                   0.136             19.2
+## linolenic                  0.048              7.8
+## arachidic                  0.014              5.8
+```
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Bootstrap aggregation
+- .green[Random forests]
+    - Algorithm
+    - Diagnostics
+    - Example
+
+]]
+.column[.top50px[
+
+Diagnostics: vote matrix
+
+
+```
+##         1      2      3      4
+## 1  0.5054 0.0543 0.0380 0.4022
+## 2  0.8977 0.0227 0.0000 0.0795
+## 3  0.6776 0.0109 0.0000 0.3115
+## 4  0.6319 0.0275 0.0000 0.3407
+## 5  0.5657 0.0514 0.0114 0.3714
+## 6  0.8971 0.0147 0.0000 0.0882
+## 7  0.1414 0.2565 0.3141 0.2880
+## 8  0.6914 0.0457 0.0343 0.2286
+## 9  0.5738 0.0055 0.0000 0.4208
+## 10 0.7889 0.0111 0.0000 0.2000
+## 11 0.0057 0.6057 0.3314 0.0571
+## 12 0.0000 0.9848 0.0051 0.0101
+## 13 0.0054 0.9402 0.0000 0.0543
+## 14 0.0000 0.7940 0.0000 0.2060
+## 15 0.0155 0.7047 0.0259 0.2539
+## 16 0.0000 0.9946 0.0000 0.0054
+## 17 0.0000 0.9519 0.0107 0.0374
+## 18 0.0171 0.6743 0.0114 0.2971
+## 19 0.0000 0.8235 0.0963 0.0802
+## 20 0.0000 0.9312 0.0000 0.0688
+```
+
+]]
+
+---
+class: split-50
+layout: false
+
+.column[.pad10px[
+
+&lt;img src="classification_forests_files/figure-html/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]]
+.column[.top50px[
+
+&lt;img src="classification_forests_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Bootstrap aggregation
+- .green[Random forests]
+    - Algorithm
+    - Diagnostics
+    - Example
+    - References
+
+]]
+.column[.top50px[
+
+Cook &amp; Swayne (2007) "Interactive and Dynamic Graphics for Data Analysis: With Examples Using R and GGobi" have several videos illustrating techniques for exploring high-dimensional data in association with trees and forest classifiers:
+
+- [Trees video](http://www.ggobi.org/book/chap-class/Trees.mov)
+- [Forests video](http://www.ggobi.org/book/chap-class/Forests.mov)
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Bootstrap aggregation
+- Random forests
+- .green[Boosted trees]
+
+]]
+.column[.top50px[
+Boosting iteratively fits multiple trees, sequentially putting .orange[more weight] on observations that have predicted inaccurately. 
+
+1. Set `\(\hat{f}(x)=0\)` and `\(r_i=y_i \forall i\)` in training set
+2. For b=1, 2, ..., B, repeat:&lt;br&gt;
+    a. Fit a tree `\(\hat{f}^b\)` with `\(d\)` splits ( `\(d+1\)` terminal nodes)&lt;br&gt;
+    b. Update `\(\hat{f}\)` by adding a shrunken version of the new tree `\(\hat{f}(x) = \hat{f}(x)+\lambda\hat{f}^b(x)\)`. &lt;br&gt;
+    c. Update the residuals `\(r_i = r_i - \lambda\hat{f}^b(x_i)\)` &lt;br&gt;
+3. Output boosted model, `\(\hat{f}(x) = \sum_{b=1}^B\lambda\hat{f}^b(x)\)`
+]]
+---
+layout: false
+# 👩‍💻 Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+&lt;br&gt;
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+&lt;br&gt; 
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
