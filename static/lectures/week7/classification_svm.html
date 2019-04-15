@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>ETC3250: Support vector machines</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
+    <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ETC3250: Support vector machines
+## Semester 1, 2019
+### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
+### Week 7 (b)
+
+---
+
+
+
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Separating hyperplane]
+
+]]
+.column[.top50px[
+
+In a `\(p\)`-dimensional space, a .orange[hyperplane] is a flat affine subspace of dimension `\(p - 1\)`.
+
+
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.1.pdf" target="_BLANK"&gt; &lt;img src="images/9.1.png" style="width: 60%; align: center"/&gt; &lt;/a&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Separating hyperplane]
+
+
+]]
+.column[.top50px[
+
+
+The equation of `\(p\)`-dimensional hyperplane is given by
+
+`$$\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p = 0$$`
+
+
+If `\(x_i \in \Re^p\)` and `\(y_i \in \{-1, 1\}\)` for `\(i = 1, \dots, n\)`, then
+
+`$$\beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip} &gt; 0 \mbox{ if }  y_i = 1,$$` 
+	
+`$$\beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip} &lt; 0 \mbox{ if } y_i = -1$$`
+
+
+Equivalently,
+
+`$$y_i (\beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip}) &gt; 0$$`
+
+
+]]
+
+---
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- .green[Separating hyperplane]
+
+
+]]
+.column[.top50px[
+
+.row[.content[
+- A new observation is assigned a class depending on .orange[which side] of the hyperplane it is located
+- Classify the test observation `\(x^*\)` based on the .orange[sign] of 
+`$$s(x^*) = \beta_0 + \beta_1 x_1^* + \dots + \beta_p x_p^*$$`
+- If `\(s(x^*) &gt; 0\)`, class `\(1\)`, and if `\(s(x^*) &lt; 0\)`, class `\(-1\)`, i.e. `\(h(x^*) = \mbox{sign}(s(x^*)).\)`
+
+
+What about the .orange[magnitude] of `\(s(x^*)\)`? 
+]]
+.row[.content[
+- `\(s(x^*) \mbox{ far from zero } \rightarrow\)` `\(x^*\)` lies far from the hyperplane + **more confident** about our classification
+- `\(s(x^*) \mbox{ close to zero } \rightarrow\)` `\(x^*\)` near the hyperplane + **less confident** about our classification
+]]
+
+]]
+---
+class: fade-row2 
+count: false
+---
+count: false
+
+---
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- .green[LDA to SVM]
+
+
+]]
+.column[.top50px[
+
+.row[.content[
+- Linear discriminant analysis uses the difference between means to set the separating hyperplane.
+- Support vector machines uses .orange[gaps] between points on the outer edge of clusters to set the separating hyperplane.
+]]
+.row[.content[
+&lt;img src="classification_svm_files/figure-html/unnamed-chunk-2-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]]
+
+]]
+
+---
+class: fade-row2 
+count: false
+---
+count: false
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- .green[Maximal margin classifier]
+
+
+]]
+.column[.top50px[
+All are separating hyperplanes. .orange[Which is best?]
+
+![separating hyperplanes](images/svm1.png)
+![separating hyperplanes](images/svm2.png)
+
+![separating hyperplanes](images/svm3.png)
+![separating hyperplanes](images/svm4.png)
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- .green[Maximal margin classifier]
+
+
+]]
+.column[.top50px[
+
+&lt;img src="images/svm_diagram.png" style="width: 100%" /&gt;
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+- Separating hyperplane
+- LDA to SVM
+- .green[Maximal margin classifier]
+- Support vectors
+- Non-separable case
+- Nonlinear boundaries
+- Kernel trick
+- SVM vs Logistic regression
+
+]]
+.column[.top50px[
+
+- If our data can be perfectly separated using a hyperplane, then there will in fact exist an **infinite number of such hyperplanes**.
+- We compute the (perpendicular) distance from each training observation to a given separating hyperplane. The .orange[smallest] such distance is known as the .orange[margin].
+- The .orange[optimal separating hyperplane] (or maximal margin hyperplane)  is the separating hyperplane for which the margin is .orange[largest]. 
+- We can then classify a test observation based on which side of the maximal margin hyperplane it lies. This is known as the .orange[maximal margin classifier].
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin classifier
+- .green[Support vectors]
+
+]]
+.column[.top50px[
+
+&lt;img src="images/sv_diagram.png" style="width: 100%" /&gt;
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- .green[Support vectors]
+
+
+]]
+.column[.top50px[
+
+- The .orange[support vectors] are equidistant from the maximal margin hyperplane and lie along the dashed lines indicating the width of the margin. 
+- They .orange[support] the maximal margin hyperplane in the sense that if these points were moved slightly then the maximal margin hyperplane would move as well
+- The maximal margin hyperplane depends directly on the support vectors, but .orange[not on the other observations]
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- .green[Support vectors]
+
+
+]]
+.column[.top50px[
+
+Example: Support vectors (and slack vectors)
+
+&lt;img src="classification_svm_files/figure-html/unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- .green[Maximal margin classifier]
+
+]]
+.column[.top50px[
+
+If `\(x_i \in \Re^p\)` and `\(y_i \in \{-1, 1\}\)` for `\(i = 1, \dots, n\)`, the separating hyperplane is defined as
+
+`$$\{x:b_0+x'b=0\}$$`
+
+where `\(b=\sum_{i=1}^s (\alpha_iy_i)x_i\)` and `\(s\)` is the number of support vectors.
+Then the .orange[maximal margin hyperplane] is found by 
+
+*maximising* `\(M\)`, subject to `\(\sum_{i=1}^pb_i^2=1\)`, and `\(y_i(x_i'b+b_0)\geq M, i=1, ..., n\)`.
+
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- .green[Non-separable case]
+
+]]
+.column[.top50px[
+
+.orange[Soft margin classifier]
+
+*maximising* `\(M\)`, subject to `\(\sum_{i=1}^pb_i^2=1\)`, and `\(y_i(x_i'b+b_0)\geq M(1-\epsilon_i), i=1, ..., n\)`, AND `\(\epsilon_i\geq 0, \sum_{i=1}^n\epsilon_i\leq C\)`.
+
+
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.6.pdf" target="_BLANK"&gt; &lt;img src="images/9.6.png" style="width: 80%; align: center"/&gt; &lt;/a&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- .green[Non-separable case]
+
+]]
+.column[.top50px[
+.orange[Soft margin classifier]
+
+*maximising* `\(M\)`, subject to `\(\sum_{i=1}^pb_i^2=1\)`, and `\(y_i(x_i'b+b_0)\geq M(1-\epsilon_i), i=1, ..., n\)`, AND `\(\epsilon_i\geq 0, \sum_{i=1}^n\epsilon_i\leq C\)`.
+
+`\(\varepsilon_i\)` tells us where the `\(i\)`th observation is located and `\(C\)` is a nonnegative .orange[tuning parameter].
+
+- `\(\varepsilon_i = 0\)`: correct side of the margin,
+- `\(\varepsilon_i &gt; 0\)`: wrong side of the margin (violation of the margin),
+- `\(\varepsilon_i &gt; 1\)`: wrong side of the hyperplane.
+
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- .green[Non-separable case]
+
+]]
+.column[.top50px[
+.orange[Tuning parameter]: decreasing the value of *C*
+
+
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.7.pdf" target="_BLANK"&gt; &lt;img src="images/9.7.png" style="width: 60%; align: center"/&gt; &lt;/a&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- .green[Nonlinear boundaries]
+
+]]
+.column[.top50px[
+.orange[Polynomial] and .orange[radial] SVMs
+
+
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.9.pdf" target="_BLANK"&gt; &lt;img src="images/9.9.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
+
+]]
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- .green[Nonlinear boundaries]
+
+]]
+.column[.top50px[
+.orange[the kernel trick]
+
+Because `\(b=\sum_{i=1}^s (\alpha_iy_i)x_i\)`  `\(y_i(x_i'b+b_o)\)` can be written as
+
+ `$$y_i(\alpha_i x_i'x_i+b_o)$$` 
+
+and `\(x_i'x_i\)` can be wrapped into a kernel function `\(K(x_i'x_i)\)` which enables building nonlinear boundaries.
+
+&lt;img src="images/svm_kernels.png" style="width: 50%; align: center" /&gt;
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- .green[Nonlinear boundaries]
+
+]]
+.column[.top50px[
+
+Italian olive oils: Regions 2, 3 (North and Sardinia)
+
+&lt;img src="classification_svm_files/figure-html/unnamed-chunk-7-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- Nonlinear boundaries
+- .green[High dimensions]
+
+]]
+.column[.top50px[
+
+Examining misclassifications and which points are selected to be support vectors
+
+&lt;video width="700" controls&gt; &lt;source src="http://www.ggobi.org/book/chap-class/SVM.mov"&gt; &lt;/video&gt;
+
+]]
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- Nonlinear boundaries
+- .green[High dimensions]
+
+]]
+.column[.top50px[
+
+Examining boundaries
+
+&lt;video width="700" controls&gt; &lt;source src="http://www.ggobi.org/book/chap-class/classifly.mov"&gt; &lt;/video&gt;
+
+]]
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- Nonlinear boundaries
+- .green[High dimensions]
+
+]]
+.column[.top50px[
+
+Boundaries of a radial kernel in 3D
+
+&lt;video width="700" controls&gt; &lt;source src="https://vimeo.com/125405961"&gt; &lt;/video&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- Nonlinear boundaries
+- .green[High dimensions]
+
+]]
+.column[.top50px[
+
+Boundaries of a polynomial kernel in 5D
+
+&lt;video width="700" controls&gt; &lt;source src="https://vimeo.com/125405962"&gt; &lt;/video&gt;
+
+]]
+
+---
+layout: false
+# 👩‍💻 Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+&lt;br&gt;
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+&lt;br&gt; 
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

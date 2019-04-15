@@ -1,0 +1,642 @@
+---
+title: "ETC3250: Support vector machines"
+subtitle: "Semester 1, 2019"
+author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
+date: "Week 7 (b)"
+output: 
+  xaringan::moon_reader:
+    css: ["kunoichi", "ninjutsu", "mystyle.css", "libs/animate.css"]
+    lib_dir: libs
+    nature:
+      ratio: '16:9'
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(tidy = FALSE, 
+                      message = FALSE,
+                      warning = FALSE,
+                      echo = FALSE, 
+                      fig.width=8,
+                      fig.height=6,
+                      fig.align = "center",
+                      fig.retina = 2)
+options(htmltools.dir.version = FALSE)
+library(magick)
+```
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Separating hyperplane]
+
+]]
+.column[.top50px[
+
+In a $p$-dimensional space, a .orange[hyperplane] is a flat affine subspace of dimension $p - 1$.
+
+```{r}
+library(magick)
+if (!file.exists("images/9.1.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.1.pdf", density = 300), "images/9.1.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.1.pdf" target="_BLANK"> <img src="images/9.1.png" style="width: 60%; align: center"/> </a>
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Separating hyperplane]
+
+
+]]
+.column[.top50px[
+
+
+The equation of $p$-dimensional hyperplane is given by
+
+$$\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p = 0$$
+
+
+If $x_i \in \Re^p$ and $y_i \in \{-1, 1\}$ for $i = 1, \dots, n$, then
+
+$$\beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip} > 0 \mbox{ if }  y_i = 1,$$ 
+	
+$$\beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip} < 0 \mbox{ if } y_i = -1$$
+
+
+Equivalently,
+
+$$y_i (\beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip}) > 0$$
+
+
+]]
+
+---
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- .green[Separating hyperplane]
+
+
+]]
+.column[.top50px[
+
+.row[.content[
+- A new observation is assigned a class depending on .orange[which side] of the hyperplane it is located
+- Classify the test observation $x^*$ based on the .orange[sign] of 
+$$s(x^*) = \beta_0 + \beta_1 x_1^* + \dots + \beta_p x_p^*$$
+- If $s(x^*) > 0$, class $1$, and if $s(x^*) < 0$, class $-1$, i.e. $h(x^*) = \mbox{sign}(s(x^*)).$
+
+
+What about the .orange[magnitude] of $s(x^*)$? 
+]]
+.row[.content[
+- $s(x^*) \mbox{ far from zero } \rightarrow$ $x^*$ lies far from the hyperplane + **more confident** about our classification
+- $s(x^*) \mbox{ close to zero } \rightarrow$ $x^*$ near the hyperplane + **less confident** about our classification
+]]
+
+]]
+---
+class: fade-row2 
+count: false
+---
+count: false
+
+---
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- .green[LDA to SVM]
+
+
+]]
+.column[.top50px[
+
+.row[.content[
+- Linear discriminant analysis uses the difference between means to set the separating hyperplane.
+- Support vector machines uses .orange[gaps] between points on the outer edge of clusters to set the separating hyperplane.
+]]
+.row[.content[
+```{r out.width="70%", fig.width=6, fig.height=3}
+library(tidyverse)
+library(MASS)
+library(e1071)
+library(gridExtra)
+olive <- read_csv("http://www.ggobi.org/book/data/olive.csv") %>%
+  rename(name=X1) %>%
+  mutate(region = factor(region, levels=1:3, labels=c("south", "sardinia", "north")))
+olive_p <- as_tibble(expand.grid(eicosenoic = seq(0, 60, 1), linoleic = seq(440, 1500, 10))) 
+
+olive_lda <- lda(region~eicosenoic+linoleic, data=olive, 
+                 prior=c(1/3, 1/3, 1/3))
+olive_p$region <- predict(olive_lda, olive_p)$class
+p1 <- ggplot() +
+  geom_point(data=olive_p, aes(x=eicosenoic, y=linoleic, color=region), alpha=0.1) +
+  geom_point(data=olive, aes(x=eicosenoic, y=linoleic, color=region, shape=region)) + 
+  scale_color_brewer("", palette="Dark2") +
+  theme_bw() + theme(aspect.ratio=1, legend.position="none") +
+  ggtitle("LDA")
+
+olive_svm <- svm(region~eicosenoic+linoleic, data=olive, kernel="linear")
+olive_p$region <- predict(olive_svm, olive_p)
+p2 <- ggplot() + 
+  geom_point(data=olive_p, aes(x=eicosenoic, y=linoleic, color=region), alpha=0.1) +
+  geom_point(data=olive, aes(x=eicosenoic, y=linoleic, color=region, shape=region)) + 
+  scale_color_brewer("", palette="Dark2") +
+  theme_bw() + theme(aspect.ratio=1, legend.position="none") +
+  ggtitle("SVM")
+grid.arrange(p1, p2, ncol=2)
+```
+]]
+
+]]
+
+---
+class: fade-row2 
+count: false
+---
+count: false
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- .green[Maximal margin classifier]
+
+
+]]
+.column[.top50px[
+All are separating hyperplanes. .orange[Which is best?]
+
+![separating hyperplanes](images/svm1.png)
+![separating hyperplanes](images/svm2.png)
+
+![separating hyperplanes](images/svm3.png)
+![separating hyperplanes](images/svm4.png)
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- .green[Maximal margin classifier]
+
+
+]]
+.column[.top50px[
+
+<img src="images/svm_diagram.png" style="width: 100%" />
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+- Separating hyperplane
+- LDA to SVM
+- .green[Maximal margin classifier]
+- Support vectors
+- Non-separable case
+- Nonlinear boundaries
+- Kernel trick
+- SVM vs Logistic regression
+
+]]
+.column[.top50px[
+
+- If our data can be perfectly separated using a hyperplane, then there will in fact exist an **infinite number of such hyperplanes**.
+- We compute the (perpendicular) distance from each training observation to a given separating hyperplane. The .orange[smallest] such distance is known as the .orange[margin].
+- The .orange[optimal separating hyperplane] (or maximal margin hyperplane)  is the separating hyperplane for which the margin is .orange[largest]. 
+- We can then classify a test observation based on which side of the maximal margin hyperplane it lies. This is known as the .orange[maximal margin classifier].
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin classifier
+- .green[Support vectors]
+
+]]
+.column[.top50px[
+
+<img src="images/sv_diagram.png" style="width: 100%" />
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- .green[Support vectors]
+
+
+]]
+.column[.top50px[
+
+- The .orange[support vectors] are equidistant from the maximal margin hyperplane and lie along the dashed lines indicating the width of the margin. 
+- They .orange[support] the maximal margin hyperplane in the sense that if these points were moved slightly then the maximal margin hyperplane would move as well
+- The maximal margin hyperplane depends directly on the support vectors, but .orange[not on the other observations]
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- .green[Support vectors]
+
+
+]]
+.column[.top50px[
+
+Example: Support vectors (and slack vectors)
+
+```{r out.width="100%", fig.height=3, fig.width=6, align="center"}
+indx <- olive_svm$index[abs(olive_svm$coefs[,1])<1 & abs(olive_svm$coefs[,2])<1]
+svs <- olive[indx,]
+p1 <- ggplot() +
+  geom_point(data=olive_p, aes(x=eicosenoic, y=linoleic, color=region), alpha=0.01) +
+  geom_point(data=olive, aes(x=eicosenoic, y=linoleic, color=region, shape=region)) + 
+  geom_point(data=svs, aes(x=eicosenoic, y=linoleic), color="black", shape=1, size=3) +
+  scale_color_brewer("", palette="Dark2") +
+  theme_bw() + theme(aspect.ratio=1, legend.position="none")
+svs <- olive[olive_svm$index,]
+p2 <- ggplot() +
+  geom_point(data=olive_p, aes(x=eicosenoic, y=linoleic, color=region), alpha=0.01) +
+  geom_point(data=olive, aes(x=eicosenoic, y=linoleic, color=region, shape=region)) + 
+  geom_point(data=svs, aes(x=eicosenoic, y=linoleic), color="black", shape=1, size=3) +
+  scale_color_brewer("", palette="Dark2") +
+  theme_bw() + theme(aspect.ratio=1, legend.position="none")
+grid.arrange(p1, p2, ncol=2)
+```
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- .green[Maximal margin classifier]
+
+]]
+.column[.top50px[
+
+If $x_i \in \Re^p$ and $y_i \in \{-1, 1\}$ for $i = 1, \dots, n$, the separating hyperplane is defined as
+
+$$\{x:b_0+x'b=0\}$$
+
+where $b=\sum_{i=1}^s (\alpha_iy_i)x_i$ and $s$ is the number of support vectors.
+Then the .orange[maximal margin hyperplane] is found by 
+
+*maximising* $M$, subject to $\sum_{i=1}^pb_i^2=1$, and $y_i(x_i'b+b_0)\geq M, i=1, ..., n$.
+
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- .green[Non-separable case]
+
+]]
+.column[.top50px[
+
+.orange[Soft margin classifier]
+
+*maximising* $M$, subject to $\sum_{i=1}^pb_i^2=1$, and $y_i(x_i'b+b_0)\geq M(1-\epsilon_i), i=1, ..., n$, AND $\epsilon_i\geq 0, \sum_{i=1}^n\epsilon_i\leq C$.
+
+```{r}
+if (!file.exists("images/9.6.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.6.pdf", density = 300), "images/9.6.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.6.pdf" target="_BLANK"> <img src="images/9.6.png" style="width: 80%; align: center"/> </a>
+
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- .green[Non-separable case]
+
+]]
+.column[.top50px[
+.orange[Soft margin classifier]
+
+*maximising* $M$, subject to $\sum_{i=1}^pb_i^2=1$, and $y_i(x_i'b+b_0)\geq M(1-\epsilon_i), i=1, ..., n$, AND $\epsilon_i\geq 0, \sum_{i=1}^n\epsilon_i\leq C$.
+
+$\varepsilon_i$ tells us where the $i$th observation is located and $C$ is a nonnegative .orange[tuning parameter].
+
+- $\varepsilon_i = 0$: correct side of the margin,
+- $\varepsilon_i > 0$: wrong side of the margin (violation of the margin),
+- $\varepsilon_i > 1$: wrong side of the hyperplane.
+
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- .green[Non-separable case]
+
+]]
+.column[.top50px[
+.orange[Tuning parameter]: decreasing the value of *C*
+
+```{r}
+if (!file.exists("images/9.7.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.7.pdf", density = 300), "images/9.7.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.7.pdf" target="_BLANK"> <img src="images/9.7.png" style="width: 60%; align: center"/> </a>
+
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- .green[Nonlinear boundaries]
+
+]]
+.column[.top50px[
+.orange[Polynomial] and .orange[radial] SVMs
+
+```{r}
+if (!file.exists("images/9.9.png"))
+  image_write(image_read("http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.9.pdf", density = 300), "images/9.9.png", 
+      format = "png", density = 300)
+```
+
+<a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.9.pdf" target="_BLANK"> <img src="images/9.9.png" style="width: 100%; align: center"/> </a>
+
+]]
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- .green[Nonlinear boundaries]
+
+]]
+.column[.top50px[
+.orange[the kernel trick]
+
+Because $b=\sum_{i=1}^s (\alpha_iy_i)x_i$  $y_i(x_i'b+b_o)$ can be written as
+
+ $$y_i(\alpha_i x_i'x_i+b_o)$$ 
+
+and $x_i'x_i$ can be wrapped into a kernel function $K(x_i'x_i)$ which enables building nonlinear boundaries.
+
+<img src="images/svm_kernels.png" style="width: 50%; align: center" />
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- .green[Nonlinear boundaries]
+
+]]
+.column[.top50px[
+
+Italian olive oils: Regions 2, 3 (North and Sardinia)
+
+```{r out.width="80%"}
+olive_sub <- olive %>% filter(region != "south")
+
+olive_svm <- svm(region~linoleic + arachidic, data=olive_sub, kernel="polynomial", degree=2)
+olive_p <- data.frame(expand.grid(linoleic = seq(440, 1500, 10), arachidic = seq(0, 105, 2)))
+olive_p$region <- predict(olive_svm, olive_p)
+
+p1 <- ggplot() + 
+  geom_point(data=olive_p, aes(x=linoleic, y=arachidic, color=region), alpha=0.1) +
+  geom_point(data=olive_sub, aes(x=linoleic, y=arachidic, color=region, shape=region), alpha=0.5) +
+  scale_color_brewer("", palette="Dark2") + 
+  theme_bw() + theme(aspect.ratio=1, legend.position="none") + 
+  ggtitle("Polynomial kernel")
+
+olive_svm <- svm(region~linoleic + arachidic, data=olive_sub, 
+  kernel="radial")
+olive_p$region <- predict(olive_svm, olive_p)
+p2 <- ggplot() + 
+  geom_point(data=olive_p, aes(x=linoleic, y=arachidic, color=region), alpha=0.1) +
+  geom_point(data=olive_sub, aes(x=linoleic, y=arachidic, color=region, shape=region), alpha=0.5) +
+  scale_color_brewer("", palette="Dark2") + 
+  theme_bw() + theme(aspect.ratio=1, legend.position="none") + 
+  ggtitle("Radial kernel")
+grid.arrange(p1, p2, ncol=2)
+
+```
+
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- Nonlinear boundaries
+- .green[High dimensions]
+
+]]
+.column[.top50px[
+
+Examining misclassifications and which points are selected to be support vectors
+
+<video width="700" controls> <source src="http://www.ggobi.org/book/chap-class/SVM.mov"> </video>
+
+]]
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- Nonlinear boundaries
+- .green[High dimensions]
+
+]]
+.column[.top50px[
+
+Examining boundaries
+
+<video width="700" controls> <source src="http://www.ggobi.org/book/chap-class/classifly.mov"> </video>
+
+]]
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- Nonlinear boundaries
+- .green[High dimensions]
+
+]]
+.column[.top50px[
+
+Boundaries of a radial kernel in 3D
+
+<video width="700" controls> <source src="https://vimeo.com/125405961"> </video>
+
+]]
+
+---
+class: split-30
+layout: false
+.column[.pad10px[
+## Outline
+
+- Separating hyperplane
+- LDA to SVM
+- Maximal margin 
+- Support vectors
+- Maximal margin classifier
+- Non-separable case
+- Nonlinear boundaries
+- .green[High dimensions]
+
+]]
+.column[.top50px[
+
+Boundaries of a polynomial kernel in 5D
+
+<video width="700" controls> <source src="https://vimeo.com/125405962"> </video>
+
+]]
+
+---
+layout: false
+# `r set.seed(2019); emo::ji("technologist")` Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+<br>
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+<br> 
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
