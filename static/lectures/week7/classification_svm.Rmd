@@ -556,6 +556,27 @@ Examining misclassifications and which points are selected to be support vectors
 
 <video width="700" controls> <source src="http://www.ggobi.org/book/chap-class/SVM.mov"> </video>
 
+```{r eval=FALSE}
+# Independent code block, so all is here
+library(tidyverse)
+library(e1071)
+library(tourr)
+library(RColorBrewer)
+olive <- read_csv("http://www.ggobi.org/book/data/olive.csv") %>%
+  rename(name=X1) %>%
+  mutate(region = factor(region, levels=1:3, labels=c("south", "sardinia", "north")))
+olive_sub <- olive %>% filter(region == "sardinia") %>%
+  mutate(area=factor(area))
+
+olive_svm <- svm(area~., data=olive_sub[,-c(1,2)], kernel="linear")
+pch <- rep(1, nrow(olive_sub))
+pch[olive_svm$index] <- 16
+pal <- brewer.pal(3, "Dark2")
+col <- pal[as.numeric(olive_sub$area)]
+quartz()
+animate_xy(olive_sub[,4:10], axes="bottomleft", col=col, pch=pch) 
+```
+
 ]]
 ---
 class: split-30

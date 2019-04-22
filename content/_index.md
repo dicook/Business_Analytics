@@ -87,17 +87,15 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 - [chocolates.csv](http://monba.dicook.org/data/chocolates.csv)
 - [student_sub.rds](http://monba.dicook.org/data/student_sub.rds)
 
-<!--
-## Download and view slides locally
+## Project
 
-Some of you may experience an issue about figures not showing in the slides. We have provided an R script to resolve this problem by viewing the slides locally. You could run the following snippet in R to download **week2 slides1**, for example. It will create a folder starting with `ETC3250-` on your `Desktop/`. You should be able to view the slides (no more missing figures) with any browser locally.
-
-```r
-source("http://monba.dicook.org/_render.R")
-# change the URL to download different lecture slides
-render_slides("http://monba.dicook.org/lectures/week2/linear-regression.html")
-```
--->
+- [Instructions](project.html)
+- [Data dictionary](data_dictionary.docx)
+- The data for this competition are not to be shared. Go to moodle for the links to the competition. You need to agree to these rules:
+    - Do not to share the data.
+    - Data is to be used only for Monash University's unit ETC3250, and no other purpose.
+	- Apply yourself, work independently until teams can be formed and to not cheat.
+	- Have fun, and still make time for other classwork.
 
 ## Exam information
 
