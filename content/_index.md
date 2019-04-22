@@ -89,8 +89,8 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 
 ## Project
 
-- [Instructions](project.html)
-- [Data dictionary](data_dictionary.docx)
+- [Instructions](project/project.html)
+- [Data dictionary](project/data_dictionary.docx)
 - The data for this competition are not to be shared. Go to moodle for the links to the competition. You need to agree to these rules:
     - Do not to share the data.
     - Data is to be used only for Monash University's unit ETC3250, and no other purpose.
