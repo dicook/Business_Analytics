@@ -1697,17 +1697,23 @@ $(document).ready(function () {
 <li>Experiment with “feature engineering” <strong><em>creating new variables</em></strong> that better summarise the point, based on the variables provided, to improve the accuracy of your model. A simple suggestion would be to make a new variable “gender” to lable the point as coming from a men’s game or a women’s game.</li>
 <li>Some sample code to build a model and generate your prediction file is:</li>
 </ul>
-<pre><code>load(&quot;ao_training.rda&quot;)
+<pre><code>library(tidyverse)
+library(randomForest)
+
+load(&quot;ao_training.rda&quot;)
 load(&quot;ao_test_unlabelled.rda&quot;)
 
 ao_rf &lt;- randomForest(outcome~., data=ao_tr[,-c(1,2,5,6)], importance=TRUE)
-ao_ts$pred &lt;- predict(ao_rf, newdata=ao_ts_unlablelled)
-mymode &lt;- function(d){
-  which.max(tabulate(d))
+ao_ts_unlablelled$pred &lt;- predict(ao_rf, newdata=ao_ts_unlablelled)
+
+mymode &lt;- function(d) { 
+  which.max(tabulate(d)) 
 }
-predictions &lt;- ao_ts %&gt;% group_by(pointid) %&gt;% 
-  summarise(outcome = mymode(pred)) %&gt;%
+predictions &lt;- ao_ts %&gt;% 
+  group_by(pointid) %&gt;% 
+  summarise(outcome = mymode(pred)) %&gt;% 
   arrange(pointid)
+
 write_csv(predictions, path=&quot;predictions_22_4.csv&quot;)</code></pre>
 </div>
 <div id="evaluation-criteria" class="section level2">
