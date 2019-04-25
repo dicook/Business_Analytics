@@ -101,7 +101,7 @@ layout: false
 .column[.pad10px[
 ## Outline
 
-- Bootstrap aggregation
+- [Bootstrap aggregation](https://monba.dicook.org/lectures/week7/classification_forests.html#2)
 - .green[Random forests]
     - Algorithm
 
