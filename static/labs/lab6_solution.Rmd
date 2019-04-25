@@ -1,0 +1,109 @@
+---
+title: "ETC3250 2019 - Lab 6"
+author: "Dianne Cook"
+date: "Week 6"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 6,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Class discussion 
+
+- In tour 1, how many clusters do you see?
+
+```{r eval=FALSE}
+olive <- read_csv("http://www.ggobi.org/book/data/olive.csv")library(tourr)
+quartz()
+animate_xy(olive[,3:10], axes="off")
+```
+
+**The students shoud say, more than 3, maybe more than 4.**
+
+- In tour 2, where three classes have been coloured, how many additional clusters do you see?
+
+```{r eval=FALSE}
+quartz()
+library(RColorBrewer)
+pal <- brewer.pal(3, "Dark2")
+col <- pal[olives$Region]
+animate_xy(olive[,3:10], axes="off", col=col)
+```
+
+**The students shoud be able to see that the purple group breaks into three clusters and the orange group breaks into two.**
+
+# Do it yourself
+
+This is basically replicating the plots made in the class notes. 
+
+1. Compute the means, standard deviations and correlation for the datasaurus dozen, and check that they are indeed all the same.
+2. Run a 2D projection grand tour for
+    a. the 6D flea data
+    b. the 7D womens track data
+3. Run a 2D guided tour 
+    a. using the holes index for the 6D flea data
+    b. using the lda_pp index for the 6D flea data, using species as the class
+    c. using the cmass index for the 7D womens track data
+4. Make a parallel coordinate plot for 6D flea data, coloured by species, with
+    a. axes ordered by any class
+    b. axes ordered by all classes
+
+# Practice
+
+This exercise uses the chocolates data. 
+
+*About the data:* The chocolates data was compiled by students in a previous class of Prof Cook, by collecting nutrition information on the chocolates as listed on their internet sites. All numbers were normalised to be equivalent to a 100g serving. Units of measurement are listed in the variable name.
+
+```{r eval=FALSE}
+library(tidyverse)
+choc <- read_csv("data/chocolates.csv")
+choc <- choc %>% mutate(Type = as.factor(Type))
+```
+
+1. Use the tour, with type of chocolate mapped to colour, and write a paragraph on whether the two types of chocolate differ on the nutritional variables. 
+
+```{r eval=FALSE}
+quartz()
+library(RColorBrewer)
+pal <- brewer.pal(3, "Dark2")
+col <- pal[as.numeric(choc$Type)]
+animate_xy(choc[,5:14], axes="bottomleft", col=col)
+```
+
+**The two types of chocolate are distinguishable, for the most part. They are centered around different means, have similar variability. There is no gap between clusters, and some chocolates appear to be more similar to the other type than they are labelled.**
+
+2. Make a parallel coordinate plot of the chocolates, coloured by type, with the variables sorted by how well they separate the groups. Maybe the "uniminmax" scaling might work best for this data. Write a paragraph explaining how the types of chocolates differ in nutritional characteristics.
+
+```{r eval=FALSE}
+library(GGally)
+library(plotly)
+p <- ggparcoord(choc, columns = 5:14, groupColumn = 4, order="anyClass", scale="uniminmax") +
+  scale_color_brewer(palette="Dark2") + ylab("")
+ggplotly(p)
+```
+
+**Na and Fiber are the most important variables for separating the chocolate types. Mostly milk chocolates have high Na and low Fiber, lot TotFat, low CalFat, higher Chol, Sugars, Carbs, and low SatFat. There is considerable overlap between the two types, and a number of chocolates seem more similar to the other type of chocolate as though they have been mislabelled.**
+
+3. Identify one dark chocolate that is masquerading as dark, that is, nutritionally looks more like a milk chocolate. Explain your answer. 
+
+```{r eval=FALSE}
+ggplot(choc, aes(x=Na_mg, y=Fiber_g, colour=Type, label=paste(MFR, Name))) + geom_point() +
+  scale_color_brewer(palette="Dark2") + theme(aspect.ratio=1)
+ggplotly()
+```
+
+**One example is Mars Dark Chocolate bar, which can be seen in Na and Fiber to be much more like a milk chocolate bar.**

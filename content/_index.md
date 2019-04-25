@@ -72,8 +72,12 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 - Week 3: [Instructions](http://monba.dicook.org/labs/lab3.html) ([Rmd](http://monba.dicook.org/labs/lab3.Rmd)) [SOLUTION](http://monba.dicook.org/labs/lab3_solution.html) ([Rmd](http://monba.dicook.org/labs/lab3_solution.Rmd))  [nrc.csv](http://monba.dicook.org/labs/data/nrc.csv)
 - Week 4: [Instructions](http://monba.dicook.org/labs/lab4.html) ([Rmd](http://monba.dicook.org/labs/lab4.Rmd)) [SOLUTION](http://monba.dicook.org/labs/lab4_solution.html) ([Rmd](http://monba.dicook.org/labs/lab4_solution.Rmd)) 
 - Week 5: [Instructions](http://monba.dicook.org/labs/lab5.html) ([Rmd](http://monba.dicook.org/labs/lab5.Rmd))
+[SOLUTION](http://monba.dicook.org/labs/lab5_solution.html) ([Rmd](http://monba.dicook.org/labs/lab5_solution.Rmd)) 
 - Week 6: [Instructions](http://monba.dicook.org/labs/lab6.html) ([Rmd](http://monba.dicook.org/labs/lab6.Rmd)) [womens_track.csv](http://monba.dicook.org/labs/data/womens_track.csv)
+[SOLUTION](http://monba.dicook.org/labs/lab6_solution.html) ([Rmd](http://monba.dicook.org/labs/lab6_solution.Rmd)) 
 - Week 7: [Instructions](http://monba.dicook.org/labs/lab7.html) ([Rmd](http://monba.dicook.org/labs/lab7.Rmd)) 
+[SOLUTION](http://monba.dicook.org/labs/lab7_solution.html) ([Rmd](http://monba.dicook.org/labs/lab7_solution.Rmd)) 
+
 
 ## Assignments
 
@@ -81,6 +85,8 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 - Assignment 2: [Instructions](http://monba.dicook.org/assignments/assignment2.html) ([Rmd](http://monba.dicook.org/assignments/assignment2.Rmd))
 [SOLUTION](http://monba.dicook.org/assignments/assignment2_solution.html) ([Rmd](http://monba.dicook.org/assignments/assignment2_solution.Rmd)) 
 - Assignment 3: [Instructions](http://monba.dicook.org/assignments/assignment3.html) ([Rmd](http://monba.dicook.org/assignments/assignment3.Rmd)) [vis_challenge.csv](http://monba.dicook.org/assignments/vis_challenge.csv)
+[SOLUTION](http://monba.dicook.org/assignments/assignment3_solution.html) ([Rmd](http://monba.dicook.org/assignments/assignment3_solution.Rmd)) 
+- Assignment 4: [Instructions](http://monba.dicook.org/assignments/assignment4.html) ([Rmd](http://monba.dicook.org/assignments/assignment4.Rmd))
 
 ## Data
 

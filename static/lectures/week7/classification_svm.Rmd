@@ -596,7 +596,7 @@ layout: false
 ]]
 .column[.top50px[
 
-Examining boundaries
+[Examining boundaries](http://www.ggobi.org/book/chap-class/classifly.mov)
 
 <video width="700" controls> <source src="http://www.ggobi.org/book/chap-class/classifly.mov"> </video>
 
@@ -619,7 +619,7 @@ layout: false
 ]]
 .column[.top50px[
 
-Boundaries of a radial kernel in 3D
+[Boundaries of a radial kernel in 3D](https://vimeo.com/125405961)
 
 <video width="700" controls> <source src="https://vimeo.com/125405961"> </video>
 
@@ -643,7 +643,7 @@ layout: false
 ]]
 .column[.top50px[
 
-Boundaries of a polynomial kernel in 5D
+[Boundaries of a polynomial kernel in 5D](https://vimeo.com/125405962)
 
 <video width="700" controls> <source src="https://vimeo.com/125405962"> </video>
 

@@ -1,0 +1,87 @@
+---
+title: "ETC3250 2019 - Lab 7"
+author: "Dianne Cook"
+date: "Week 7"
+output:
+  html_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 6,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Class discussion 
+
+For the olive oil data set, the classification tree will use just one variable for its model. It splits on linoleic acid as shown. 
+
+```{r out.width="70%"}
+library(tidyverse)
+library(rpart)
+olive <- read_csv("http://www.ggobi.org/book/data/olive.csv") %>%
+  rename(name=X1) %>%
+  filter(region != 1) %>%
+  dplyr::select(-name, -area) %>%
+  mutate(region = factor(region))
+rpart(region~., data=olive)
+ggplot(olive, aes(x=linoleic, y=region, colour=region)) + 
+  geom_point(alpha=0.5) + scale_colour_brewer("", palette="Dark2") +
+  theme(legend.position="none") +
+  geom_vline(xintercept=1053.5)
+```
+
+*Question 1: There is no gap. Do you think this might be a problem with future data? Why?*
+
+**There is more uncertainty at the border when the groups are close to each other. And the particular choice of training set might change the rule substantially. Its likely that new observation falling in the region close to the border will often be incorrectly predicted.**
+
+If we look at some other variables, oleic and arachidic acid, in relation to linoleic. 
+
+```{r out.width="100%", fig.width=8}
+library(gridExtra)
+p1 <- ggplot(olive, aes(x=linoleic, y=oleic, colour=region)) + 
+  geom_point() + scale_colour_brewer("", palette="Dark2") +
+  theme(legend.position="none", aspect.ratio=1) 
+p2 <- ggplot(olive, aes(x=linoleic, y=arachidic, colour=region)) + 
+  geom_point() + scale_colour_brewer("", palette="Dark2") +
+  theme(legend.position="none", aspect.ratio=1) 
+grid.arrange(p1, p2, ncol=2)
+```
+
+*Question 2: If you got to choose two variables for splitting the two groups, which would you choose, oleic or arachidic, in association with linoleic?*
+
+**My pick would be arachidic because there is a big gap between regions, although the tricky part is that is is nonlinear.**
+
+*Question 3: Suppose you work with linoleic and arachidic. Would quadratic discriminant analysis produce a better separation than the tree? Argue your viewpoint.*
+
+**No, it doesn't!! You think it produces a quadratic boundary, and yes, that's true, but the quadratic is driven by different elliptical variance-covariance, not by a nonlinear gap. The variance-covariance for region 3 is not elliptical.**
+
+*Question 4: Find a linear combination of linoleic and arachidic, and create a new variable to pass to the tree. Re-fit the tree with this variable instead of the original two. What does the model look like now? Is this better than the original tree?*
+
+```{r}
+olive <- olive %>% 
+  mutate(linoarach = 0.09481409*linoleic+0.2333333*arachidic)
+rpart(region~., data=olive[,-c(5,6)])
+ggplot(olive, aes(x=linoarach, y=region, colour=region)) + 
+  geom_point(alpha=0.5) + scale_colour_brewer("", palette="Dark2") +
+  theme(legend.position="none") + geom_vline(xintercept=109.09)
+```
+
+**The model looks better. Even though its only a linear boundary, it is more robust, because this combination of variables gives a bigger gap between the two classes.**
+
+*Question 5: In general, why is it often important to create new variables (feature engineering) when building models?*
+
+**Often the problem being studied can be better defined by a specific set of variables which may require some transformation of the original variables.**
+

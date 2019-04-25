@@ -1,0 +1,40 @@
+---
+title: "ETC3250 2019 - Lab 5"
+author: "SOLLUTION"
+date: "Week 5"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 6,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Class discussion 
+
+Textbook question, chapter 10 Q6a,b
+
+*The description suggests that the coefficients of the first PC are strongly associated with the order that the experiment was conducted in, since the "columns of X are ordered so that the samples that were processed earliest are on the left, and the samples that were processed later are on the right". This suggests that there might be what is called a batch effect, that the machines calibration drifted as the experiment continued. The maximum variation (10%) in the data appears to be due to the time of processing.*
+
+*The researcher is attempting to correct the batch effect after doing PCA, and it might help. A better approach would be correct before doing PCA, by subtracting the mean of each variable.*
+
+# Activities
+
+If you need to use the lab time to coordinate the team submission for assignment 2, please do.
+
+If your team has completed and coordinated their submission, and you would like to practice doing principal component analysis, work your way through the textbook lab activity 10.6.1. If you are comfortable with your tidyverse coding skills, please improve the code from that used in the textbook. (And share it with your tutor!)
+
+Also, questions 10.8, 10.10a,b are good questions to attempt. 
+
