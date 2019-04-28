@@ -1,0 +1,139 @@
+---
+title: "ETC3250 2019 - Lab 8"
+author: "Dianne Cook"
+date: "Week 8"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 6,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Class discussion 
+
+This is a diagram explaining boosting. The three tree models in the top row are combined to give the boosted model in box 4. Come up with a some words and sentences, together, to explain the process. 
+
+![](boosting.png)
+
+How would a single tree with multiple splits fit this data? What is different about the two approaches?
+
+# Activities
+
+- Sign up for a kaggle account. 
+- Upload s set of predictions for the tennis data challenge.
+
+# Do it yourself
+
+This exercise is based on the lab material in chapter 8 of the textbook, and exercise 11. Solutions to the textbook exercise can be found at https://blog.princehonest.com/stat-learning/ch8/11.html. 
+
+1. Use the `Caravan` data from the `ISLR` package. Read the data description.
+
+a. Compute the proportion of caravans purchased to not purchased. Is this a balanced class data set? What problem might be encountered in assessing the accuracy of the model as a consequence?
+b. Convert the response variable from a factor to an integer variable, where 1 indicates that the person purchased a caravan.
+c. Break the data into 2/3 training and test set, ensuring that the same ratio of the response variable is achieved in both sets. Check that your sampling has produced this.
+d. The solution code on the unofficial solution web site:
+
+```
+library(ISLR)
+train = 1:1000
+Caravan$Purchase = ifelse(Caravan$Purchase == "Yes", 1, 0)
+Caravan.train = Caravan[train, ]
+Caravan.test = Caravan[-train, ]
+```
+
+would use just the first 1000 cases for the training set. What is wrong about doing this?
+
+```{r eval=FALSE}
+library(tidyverse)
+library(ISLR)
+data(Caravan)
+library(gbm)
+library(randomForest)
+library(xgboost)
+library(caret)
+mycaravan <- Caravan %>% ???(Purchase = as.integer(ifelse(Caravan$Purchase == "Yes", 1, 0)))
+mycaravan %>% ???(Purchase)
+set.seed(???)
+tr_indx <- createDataPartition(mycaravan$Purchase, p=???)$Resample1
+c_tr = mycaravan[???, ]
+c_ts = mycaravan[-???, ]
+```
+
+2. Here we will fit a boosted tree model, using the `gbm` package.  
+
+a. Use 1000 trees, and a shrinkage value of 0.01. 
+b. Make a plot of the oob improvement against iteration number. What does this suggest about the number of iterations needed? Why do you think the oob improvement value varies so much, and can also be negative?
+c. Compute the error for the test set, and for each class. Consider a proportion 0.2 or greater to indicate that the customer will purchase a caravan.
+d. What are the 6 most important variables? Make a plot of each to examine the relationship between these variables and the response. Explain what you learn from these plots.
+
+```{r eval=FALSE}
+c_boost = gbm(Purchase ~ ., data = ???, n.trees = ???, shrinkage = ???, 
+    distribution = "bernoulli")
+summary(c_boost, plotit=FALSE)
+
+c_boost_diag <- tibble(iter=1:1000, tr_err=c_boost$train.error, oob_improve=c_boost$oobag.improve)
+ggplot(c_boost_diag, aes(x=iter, y=???)) + geom_point() + geom_smooth()
+
+boost.prob = predict(???, c_ts, n.trees = 1000, type = "response")
+boost.pred = ifelse(boost.prob > ???, 1, 0)
+addmargins(table(c_ts$Purchase, ???))
+
+
+ggplot(c_tr, aes(x=Purchase, y=???)) + geom_jitter(height=0, alpha=0.5)
+ggplot(c_tr, aes(x=factor(???), fill=factor(Purchase))) + 
+  geom_bar(position="fill") + scale_fill_brewer("", palette="Dark2")
+```
+
+2. Here we will fit a random forest model, using the `randomForest` package.  
+
+a. Use 1000 trees, using a numeric response so that predictions will be a number between 0-1, and set `importance=TRUE`. (Ignore the warning about not having enough distinct values to use regression.)
+b. Compute the error for the test set, and for each class. Consider a proportion 0.2 or greater to indicate that the customer will purchase a caravan.
+c. What are the 6 most important variables? Make a plot of any that are different from those chosen by `gbm`. How does the set of variables compare with those chosen by `gbm`.
+
+```{r eval=FALSE}
+c_rf <- randomForest(Purchase~., data=???, ntree=???, importance=???)
+rf.prob <- predict(???, newdata=???)
+rf.pred <- ifelse(rf.prob > ???, 1, 0)
+addmargins(table(c_ts$Purchase, ???))
+as_tibble(c_rf$importance) %>% bind_cols(var=rownames(c_rf$importance)) %>%
+  arrange(desc(IncNodePurity))
+```
+
+3. Here we will fit a gradient boosted model, using the `xgboost` package.
+
+a.  Read the description of the XGBoost technique at https://www.hackerearth.com/practice/machine-learning/machine-learning-algorithms/beginners-tutorial-on-xgboost-parameter-tuning-r/tutorial/, or other sources. Explain how this algorithm might differ from earlier boosted tree algorithms.
+b. Tune the model fit to determine how many iterations to make. Then fit the model, using the parameter set provided.
+b. Compute the error for the test set, and for each class. Consider a proportion 0.2 or greater to indicate that the customer will purchase a caravan.
+c. Compute the variable importance. What are the 6 most important variables? Make a plot of any that are different from those chosen by `gbm` or `randomForest`. How does the set of variables compare with the other two methods.
+
+```{r eval=FALSE}
+c_tr_xg <- xgb.DMatrix(data = as.matrix(c_tr[,-???]), label = c_tr[,???])
+c_ts_xg <- xgb.DMatrix(data = as.matrix(c_ts[,-???]), label = c_ts[,???])
+
+params <- list(booster = "gbtree", objective = "binary:logistic", eta=0.3, gamma=0, max_depth=6, min_child_weight=1, subsample=1, colsample_bytree=1)
+
+xgbcv <- xgb.cv(params = ???, data = ???, nrounds = 100, nfold = 5, showsd = T, stratified = T, print.every.n = 10, early.stop.round = 20, maximize = F)
+
+c_xgb <- xgb.train(params = ???, data = ???, nrounds = ???, watchlist = list(val=c_ts_xg,train=c_tr_xg), print.every.n = 10, early.stop.round = 10, maximize = F , eval_metric = "error")
+xgbpred <- predict(???, ???)
+xgbpred <- ifelse (xgbpred > ???, 1, 0)
+addmargins(table(c_ts$Purchase, ???))
+
+c_xgb_importance <- ???(feature_names = colnames(c_tr[,-86]), model = c_xgb)
+c_xgb_importance
+```
+
+4. Compare and summarise the results of the three model fits. 

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>ETC3250: Neural networks</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
+    <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ETC3250: Neural networks
+## Semester 1, 2019
+### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
+### Week 8 (a)
+
+---
+
+
+
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .orange[Logistic regression]
+
+
+]]
+.column[.top50px[
+
+Remember the logistic function:
+
+`\begin{align}
+y &amp;=&amp; \frac{e^{\beta_0+\sum_{j=1}^p\beta_jx_j}}{1+e^{\beta_0+\sum_{j=1}^p\beta_jx_j}}\\
+  &amp;=&amp; \frac{1}{1+e^{-(\beta_0+\sum_{j=1}^p\beta_jx_j})}
+\end{align}`
+
+Alternatively,
+
+`$$\log_e\frac{y}{1 - y} = \beta_0+\sum_{j=1}^p\beta_jx_j$$`
+]]
+
+---
+class: split-50
+layout: false
+
+.column[.top50px[
+
+What the .orange[logistic function] looks like:
+
+`\begin{align}
+y =\frac{1}{1+e^{-(\beta_0+\sum_{j=1}^p\beta_jx_j})}
+\end{align}`
+
+]]
+
+.column[.top50px[
+
+
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-1-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+]]
+---
+class: middle
+
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;center&gt;
+.font_large[Hang on to this idea....]
+&lt;/center&gt;
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Logistic regression](#2)
+- .orange[Network explanation]
+    - Linear regression as a network
+
+]]
+.column[.top50px[
+
+.split-50[
+
+.column[
+`$$\hat{y} =\beta_0+\sum_{j=1}^p\beta_jx_j$$`
+
+Drawing as a network model: 
+
+&lt;img src="images/reg_nn.png" style="width: 90%; align: center" /&gt;
+]
+.column[
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+`\(p\)` .orange[inputs] (predictors), multiplied by .orange[weights] (coefficients), summed, add a .orange[constant], predicts .orange[output] (response)
+]
+]
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Logistic regression](#2)
+- .orange[Network explanation]
+    - Linear regression as a network
+    - Hidden layer
+
+]]
+.column[.top50px[
+
+`$$\hat{y} =\alpha_{0}+\sum_{k=1}^s(\alpha_{k}(\beta_{j0}+\sum_{j=1}^p\beta_{jk}x_j))$$`
+
+A linear regression model nested within a linear regression model allows for intrinsic dimension reduction, or expansion.
+
+&lt;img src="images/nn.png" style="width: 60%; align: center" /&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Logistic regression](#2)
+- [Network explanation](#4)
+- .orange[Neural network model]
+    - Two layer perceptron
+
+]]
+.column[.top50px[
+
+This is a single output, 2 layer, perceptron (neural network), with a linear threshold.
+
+`\begin{align}
+\hat{y} =\alpha_{0}+\sum_{k=1}^s(\alpha_{k}(\beta_{j0}+\sum_{j=1}^p\beta_{jk}x_j))
+\end{align}`
+
+&lt;img src="images/nn_annotate.png" style="width: 80%; align: center" /&gt;
+
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Logistic regression](#2)
+- [Network explanation](#4)
+- .orange[Neural network model]
+    - Two layer perceptron
+    - History
+
+]]
+.column[.top50px[
+
+"A logical calculus of the ideas immanent in nervous activity" (1943)
+Warren S. McCulloch &amp; Walter Pitts
+
+Mathematical model for a neuron.
+
+
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-3-.gif" width="576" style="display: block; margin: auto;" /&gt;
+
+]]
+
+
+---
+
+Back to logistic regression: When the proportion gets to 0.5, it .orange[activates] an event to happen `\((Y=1)\)`.
+
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-4-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Logistic regression](#2)
+- [Network explanation](#4)
+- .orange[Neural network model]
+    - Two layer perceptron
+    - History
+    - Activation functions
+
+]]
+.column[.top50px[
+
+`\begin{align}
+\hat{y} =\color{orange}g\color{orange}(\alpha_{0}+\sum_{k=1}^s(\alpha_{k}\color{orange}f\color{orange}(\beta_{j0}+\sum_{j=1}^p\beta_{jk}x_j)\color{orange})\color{orange})
+\end{align}`
+
+Let `\(u=\beta_0+\sum_{j=1}^p\beta_jx_j\)`
+- Logistic: `\(\color{orange}{\frac{1}{1+e^{-u}}}\)`
+- Gaussian radial: `\(\color{orange}{\frac{1}{\sqrt{2\pi}}e^{-u^2/2}}\)`
+- Hyperbolic tangent: `\(\color{orange}{\frac{e^u-e^{-u}}{e^u+e^{-u}}}\)`
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Logistic regression](#2)
+- [Network explanation](#4)
+- .orange[Neural network model]
+    - Two layer perceptron
+    - History
+    - Activation functions
+    - Neurons
+
+]]
+.column[.top50px[
+
+&lt;img src="images/nn_neurons.png" style="width:100%" /&gt;
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Logistic regression](#2)
+- [Network explanation](#5)
+- [Neural network model](#7)
+- .orange[Fitting procedures]
+
+]]
+.column[.top50px[
+
+`$$RSS = \sum_{i=1}^{n} (y_i-\hat{y}_i)^2$$`
+
+Often combined with some shrinkage criterion (covered in "Regularization" section).
+
+`$$RSS + \lambda \sum_{k} w_k^2$$`
+
+where `\(w\)` indicates the set of weights in the model, labelled `\(\alpha, \beta\)` earlier. Forces some of the weights to zero (or close to), to alleviate over-parametrization, and over-fitting.
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Logistic regression](#2)
+- [Network explanation](#5)
+- [Neural network model](#7)
+- [Fitting procedures](#12)
+- .orange[Example]
+
+]]
+.column[.top50px[
+
+
+
+
+```r
+library(neuralnet)
+set.seed(108)
+choc_nn &lt;- neuralnet(Type~., data=choc_tr, hidden=7)
+pred &lt;- predict(choc_nn, choc_ts)
+choc_ts$pred &lt;- pred[,1] &lt; 0.5
+table(choc_ts$Type, choc_ts$pred)
+```
+
+```
+##       
+##        FALSE TRUE
+##   Dark    23    5
+##   Milk     1   15
+```
+
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-7-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+]]
+
+---
+class: split-40
+layout: false
+
+.column[
+
+## Fitted model
+
+&lt;img src="images/choc_nn.png" style="width: 80%" /&gt;
+
+
+]
+.column[
+
+
+```
+##              s1    s2    s3    s4    s5    s6    s7
+## intercept -0.68  5.19 -0.76 -0.42 -0.68  0.05 -0.15
+## Calories   1.72 -1.55  1.14 -0.81  0.90  0.06  0.65
+## CalFat    -2.73 -1.13 -2.64 -2.08 -1.56 -0.49  0.01
+## TotFat_g  -3.11 -2.62 -0.19 -0.24 -2.55 -0.35 -1.63
+## SatFat_g   0.37  1.64 -0.68 -0.93 -1.23 -0.22 -1.08
+## Chol_mg    0.41 -1.09 -0.08  1.13  0.41  0.17  0.16
+## Na_mg      1.84  6.63  2.64  1.80  1.48  0.71  0.99
+## Carbs_g    0.47  4.71  1.61  0.45  0.50  0.76  0.76
+## Fiber_g   -1.90  2.01 -0.72 -2.63 -2.44 -0.39 -1.04
+## Sugars_g  -0.37 -1.94  0.44 -0.14 -0.38  0.39  0.04
+## Protein_g  0.13  1.62 -2.31 -0.08  0.47  0.10  0.42
+```
+
+```
+##            Dark  Milk
+## intercept  1.01  0.00
+## s1        -1.05  1.33
+## s2         0.00  0.18
+## s3         0.22  0.32
+## s4         0.63 -0.08
+## s5        -1.59 -0.01
+## s6        -0.45 -0.94
+## s7         1.21  0.15
+```
+]
+
+---
+class: split-40
+layout: false
+
+.column[.top50px[
+
+&lt;img src="images/choc_nn_annotate.png" style="width: 80%" /&gt;
+
+
+]]
+.column[.top50px[
+
+
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+Mistakes made by each neuron
+
+
+```
+## # A tibble: 1 x 7
+##      s1    s2    s3    s4    s5    s6    s7
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1     4    13     5     5     3     7     9
+```
+
+]]
+
+---
+class: split-40
+layout: false
+
+.column[.top50px[
+
+&lt;img src="images/choc_nn_annotate2.png" style="width: 80%" /&gt;
+
+
+]]
+.column[.top50px[
+
+
+Weights of each neuron reflect their strength
+
+
+```
+## # A tibble: 1 x 7
+##      s1    s2    s3    s4    s5    s6    s7
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+## 1     4    13     5     5     3     7     9
+```
+
+```
+##            Dark  Milk
+## intercept  1.01  0.00
+## s1        -1.05  1.33
+## s2         0.00  0.18
+## s3         0.22  0.32
+## s4         0.63 -0.08
+## s5        -1.59 -0.01
+## s6        -0.45 -0.94
+## s7         1.21  0.15
+```
+
+
+
+]]
+
+---
+class: split-70
+layout: false
+
+.column[.pad50px[
+
+Are the same observations misclassifed by each neuron, or do some neurons do unique work?
+
+
+```
+## # A tibble: 44 x 9
+##      obs    s1    s2    s3    s4    s5    s6    s7  nerr
+##    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1    10     0     0     1     1     1     1     1     5
+##  2    16     1     0     0     1     1     0     1     4
+##  3    14     0     1     0     1     0     0     1     3
+##  4    24     0     1     0     1     0     1     0     3
+##  5    27     1     0     0     0     0     1     1     3
+##  6     2     1     1     0     0     0     0     0     2
+##  7     4     0     1     0     0     0     0     1     2
+##  8     9     1     1     0     0     0     0     0     2
+##  9    11     0     0     0     1     0     0     1     2
+## 10    20     0     0     0     0     0     1     1     2
+## 11    25     0     1     0     0     0     0     1     2
+## # … with 33 more rows
+```
+
+It's .orange[not the same] observations that are misclassifed by each neuron.
+
+]]
+.column[.top50px[
+
+.orange[Obs 10]: Dark Chocolate, Ritter Sport, German
+
+.orange[Obs 16]: Dark Chocolate Bar, Celtic, UK
+
+.orange[Obs 14]: Dark w/ Honey and Almond Nougat, Toblerone, Switzerland
+
+.orange[Obs 24]: Bliss Dark Chocolate, Hershey's, US
+
+*Note: Mars Dark choc was not in training set.*
+]]
+
+---
+class: split-60
+layout: false
+
+.column[.pad50px[
+
+.font_tiny[.content[
+
+```
+##              s1    s2    s3    s4    s5    s6    s7
+## intercept -0.68  5.19 -0.76 -0.42 -0.68  0.05 -0.15
+## Calories   1.72 -1.55  1.14 -0.81  0.90  0.06  0.65
+## CalFat    -2.73 -1.13 -2.64 -2.08 -1.56 -0.49  0.01
+## TotFat_g  -3.11 -2.62 -0.19 -0.24 -2.55 -0.35 -1.63
+## SatFat_g   0.37  1.64 -0.68 -0.93 -1.23 -0.22 -1.08
+## Chol_mg    0.41 -1.09 -0.08  1.13  0.41  0.17  0.16
+## Na_mg      1.84  6.63  2.64  1.80  1.48  0.71  0.99
+## Carbs_g    0.47  4.71  1.61  0.45  0.50  0.76  0.76
+## Fiber_g   -1.90  2.01 -0.72 -2.63 -2.44 -0.39 -1.04
+## Sugars_g  -0.37 -1.94  0.44 -0.14 -0.38  0.39  0.04
+## Protein_g  0.13  1.62 -2.31 -0.08  0.47  0.10  0.42
+```
+]]
+
+.orange[Variable importance]
+
+Because the variables have all been standardised, the .orange[magnitude] of the weights reflect their importance.
+
+]]
+.column[.top50px[
+
+
+&lt;img src="classification_nn_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Logistic regression](#2)
+- [Network explanation](#5)
+- [Neural network model](#7)
+- [Fitting procedures](#12)
+- [Example](#13)
+- .orange[Stability]
+
+]]
+.column[.top50px[
+
+Different random .orange[start] could lead to a .orange[different model]. .orange[Choice of] `\(s\)` also needs to be made, ideally by cross-validation.
+
+
+```r
+choc_nn &lt;- neuralnet(Type~., data=choc_tr, hidden=7)
+```
+
+
+```
+##       
+##        FALSE TRUE
+##   Dark    22    6
+##   Milk     1   15
+```
+
+
+```
+##       
+##        FALSE TRUE
+##   Dark    21    7
+##   Milk     2   14
+```
+
+
+```
+##       
+##        FALSE TRUE
+##   Dark    22    6
+##   Milk     2   14
+```
+
+]]
+
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Logistic regression](#2)
+- [Network explanation](#5)
+- [Neural network model](#7)
+- [Fitting procedures](#12)
+- [Example](#13)
+- [Stability](#19)
+- .orange[Multiple classes]
+
+]]
+.column[.top50px[
+
+Response is coded as a binary matrix, which allows `\(K&gt;2\)`.
+
+
+```
+## # A tibble: 10 x 3
+##    Type   Dark  Milk
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 Dark      1     0
+##  2 Milk      0     1
+##  3 Milk      0     1
+##  4 Dark      1     0
+##  5 Dark      1     0
+##  6 Dark      1     0
+##  7 Dark      1     0
+##  8 Milk      0     1
+##  9 Milk      0     1
+## 10 Dark      1     0
+```
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Logistic regression](#2)
+- [Network explanation](#5)
+- [Neural network model](#7)
+- [Fitting procedures](#12)
+- [Example](#19)
+- [Multiple classes](#20)
+- .orange[Deep learning]
+
+]]
+.column[
+
+.split-30[
+.column[.pad10px[
+
+Deep learning models are neural networks.
+
+Example of image processing through hidden layers generated by different .orange[pixel aggregations].
+
+]]
+.column[
+
+&lt;br&gt;
+&lt;img src="images/titterington.png" style="width: 90%; align: center" /&gt;
+
+]]
+]]
+---
+
+## Resources
+
+- [Neural Networks: A Review from a Statistical Perspective](https://projecteuclid.org/euclid.ss/1177010638)
+- [A gentle journey from linear regression to neural networks](https://towardsdatascience.com/a-gentle-journey-from-linear-regression-to-neural-networks-68881590760e)
+- [McCulloch-Pitts Neuron -- Mankind’s First Mathematical Model Of A Biological Neuron](https://towardsdatascience.com/mcculloch-pitts-model-5fdf65ac5dd1)
+
+---
+layout: false
+# 👩‍💻 Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+&lt;br&gt;
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+&lt;br&gt; 
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
