@@ -48,7 +48,7 @@ Remember the logistic function:
 
 \begin{align}
 y &=& \frac{e^{\beta_0+\sum_{j=1}^p\beta_jx_j}}{1+e^{\beta_0+\sum_{j=1}^p\beta_jx_j}}\\
-  &=& \frac{1}{1+e^{-(\beta_0+\sum_{j=1}^p\beta_jx_j})}
+  &=& \frac{1}{1+e^{-(\beta_0+\sum_{j=1}^p\beta_jx_j)}
 \end{align}
 
 Alternatively,
