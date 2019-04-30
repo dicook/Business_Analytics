@@ -22,7 +22,7 @@ library(tidyverse)
 choc <- read_csv("data/chocolates.csv")
 choc <- choc %>% mutate(Type = as.factor(Type))
 ```
-    a. Use the tour, with type of chocolate mapped to colour, and write a paragraph on whether the two types of chocolate differ on the nutritional variables. 
+a. (2)Use the tour, with type of chocolate mapped to colour, and write a paragraph on whether the two types of chocolate differ on the nutritional variables. 
 ```{r eval=FALSE}
 quartz()
 library(RColorBrewer)
@@ -30,8 +30,10 @@ pal <- brewer.pal(3, "Dark2")
 col <- pal[as.numeric(choc$Type)]
 animate_xy(choc[,5:14], axes="bottomleft", col=col)
 ```
+
 **The two groups are different from each other, but they are not spearated groups. There are some chocolates of each type that are more similar to the other type on these nutritional charateristics.**
-    b. Make a parallel coordinate plot of the chocolates, coloured by type, with the variables sorted by how well they separate the groups. Maybe the "uniminmax" scaling might work best for this data. Write a paragraph explaining how the types of chocolates differ in nutritional characteristics.
+
+b. (2)Make a parallel coordinate plot of the chocolates, coloured by type, with the variables sorted by how well they separate the groups. Maybe the "uniminmax" scaling might work best for this data. Write a paragraph explaining how the types of chocolates differ in nutritional characteristics.
 ```{r}
 library(GGally)
 library(plotly)
@@ -39,17 +41,21 @@ p <- ggparcoord(choc, columns = 5:14, groupColumn = 4, order="anyClass", scale="
   scale_color_brewer(palette="Dark2") + ylab("")
 ggplotly(p)
 ```
+
 **The trend in lines differs for the two types of chocolates. Milk chocolates tend to have higher values on the variables Na, Chol, Sugars and Carbs, and Dark chocolates tend to have higher values on Fiber, TotFat, CalFat, SatFat. Protein and Calories tend not to be different on chocolate types.**
-    c. Identify one dark chocolate that is masquerading as dark, that is, nutritionally looks more like a milk chocolate. Explain your answer. 
+
+c. (2)Identify one dark chocolate that is masquerading as dark, that is, nutritionally looks more like a milk chocolate. Explain your answer. 
 ```{r }
 ggplot(choc, aes(x=Na_mg, y=Fiber_g, colour=Type, label=paste(MFR, Name))) + geom_point() +
   scale_color_brewer(palette="Dark2") + theme(aspect.ratio=1)
 ggplotly()
 ```
+
 **Mars Dark chocolate is one that appears to be more nutritionally similar to milk chocolate.**
+
 2. Subset the olive oil data to regions 2, 3 only. 
     a. Fit a linear discriminant analysis model. 
-    b. Write down the rule. Make it clear which region is class 1 and class 2 relative to the formula in the notes.
+    b. (3)Write down the rule. Make it clear which region is class 1 and class 2 relative to the formula in the notes.
 ```{r eval=TRUE}
 library(tidyverse)
 library(MASS)
@@ -61,6 +67,7 @@ olive_lda
 as.matrix(olive_lda$means)%*%olive_lda$scaling
 apply(as.matrix(olive_lda$means), 2, mean)%*%olive_lda$scaling
 ```
+
 **Assign a new observation to region 3 if
 0.003883828palmitic+0.013671576palmitoleic+
 0.017953780stearic+0.003574435oleic-
@@ -79,15 +86,20 @@ id    x     class
 6     6     2
 7     8     2
 ```
-    a. Write down the formulae for the impurity metric, entropy. Show that entropy $plog p$ has its highest value at 0.5. Explain why a value of 0.5 leads to the worst possible split.
+
+a. (2)Write down the formulae for the impurity metric, entropy. Show that entropy $plog p$ has its highest value at 0.5. Explain why a value of 0.5 leads to the worst possible split.
+
 $$-plog(p)-(1-p)log(1-p)$$
+
 ```{r eval=TRUE}
 p <- seq(0.05, 0.95, 0.05)
 df <- tibble(p, ent=-p*log(p)-(1-p)*log(1-p))
 ggplot(df, aes(p, ent)) + geom_line()
 ```
+
 **A value of 0.5 corresponds to a group with even number of observations in the subset. Thus, it is a very mixed group, and not pure.**
-    b. Write an function to compute impurity measure, entropy, for a data partitition. 
+
+b. (2)Write an function to compute impurity measure, entropy, for a data partitition. 
     
 ```{r  eval=TRUE, echo=TRUE}
 myentropy <- function(p) {
@@ -118,7 +130,7 @@ mysplit <- function(x, spl, cl) {
 }
 ```
 
-c. Use your function to compute the entropy impurity measure for every possible split of the sample data. 
+c. (2)Use your function to compute the entropy impurity measure for every possible split of the sample data. 
     
 ```{r eval=TRUE}
 df <- tibble(id=1:7, x=c(-4,1,3,4,5,6,8), class=c(1,1,2,1,1,2,2))
@@ -133,7 +145,7 @@ df_impurity <- tibble(split, imp)
 df_impurity
 ```
 
-d. Make a plot of your splits and the impurity measure. Where would the split be made?
+d. (2)Make a plot of your splits and the impurity measure. Where would the split be made?
 
 ```{r eval=TRUE}
 ggplot() + geom_line(data=df_impurity, aes(x=split, y=imp)) +
@@ -143,14 +155,14 @@ ggplot() + geom_line(data=df_impurity, aes(x=split, y=imp)) +
   theme(legend.position="none")
 ```
 
-e. Subset the olive oil data to regions 2, 3 only. Fit a classification tree to this data. Summarise the model fit, by writing out the deicsion tree.
+e. (2)Subset the olive oil data to regions 2, 3 only. Fit a classification tree to this data. Summarise the model fit, by writing out the decision tree.
 
 ```{r eval=TRUE}
 library(rpart)
 olive_rp <- rpart(region~., data=olive[,-c(1,3)])
 olive_rp
 ```
-f. Compute entropy impurity measure for all possible splits on linoleic acid. Plot this against the splits. Explain where the best split is.
+f. (2)Compute entropy impurity measure for all possible splits on linoleic acid. Plot this against the splits. Explain where the best split is.
 ```{r eval=TRUE}
 split <- NULL; imp <- NULL;
 ord <- order(olive$linoleic)
@@ -170,7 +182,7 @@ ggplot() + geom_line(data=olive_impurity, aes(x=split, y=imp)) +
   theme(legend.position="none")
 ```
 
-g. Compute entropy impurity measure for all possible splits on all of the other variables, except for eicosenoic acid. Plot all of these values against the split, all six plots. Are there other possible candiadates for splitting, that are almost as good as the one chosen by the tree? Explain yourself.
+g. (3)Compute entropy impurity measure for all possible splits on all of the other variables, except for eicosenoic acid. Plot all of these values against the split, all six plots. Are there other possible candidates for splitting, that are almost as good as the one chosen by the tree? Explain yourself.
 
 ```{r eval=TRUE}
 all <- NULL
@@ -200,7 +212,7 @@ ggplot() + geom_line(data=all, aes(x=split, y=imp)) +
   theme(legend.position="none")
 ```
 
-4. In the simulated data provided, determine how many groups there are, and whether there are any outliers. Explain your answers.
+4. (3)In the simulated data provided, determine how many groups there are, and whether there are any outliers. Explain your answers.
 
 ```{r}
 # This is the code used to generate the data

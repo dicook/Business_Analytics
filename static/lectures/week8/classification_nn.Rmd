@@ -337,9 +337,10 @@ layout: false
 .column[.top50px[
 
 ```{r}
-library(reshape)
+#library(reshape)
 choc <- read_csv("data/chocolates.csv")
-choc_std <- rescaler(choc)
+choc_std <- choc %>%
+  mutate_if(is.numeric, list(scale))
 library(caret)
 set.seed(20190426)
 tr_indx <- createDataPartition(choc$Type)$Resample1
