@@ -337,10 +337,12 @@ layout: false
 .column[.top50px[
 
 ```{r}
-#library(reshape)
 choc <- read_csv("data/chocolates.csv")
+mystd <- function(x) {
+  x <- (x-mean(x, na.rm=TRUE))/sd(x, na.rm=TRUE)
+}
 choc_std <- choc %>%
-  mutate_if(is.numeric, list(scale))
+  mutate_if(is.numeric, list(mystd))
 library(caret)
 set.seed(20190426)
 tr_indx <- createDataPartition(choc$Type)$Resample1
