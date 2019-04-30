@@ -57,6 +57,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 [slides2](http://monba.dicook.org/lectures/week7/classification_svm.html) ([Rmd](http://monba.dicook.org/lectures/week7/classification_svm.Rmd)) 
 - Week 8: Ensembles and boosted models, Chapter 8.2 
 [slides1](http://monba.dicook.org/lectures/week8/classification_nn.html) ([Rmd](http://monba.dicook.org/lectures/week8/classification_nn.Rmd))
+[slides2](http://monba.dicook.org/lectures/week8/regularization.html) ([Rmd](http://monba.dicook.org/lectures/week8/regularization.Rmd))
 - Week 9: Regularization methods, Chapter 6
 - Week 10: Model assessment, Instructor's notes
 - Week 11: Clustering, Chapter 10

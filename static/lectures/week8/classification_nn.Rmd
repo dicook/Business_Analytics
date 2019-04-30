@@ -310,6 +310,15 @@ $$RSS + \lambda \sum_{k} w_k^2$$
 where $w$ indicates the set of weights in the model, labelled $\alpha, \beta$ earlier. Forces some of the weights to zero (or close to), to alleviate over-parametrization, and over-fitting.
 
 ]]
+---
+layout: false
+
+```{r out.width="50%"}
+rey <- image_read("images/rey.jpg")
+meme_text_top(rey, "Does anyone know \n how to use this?", 
+              degrees=270, location = "-200+240", font="Impact") %>%
+  image_rotate(90)
+```
 
 ---
 class: split-30

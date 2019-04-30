@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>ETC3250: Regularization</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
+    <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ETC3250: Regularization
+## Semester 1, 2019
+### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
+### Week 8 (b)
+
+---
+
+
+
+
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .orange[Too many variables]
+
+]]
+.column[.top50px[
+
+Fitting a linear regression model requires:
+
+`\begin{align*}
+		%\underset{{\beta} \in \mathbb{R}^{p} }{\operatorname{minimize}}~&amp; \sum_{i = 1}^n (y_i - \beta_0 - \sum_{j = 1}^p \beta_j x_{ij})^2 \\
+		\underset{{\beta} \in \mathbb{R}^{p} }{\text{minimize}}&amp; \left\{ \sum_{i = 1}^n \left(y_i - \beta_0 - \sum_{j = 1}^p \beta_j x_{ij} \right)^2 \right\} \\
+		\equiv \underset{{\beta} \in \mathbb{R}^{p} }{\operatorname{minimize}}~&amp; ({y} - {X}{\beta})' ({y} - {X}{\beta}) 
+\end{align*}`
+
+The least square solution for `\(\beta\)` is
+
+$$ {\hat \beta} = \color{orange}{({X}' {X})^{-1}} {X}' {y} $$
+
+To .orange[invert] a matrix, requires it to be .orange[full rank], fills the `\(p\)` dimensions.
+
+]]
+
+---
+
+## Example: using simulation
+
+- 20 observations
+- 2 classes: A, B
+- One variable with separation, 99 noise variables
+
+&lt;img src="regularization_files/figure-html/unnamed-chunk-1-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+Fit linear discriminant analysis on .orange[first two variables].
+
+
+```
+## Call:
+## lda(cl ~ ., data = tr[, c(1:2, 101)], prior = c(0.5, 0.5))
+## 
+## Prior probabilities of groups:
+##   A   B 
+## 0.5 0.5 
+## 
+## Group means:
+##           x1            x2
+## A  0.8918346  0.0009586256
+## B -0.8918346 -0.0009586256
+## 
+## Coefficients of linear discriminants:
+##            LD1
+## x1 -2.41606038
+## x2  0.05224863
+```
+
+Coefficient for `x1` MUCH higher than `x2`. .orange[As expected!]
+
+---
+class: split-50
+
+.column[.pad50px[
+Predict the training and test sets
+
+
+
+```
+##    
+##      A  B
+##   A 10  0
+##   B  0 10
+```
+
+```
+##    
+##     A B
+##   A 5 0
+##   B 0 5
+```
+
+&lt;img src="regularization_files/figure-html/unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+]]
+.column[.pad50px[
+&lt;img src="regularization_files/figure-html/unnamed-chunk-5-1.png" width="150%" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+
+What happens to test set (and predicted training values) as number of noise variables increases:
+
+&lt;img src="regularization_files/figure-html/unnamed-chunk-6-.gif" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+Estimated coefficients as dimensions of noise increase:
+
+&lt;img src="regularization_files/figure-html/unnamed-chunk-7-.gif" width="100%" style="display: block; margin: auto;" /&gt;
+---
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- [Too many variables](#2)
+- .orange[Subset selection]
+
+
+]]
+.column[.top50px[
+
+.row[.content[
+Identify a subset `\(s\)` of the `\(p\)` predictors, most related to response.
+
+`\begin{align*}
+	&amp; \underset{{\beta}}{\text{minimize}} \left\{ \sum_{i = 1}^n \left(y_i - \beta_0 - \sum_{j = 1}^p \beta_j x_{ij} \right)^2 \right\} \\
+	&amp; \text{subject to}\sum_{j = 1}^p {I}(\beta_j \neq 0) \leq k, \quad  k \geq 0.
+\end{align*}`
+where `\(k \geq 0\)` is a tuning parameter.
+]]
+.row[.content[
+- Need to consider `\({p \choose k}\)` models containing `\(s\)` predictors computationally infeasible when `\(p\)` and `\(s\)` are large
+- Stepwise procedures: forward, backward, etc.
+]]
+
+]]
+---
+class: fade-row2
+
+---
+count: false
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Too many variables](#2)
+- .orange[Subset selection]
+    - Model fit statistics
+
+]]
+.column[.top50px[
+
+- `\(MSE = RSS/n\)`, but the training `\(MSE\)` is an under-estimate of test `\(MSE\)`, and it will decrease with larger `\(p\)`.
+- Methods for adjusting the training error for model size include Mallows `\(C_p\)`, Akaike Information Criterion (AIC), Bayesian Information Criterion (BIC) and adjusted `\(R^2\)`.
+
+*Fit statistics computer for the Credit data.*
+
+
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.2.pdf" target="_BLANK"&gt; &lt;img src="images/6.2.png" style="width: 90%; align: center"/&gt; &lt;/a&gt;
+
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Too many variables](#2)
+- .orange[Subset selection]
+    - Model fit statistics
+    - `\(C_p\)`
+
+]]
+.column[.top50px[
+
+For a fitted least squares model containing `\(d\)` predictors, a reasonable estimate of the test MSE is:
+
+`$$C_p = \frac{1}{n} (RSS+2d\hat{\sigma}^2)$$`
+where `\(\hat{\sigma}^2\)` is an estimate of the variance of the error `\(\varepsilon\)`, computed from the full model containing all predictors. 
+
+The additional part penalises the training RSS to adjust for the under-estimation of test error.
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Too many variables](#2)
+- .orange[Subset selection]
+    - Model fit statistics
+    - `\(C_p\)`
+    - AIC, BIC
+
+]]
+.column[.top50px[
+
+`$$AIC = \frac{1}{n\hat{\sigma}^2} (RSS+2d\hat{\sigma}^2)$$`
+and hence is `\(\propto C_p\)`. 
+
+`$$BIC = \frac{1}{n\hat{\sigma}^2} (RSS+\log(n)d\hat{\sigma}^2)$$`
+
+all tend to take on low values for models with small test error.
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Too many variables](#2)
+- .orange[Subset selection]
+    - Model fit statistics
+    - `\(C_p\)`
+    - AIC, BIC
+    - Adjusted `\(R^2\)`
+
+]]
+.column[.top50px[
+
+&lt;br&gt;
+&lt;br&gt;
+
+`$$\mbox{Adjusted }R^2 = 1-\frac{RSS/(n-d-1)}{TSS/(n-1)}$$`
+
+The intuition is that once all of the correct variables have been included in the model, adding additional *noise* variables will lead to only a very small decrease in RSS.
+]]
+---
+class: split-60
+layout: false
+
+.column[.pad50px[
+
+
+1. Let `\({\mathcal M}_o\)` denote the null model, which contains no predictors. This
+model simply predicts the sample mean for each observation.
+2. For `\(k=1,2,...,p\)`:&lt;br&gt;
+    a. Fit all `\({p \choose k}\)` models that contain exactly `\(k\)` predictors.&lt;br&gt;
+    b. Pick the best among these `\({p \choose k}\)` models, and call it `\({\mathcal M}_k\)`. Best means smallest RSS (or largest `\(R^2\)`).
+3. Select a single best model from among `\({\mathcal M}_o\)`, . . . , `\({\mathcal M}_p\)` using cross- validated prediction error, `\(C_p\)` (AIC), BIC, or adjusted `\(R^2\)`.
+]]
+.column[.pad50px[
+
+.orange[Best subset selection] algorithm applied to the 11 predictors of the Credit data.
+
+
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter6/6.1.pdf" target="_BLANK"&gt; &lt;img src="images/6.1.png" style="width: 115%; align: center"/&gt; &lt;/a&gt;
+
+]]
+
+---
+class: split-60
+layout: false
+
+.column[.pad50px[
+
+
+1. Let `\({\mathcal M}_o\)` denote the null model, which contains no predictors. This
+model simply predicts the sample mean for each observation.
+2. For `\(k=0,1,2,...,p-1\)`:&lt;br&gt;
+    a. Consider all `\({p - k}\)` models that augment `\({\mathcal M}_k\)` with *one additional predictor*.&lt;br&gt;
+    b. Pick the best among these `\({p - k}\)` models, and call it `\({\mathcal M}_{k+1}\)`. Best means smallest RSS (or largest `\(R^2\)`).
+3. Select a single best model from among `\({\mathcal M}_o\)`, . . . , `\({\mathcal M}_p\)` using cross- validated prediction error, `\(C_p\)` (AIC), BIC, or adjusted `\(R^2\)`.
+]]
+.column[.pad50px[
+
+.orange[Forward stepwise selection] is a computationally efficient alternative to best subset selection. It considers a much smaller set of models.
+
+When `\(p = 20\)`, best subset selection requires fitting 1,048,576 models, whereas forward stepwise selection requires fitting only 211 models.
+
+]]
+---
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- [Too many variables](#2)
+- .orange[Subset selection]
+
+
+]]
+.column[.top50px[
+
+- Backward stepwise starts with all variables in the model, and removes the variable with smallest RSS. 
+- Forward and backwards stepwise procedures are not guaranteed to provide the best model. 
+- Backwards stepwise requires that `\(n&gt;p\)`, but forward stepwise does not, and can stop adding variables once `\(n (&lt;p)\)` is reached.
+]]
+
+---
+
+layout: false
+# 👩‍💻 Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+&lt;br&gt;
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+&lt;br&gt; 
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
