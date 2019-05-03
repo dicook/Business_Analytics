@@ -1,0 +1,155 @@
+---
+title: "ETC3250 2019 - Lab 9"
+author: "Dianne Cook"
+date: "Week 9"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 6,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Class discussion 
+
+Chapter 6, exercise 1. 
+
+# Do it yourself
+
+1. Re-do the simulation from the notes illustrating the problem of high-dimensions, with mostly noise variables. Code is all in the lecture notes `Rmd` file.
+
+2. Now set it up as a regression simulation instead of classification. How would you change the simulated data? How would you change the measure of the fit? What do you plot to compare the training and test sets? Now that you have re-designed and re-run the simulation, does it behave similarly to the classification one? When does the error on the test set get terrible? When do the coefficients creep to be modeling noise? When does the test data stop looking like the training data? 
+
+
+```{r eval=FALSE}
+# Set up the data
+set.seed(???)
+tr <- matrix(rnorm(20*100),ncol=100)
+colnames(tr) <- paste0("x", 1:100)
+tr <- scale(tr)
+tr <- as_tibble(tr) %>% mutate(y=???)
+
+# Generate test data
+ts <- matrix(rnorm(10*100),ncol=100)
+colnames(ts) <- paste0("x", 1:100)
+ts <- scale(ts)
+ts <- as_tibble(ts) %>% mutate(y=???)
+```
+
+```{r eval=FALSE}
+# You to fit a linear model, compute the some 
+# version of the error, and show the observed vs fitted data.
+library(broom)
+# Examine training/test in discriminant space, and training/test error
+for (i in 2:18) {
+  tr_lm <- lm(y~., data=tr[,c(1:i,101)])
+  tr_p <- augment(???, tr[,c(1:i,101)])
+  ts_p <- augment(???, newdata=ts[,c(1:i,101)])
+  tr_err <- round(sum((???)^2),2)
+  ts_err <- round(sum((???)^2),2)
+
+  print(
+    ggplot(data=tr_p, aes(x=???, y=y)) +
+         geom_point(size=5, alpha=0.5) +
+         ylab("y") + xlab("fitted") + 
+      xlim(c(-10,10)) + ylim(c(-10,10)) +
+      geom_point(data=ts_p, 
+             shape=2, size=5, colour="red") +
+      ggtitle(paste0("p = ", i, " train = ", tr_err, " test = ", ts_err))
+  )
+}
+```
+
+
+```{r eval=FALSE}
+# Examine the coefficients
+coefs <- tibble(term = factor(c("b0", paste0("b", 1:22)), 
+                levels=c("b0", paste0("b", 1:22))), estimate=rep(0, 23))
+for (i in 2:19) {
+  tr_lm <- lm(y~., data=tr[,c(1:i,101)])
+  tr_coef <- tidy(tr_lm) 
+  coefs$estimate[1:(i+1)] <- abs(???)
+  print(
+    ggplot(data=coefs, aes(x=term, y=???)) +
+    geom_col() + ylim(c(0,4)) + xlab("Variable") + 
+    ylab("Coefficient") +
+    ggtitle(paste0("p = ", i))
+  )
+}
+```
+
+# Exercises
+
+This exercise is investigating neural network model fitting. A neural network model was fitted to the `wiggle.csv` using the `nnet` package in R, from many random starts, and using 2-4 nodes in the hiddne layer. The best model is in the data object `nnet_best.rda`, and the full set of model fits are stored in `nnet_many.rda`. We are going investigate the best fit, and the complete set of fits. The data set is actually a test set, it was not used to fit the model, but it was simulated from the same process as the training set, which we don;t have.
+
+1. Read in the data, and make an appropriate plot, that communicates the relationship between the two variables and the two groups.
+
+```{r eval=FALSE}
+library(tidyverse)
+
+w <- read_csv(???)
+ggplot(w, aes(x=???, y=???, colour=???, shape=???)) + 
+  geom_point() +
+  scale_color_brewer("", palette="Dark2") +
+  scale_shape("") +
+  theme(aspect.ratio=1) 
+```
+
+2. Read in the best model. Take a look at the object. There are three components: `hidden`, `output` and `nnet`. The best model uses $s=4$. The `nnet` component has the estimated model coefficients, fitted values and residuals. The `hidden` component has information related to the models used in the 4 nodes of the hidden layer, and the `output` has the same information for the second layer. These latter two contain a grid of values for the predictors, $x$, $y$ and the predicted values for each grid point. 
+
+(a) Plot the grid of predicted values for the second layer, using node 1. Overlay the data. How well has the model captured the class structure?
+
+```{r eval=FALSE}
+load("data/nnet_many.rda")
+load("data/nnet_best.rda")
+
+ggplot(???, aes(???, ???)) +
+  geom_raster(aes(fill = pred)) +
+  geom_???(aes(shape = class), data = w) +
+  scale_fill_gradient2(low="#1B9E77", high="#D95F02", mid = "white", midpoint = 0.5) +
+  theme(aspect.ratio=1) 
+```
+
+(b) Plot the grid of predicted values for each node in the hidden layer, with the data overlaid. Explain how the models at each node would combine to make the final model predictions, which we have already seen are extremely good.
+
+```{r eval=FALSE}
+ggplot(???, aes(???, ???)) +
+  geom_raster(aes(fill = ???)) +
+  geom_point(aes(shape = class), data = w) +
+  scale_fill_gradient2(low="#1B9E77", high="#D95F02", mid = "white", midpoint = 0.5) +
+  facet_grid(. ~ ???) +
+  theme(aspect.ratio=1) 
+```
+
+(c) How many parameters are there in this model? Check that your answer matches the number of values in the `wgts` element of the `nnet` component.
+
+(d) Write down the equation corresponding to the model at first node of the hidden layer. You need to look at the `wgts` element of the `nnet` component. There are 6 sets of linear model coefficients. 
+
+
+(e) OPTIONAL ADVANCED: See if you can compute the combination of the prediction on each hidden node, to get final prediction.
+
+3. Read in the complete set of models fitted. There were 600 models fitted, 200 random starts for each $s = 2, 3, 4$. The `nnet` function has its own measure of the goodness of fit, which is used to determine when to stop minimising RSS, which is called `value` in this data. (You can think of this like it is training error.) Plot the predictive accuracy against function's returned value of model fit. Explain how the change in $s$ affects the predictive accuracy. 
+
+```{r eval=FALSE}
+qual <- many %>% dplyr::select(value, accuracy, nodes, id) %>%
+  distinct()
+ggplot(data = ???, aes(???, ???)) + 
+  geom_point() + 
+  xlab("Predictive accuracy") + ylab("Value of fitting criterion") +
+  facet_wrap(. ~ ???)
+```
+
+
+
