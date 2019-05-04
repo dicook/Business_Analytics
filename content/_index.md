@@ -94,9 +94,9 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 
 - [chocolates.csv](http://monba.dicook.org/data/chocolates.csv)
 - [student_sub.rds](http://monba.dicook.org/data/student_sub.rds)
-- [wiggly.csv](http://monba.dicook.org/data/wiggly.csv)
-- [nnet_best.rda](http://monba.dicook.org/data/nnet_best.rda)
-- [nnet_many.rda](http://monba.dicook.org/data/nnet_many.rda)
+- [wiggly.csv](http://monba.dicook.org/labs/data/wiggly.csv)
+- [nnet_best.rda](http://monba.dicook.org/labs/data/nnet_best.rda)
+- [nnet_many.rda](http://monba.dicook.org/labs/data/nnet_many.rda)
 
 ## Project
 
