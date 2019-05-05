@@ -111,6 +111,7 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 
 ## Exam information
 
+- [2018 exam](exams/practice_exam_2018.pdf) [SOLUTION](exams/practice_exam_solution_2018.pdf)
 
 ## Useful resources
 
