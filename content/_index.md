@@ -80,6 +80,7 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 - Week 7: [Instructions](http://monba.dicook.org/labs/lab7.html) ([Rmd](http://monba.dicook.org/labs/lab7.Rmd)) 
 [SOLUTION](http://monba.dicook.org/labs/lab7_solution.html) ([Rmd](http://monba.dicook.org/labs/lab7_solution.Rmd)) 
 - Week 8: [Instructions](http://monba.dicook.org/labs/lab8.html) ([Rmd](http://monba.dicook.org/labs/lab8.Rmd)) 
+- Week 9: [Instructions](http://monba.dicook.org/labs/lab9.html) ([Rmd](http://monba.dicook.org/labs/lab9.Rmd)) 
 
 ## Assignments
 

@@ -97,7 +97,7 @@ ggplot(c_tr, aes(x=factor(???), fill=factor(Purchase))) +
   geom_bar(position="fill") + scale_fill_brewer("", palette="Dark2")
 ```
 
-2. Here we will fit a random forest model, using the `randomForest` package.  
+3. Here we will fit a random forest model, using the `randomForest` package.  
 
 a. Use 1000 trees, using a numeric response so that predictions will be a number between 0-1, and set `importance=TRUE`. (Ignore the warning about not having enough distinct values to use regression.)
 b. Compute the error for the test set, and for each class. Consider a proportion 0.2 or greater to indicate that the customer will purchase a caravan.
@@ -112,7 +112,7 @@ as_tibble(c_rf$importance) %>% bind_cols(var=rownames(c_rf$importance)) %>%
   arrange(desc(IncNodePurity))
 ```
 
-3. Here we will fit a gradient boosted model, using the `xgboost` package.
+4. Here we will fit a gradient boosted model, using the `xgboost` package.
 
 a.  Read the description of the XGBoost technique at https://www.hackerearth.com/practice/machine-learning/machine-learning-algorithms/beginners-tutorial-on-xgboost-parameter-tuning-r/tutorial/, or other sources. Explain how this algorithm might differ from earlier boosted tree algorithms.
 b. Tune the model fit to determine how many iterations to make. Then fit the model, using the parameter set provided.
@@ -136,4 +136,4 @@ c_xgb_importance <- ???(feature_names = colnames(c_tr[,-86]), model = c_xgb)
 c_xgb_importance
 ```
 
-4. Compare and summarise the results of the three model fits. 
+5. Compare and summarise the results of the three model fits. 
