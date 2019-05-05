@@ -92,7 +92,7 @@ for (i in 2:19) {
 
 # Exercises
 
-This exercise is investigating neural network model fitting. A neural network model was fitted to the `wiggle.csv` using the `nnet` package in R, from many random starts, and using 2-4 nodes in the hiddne layer. The best model is in the data object `nnet_best.rda`, and the full set of model fits are stored in `nnet_many.rda`. We are going investigate the best fit, and the complete set of fits. The data set is actually a test set, it was not used to fit the model, but it was simulated from the same process as the training set, which we don;t have.
+This exercise is investigating neural network model fitting. A neural network model was fitted to the `wiggle.csv` using the `nnet` package in R, from many random starts, and using 2-4 nodes in the hidden layer. The best model is in the data object `nnet_best.rda`, and the full set of model fits are stored in `nnet_many.rda`. We are going investigate the best fit, and the complete set of fits. The data set is actually a test set, it was not used to fit the model, but it was simulated from the same process as the training set, which we don't have.
 
 1. Read in the data, and make an appropriate plot, that communicates the relationship between the two variables and the two groups.
 
