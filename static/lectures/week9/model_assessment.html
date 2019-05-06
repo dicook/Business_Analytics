@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>ETC3250: Model assessment</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
+    <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link href="libs/font-awesome-animation/font-awesome-animation-emi.css" rel="stylesheet" />
+    <script src="libs/fontawesome/js/fontawesome-all.min.js"></script>
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ETC3250: Model assessment
+## Semester 1, 2019
+### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
+### Week 9 (a)
+
+---
+
+
+
+
+
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- Getting started
+
+]]
+.column[.top50px[
+
+.split-two[
+.row[.content[
+
+```r
+library(statquotes)
+search_quotes(search="Holdane", fuzzy=TRUE)
+```
+
+```
+## In scientific thought we adopt the simplest theory which will 
+## explain all the facts under consideration and enable us to predict 
+## new facts of the same kind. The catch in this criterion lies in 
+## the world ``simplest.'' It is really an aesthetic canon such as we 
+## find implicit in our criticisms of poetry or painting. The layman 
+## finds such a law as $dx/dt = K(d^2x/dy^2)$ much less simple than 
+## "it oozes," of which it is the mathematical statement. The 
+## physicist reverses this judgment, and his statement is certainly 
+## the more fruitful of the two, so far as prediction is concerned. 
+## It is, however, a statement about something very unfamiliar to the 
+## plainman, namely, the rate of change of a rate of change. 
+## --- John Burdon Sanderson Haldane (1892--1964) Possible Worlds, 
+## 1927.
+```
+]]
+.row[.content[
+&lt;br&gt;
+&lt;br&gt;
+
+
+```r
+statquote(source="Box")
+```
+
+```
+## Seek computer programs that allow you to do the thinking. 
+## --- George E. P. Box
+```
+]]]
+]]
+
+---
+
+class: fade-row2
+count: false
+
+---
+
+count: false 
+
+
+---
+layout: true
+class: shuriken-full white 
+
+.blade1.bg-green[.content[
+.white.font_large[Know your data.] ✈️&lt;br&gt;Quantitative or qualitative response?  Predictors all quantitative? Do you have independent observations? 
+]]
+.blade2.bg-purple[.content[
+.white.font_large[Plot your data.] 🖼&lt;br&gt;Is there a relationship between response and predictors?  Is the relationship linear? Are boundaries linear?Is variability heterogeneous? Are groups distinct? Are there unusual observations? 
+]]
+.blade3.bg-deep-orange[.content[
+.white.font_large[Check for missing values.] 🔎&lt;br&gt;Do some variables have too many missings to use them? Do some observations have too many missings to use them? What would be a useful imputation method to fix the sporadic missing value? 
+]]
+.blade4.bg-pink[.content[
+.white.font_large[Fit a versatile model.] 💻 &lt;br&gt;Compute and plot model diagnostics Where doesn't the model do well? How can it be refined? 
+]]
+
+---
+
+class: hide-blade2 hide-blade3 hide-blade4 hide-hole
+
+---
+
+class: hide-blade3 hide-blade4 hide-hole
+count: false
+
+---
+
+class: hide-blade4 hide-hole
+count: false
+
+---
+
+class: hide-hole
+count: false
+
+---
+
+count: false 
+
+---
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Getting started](#2)
+- .orange[Comparing fits]
+    - ROC for classification
+
+]]
+.column[.top50px[
+The .orange[ROC curve] is a popular graphic for simultaneously displaying the two types of errors for all possible thresholds. It is a common method for comparing classification models. 
+
+
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.8.pdf" target="_BLANK"&gt; &lt;img src="images/4.8.png" style="width: 40%; align: center"/&gt; &lt;/a&gt;
+
+ROC curve for the LDA classifier on the training set of CREDIT data. 
+
+.font_tiny[Fig 4.8]
+
+]]
+
+---
+
+class: split-50
+layout: false
+
+.column[.pad10px[
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.8.pdf" target="_BLANK"&gt; &lt;img src="images/4.8.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
+
+
+]]
+.column[.top50px[
+
+
+The true positive rate is the .orange[sensitivity]: the fraction of defaulters that are correctly identified, using a given threshold value. 
+
+The false positive rate is .orange[1-specificity]: the fraction of non-defaulters that we classify incorrectly as defaulters, using that same threshold value.
+
+The dotted line is "no information" classifier; class and predictor are not associated.
+
+The .orange[ideal ROC curve hugs the top left corner], indicating a high true positive rate and a low false positive rate.
+
+]]
+
+---
+class: split-two
+layout: false
+
+.row[
+Possible outcomes with a two class classification model:
+
+&lt;img src="images/error_table.png" style="width: 80%" /&gt;
+
+]
+.row[
+.split-50[
+.column[.pad50px[
+`+` .orange[has disease] (class = 1 or "P")
+
+`-` does .orange[NOT] have disease (class = 0 or "N")
+
+True = we get it .orange[right]
+
+False = we got it .orange[wrong] 
+]]
+.column[.pad50px[
+
+.orange[False positive rate] = FP/N, also known as Type I error or 1-specificity
+
+.orange[True positive rate] = TP/P, also known as power, sensitivity, recall
+]]
+]]
+---
+class: split-50
+layout: false
+
+.column[.pad10px[
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter4/4.8.pdf" target="_BLANK"&gt; &lt;img src="images/4.8.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
+
+]]
+.column[.pad10px[
+<span class=" faa-shake animated faa-slow " data-fa-transform="flip-h " style=" display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">.orange[How do we calculate different TPR/FPR?]</span>
+
+If the classifier returns a prediction between 0 and 1, interpret as the probability of a positive, then threshold this at different values, e.g. 0.1, 0.2, 0.3, 0.4, 0.5, ...
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Getting started](#2)
+- .orage[Comparing fits]
+    - ROC for classification
+
+
+]]
+.column[.top50px[
+
+
+
+&lt;a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.10.pdf" target="_BLANK"&gt; &lt;img src="images/9.10.png" style="width: 100%; align: center"/&gt; &lt;/a&gt;
+
+(left) LDA and SVM similar.
+
+(right) SVM radial basis with `\(\gamma=10^{-1}\)` is the best. 
+
+.font_tiny[Fig 9.10]
+]]
+---
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Getting started](#2)
+- [Comparing fits](#3)
+- .orange[Outliers]
+    - Multivariate outliers
+
+
+]]
+.column[.top50px[
+
+.orange[Mahalanobis distance] measures the distance from the mean, relative to the variance-covariance matrix, and is useful for .orange[outlier detection]: `\(D^2 = (X-\mu)'\Sigma^{-1}(X-\mu)\)`
+
+&lt;img src="model_assessment_files/figure-html/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+Related to "leverage" in regression diagnostics.
+
+]]
+
+---
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Getting started](#2)
+- [Comparing fits](#3)
+- .orange[Outliers]
+    - Multivariate outliers
+    - Influential observations
+
+
+]]
+.column[.top50px[
+
+.orange[Cook's distance] measures the change in the model estimates due to the observation: `\(D_i = \frac{e_i^2}{MSE\times p}\frac{h_i}{(1-h_i)^2}\)` where `\(h_i\)` is the leverage of observation `\(i\)`. 
+
+&lt;img src="model_assessment_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+Developed by Dennis Cook, University of Minnesota. 
+]]
+
+---
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Getting started](#2)
+- [Comparing fits](#3)
+- .orange[Outliers]
+    - Multivariate outliers
+    - Influential observations
+    - Utilising bagging
+
+
+]]
+.column[.top50px[
+
+Remember vote matrix available from random forests:
+
+`$$V = (V_1  V_2 ... V_K) \\
+  = \left[ \begin{eqnarray*}
+                          p_{11} &amp; p_{12} &amp; ... &amp; p_{1K}\\
+                          p_{21} &amp; p_{22} &amp; ... &amp; p_{2K}\\
+                          ...   &amp;  ...    &amp;     &amp; ...\\
+                          p_{n1} &amp; p_{n2} &amp; ... &amp; p_{nK}
+                          \end{eqnarray*} \right]$$`
+
+With bagging, multiple out of bag predictions produces uncertainty measure for each observation. Its possible that observations with .orange[higher uncertainty are outliers].
+
+]]
+
+---
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Getting started](#2)
+- [Comparing fits](#3)
+- [Outliers](#8)
+- .orange[Important variables]
+
+
+]]
+.column[.top50px[
+
+.orange[Variable importance]
+
+- Working with .orange[standardised variables] helps, because magnitude of coefficients is then directly interpreted as importance
+- .orange[Permutation] approach in random forests is useful more broadly. Compare magnitude of coefficients between models built on original and permuted variable.
+- .orange[Effect of one predictor with the response] can depend on their relationship with one another. Called multicollinearity in regression. 
+
+]]
+
+---
+layout: false
+
+.orange[All possible model fits] to housing data with 7 variables, from [Wickham et al (2015) Removing the Blindfold](http://onlinelibrary.wiley.com/doi/10.1002/sam.11271/abstract)
+
+&lt;img src="images/houses1.png" style="width:90%" /&gt;
+---
+class: split-60
+layout: false
+
+.column[.pad10px[
+&lt;img src="images/houses2.png" style="width:110%" /&gt;
+]]
+.column[.pad10px[
+.font_small[Three typical estimates for bedrooms: big positive, close to 0, big negative.] 
+
+.font_small[Models with big .orange[positive coefficients] for bedrooms tend to have .orange[weaker fits]. They tend to occur with models that have no livingArea contribution, and more negative coefficients for zoneRM, and no air con.]
+
+.font_small[Models with big .orange[negative coefficients] on bedrooms tend to have .orange[stronger fits]. All contrast with livingArea (high positive coefficients).]
+
+.font_small[If bedrooms contribute to the model, bathrooms do not.]
+
+]]
+
+---
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Getting started](#2)
+- [Comparing fits](#3)
+- [Outliers](#8)
+- [Important variables](#11)
+- .orange[Model choice - robustness of conclusions]
+
+
+]]
+.column[.top50px[
+
+Whatever way you model the data, the .orange[interpretations should be consistent]. 
+
+- Bias can explain difference in predictions between models, flexible vs inflexible can provide a spectrum on what the data predicts.
+- Broad changes in a model when some cases or some variables are not used, should evoke suspicions (your "spidey sense"). 
+- Model fit statistics are a measure of predictive power. A weak model can still be useful if there is a large cost involved.  
+
+]]
+---
+
+layout: false
+# 👩‍💻 Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+&lt;br&gt;
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+&lt;br&gt; 
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

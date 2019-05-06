@@ -59,8 +59,9 @@ Unless your question is a personal issue or an administrative matter, please do 
 [slides1](http://monba.dicook.org/lectures/week8/classification_nn.html) ([Rmd](http://monba.dicook.org/lectures/week8/classification_nn.Rmd))
 [slides2](http://monba.dicook.org/lectures/week8/regularization.html) ([Rmd](http://monba.dicook.org/lectures/week8/regularization.Rmd))
 - Week 9: Regularization methods, Chapter 6 [slides1](http://monba.dicook.org/lectures/week9/regularization.html) ([Rmd](http://monba.dicook.org/lectures/week9/regularization.Rmd))
-- Week 10: Model assessment, Instructor's notes
-- Week 11: Clustering, Chapter 10
+[slides1](http://monba.dicook.org/lectures/week9/model_assessment.html) ([Rmd](http://monba.dicook.org/lectures/week9/model_assessment.Rmd))
+- Week 10: Clustering, Chapter 10
+- Week 11: Guest lecturer and review
 - Week 12: Project presentations
 
 <!--
