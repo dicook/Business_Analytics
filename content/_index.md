@@ -58,7 +58,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 - Week 8: Ensembles and boosted models, Chapter 8.2 
 [slides1](http://monba.dicook.org/lectures/week8/classification_nn.html) ([Rmd](http://monba.dicook.org/lectures/week8/classification_nn.Rmd))
 [slides2](http://monba.dicook.org/lectures/week8/regularization.html) ([Rmd](http://monba.dicook.org/lectures/week8/regularization.Rmd))
-- Week 9: Regularization methods, Chapter 6
+- Week 9: Regularization methods, Chapter 6 [slides1](http://monba.dicook.org/lectures/week9/regularization.html) ([Rmd](http://monba.dicook.org/lectures/week9/regularization.Rmd))
 - Week 10: Model assessment, Instructor's notes
 - Week 11: Clustering, Chapter 10
 - Week 12: Project presentations
@@ -112,9 +112,6 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 ## Exam information
 
 - [2018 exam](exams/practice_exam_2018.pdf) [SOLUTION](exams/practice_exam_solution_2018.pdf)
-
-## Useful resources
-
 
 
 ## Computing information
