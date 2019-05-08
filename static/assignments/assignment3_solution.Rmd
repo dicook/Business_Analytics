@@ -24,6 +24,7 @@ choc <- choc %>% mutate(Type = as.factor(Type))
 ```
 a. (2)Use the tour, with type of chocolate mapped to colour, and write a paragraph on whether the two types of chocolate differ on the nutritional variables. 
 ```{r eval=FALSE}
+library(tourr)
 quartz()
 library(RColorBrewer)
 pal <- brewer.pal(3, "Dark2")
@@ -38,7 +39,7 @@ b. (2)Make a parallel coordinate plot of the chocolates, coloured by type, with 
 library(GGally)
 library(plotly)
 p <- ggparcoord(choc, columns = 5:14, groupColumn = 4, order="anyClass", scale="uniminmax") +
-  scale_color_brewer(palette="Dark2") + ylab("")
+  scale_color_brewer(palette="Dark2") + ylab("") + xlab("")
 ggplotly(p)
 ```
 

@@ -255,7 +255,7 @@ layout: false
 .column[.top50px[
 
 \begin{align}
-\hat{y} =\color{orange}g\color{orange}(\alpha_{0}+\sum_{k=1}^s(\alpha_{k}\color{orange}f\color{orange}(\beta_{j0}+\sum_{j=1}^p\beta_{jk}x_j)\color{orange})\color{orange})
+\hat{y} =\color{orange}g\color{orange}(\alpha_{0}+\sum_{k=1}^s(\alpha_{k}\color{orange}f\color{orange}(\beta_{0k}+\sum_{j=1}^p\beta_{jk}x_j)\color{orange})\color{orange})
 \end{align}
 
 Let $u=\beta_0+\sum_{j=1}^p\beta_jx_j$
