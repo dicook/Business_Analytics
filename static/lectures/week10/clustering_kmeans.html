@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>ETC3250: k-means clustering</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Professor Di Cook     Econometrics and Business Statistics   Monash University" />
+    <link href="libs/remark-css/kunoichi.css" rel="stylesheet" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link rel="stylesheet" href="mystyle.css" type="text/css" />
+    <link rel="stylesheet" href="libs/animate.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ETC3250: k-means clustering
+## Semester 1, 2019
+### <br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University
+### Week 10 (a)
+
+---
+
+
+
+
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .orange[Cluster analysis]
+
+
+]]
+.column[.top50px[
+
+&lt;br&gt;
+
+- The aim of cluster analysis is to group cases (objects) according to their similarity on the variables. It is also often called unsupervised classification, meaning that classification is the ultimate goal, but the classes (groups) are not known ahead of time. 
+- Hence the first task in cluster analysis is to construct the class information. To determine closeness we start with measuring the interpoint distances.
+
+]]
+
+---
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .orange[Cluster analysis]
+    - Cluster this
+
+
+]]
+
+.column[.top50px[
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-1-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+]]
+
+---
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Cluster analysis](#2)
+- .orange[k-means]
+
+
+]]
+
+.column[.top50px[
+
+.orange[Algorithm]
+
+This is an iterative procedure. To use it the number of clusters, `\(k\)`, must be decided first.  The stages of the iteration are:
+
+- Initialize by either (a) partitioning the data into k groups, and compute the `\(k\)` group means or (b) an initial set of `\(k\)` points as the first estimate of the cluster means (seed points).
+- Loop over all observations reassigning them to the group with the closest mean.
+- Recompute group means.
+- Iterate steps 2 and 3 until convergence.
+
+[Thean C. Lim's blog post](https://theanlim.rbind.io/post/clustering-k-means-k-means-and-gganimate/)
+]]
+
+---
+class: split-50
+
+
+.column[.pad50px[
+
+Some data 🤸
+
+&lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; lbl &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x2 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 2cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 2cm; border-right:1px solid;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 2cm; border-right:1px solid;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 2cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 2cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 17 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 2cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 16 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 2cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 22 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 2cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 2cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 2cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 2cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 2cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 2cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]]
+.column[.pad50px[
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+class: split-50
+layout: false
+
+
+.column[.pad10px[.content[
+
+
+
+Select `\(k=2\)`, and set initial seed means &lt;br&gt;
+`\(\bar{x}_1=\)` (12, 17) ,
+`\(\bar{x}_2=\)` (7, 15) &lt;br&gt;
+Compute distances `\((d_1, d_2)\)` between each observation and each mean.
+
+&lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; lbl &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x2 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d2 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 7 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 22 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 24 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 17 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 7 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]]]
+.column[.pad50px[.content[
+
+
+]]]
+
+---
+class: split-50 
+layout: false
+count: false
+
+.column[.pad10px[.content[
+
+Select `\(k=2\)`, and set initial seed means &lt;br&gt;
+`\(\bar{x}_1=\)` (12, 17) ,
+`\(\bar{x}_2=\)` (7, 15) &lt;br&gt;
+Compute distances `\((d_1, d_2)\)` between each observation and each mean.
+
+&lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; lbl &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x2 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d2 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 7 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 22 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 24 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 17 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 7 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]]]
+.column[.pad50px[.content[
+
+Assign the cluster membership
+
+&lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; lbl &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x2 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d2 &lt;/th&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; cl &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 22 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 24 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]]]
+
+---
+class: split-50 
+layout: false
+
+.column[.pad10px[.content[
+
+Assign the cluster membership
+
+&lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; lbl &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x2 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d2 &lt;/th&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; cl &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 22 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 24 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]]]
+.column[.pad50px[.content[
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]]
+
+---
+class: split-50 
+layout: false
+
+.column[.pad10px[.content[
+
+Recompute means, and re-assign the cluster membership
+
+
+
+`\(\bar{x}_1=\)` (13, 16) ,
+`\(\bar{x}_2=\)` (10, 7) &lt;br&gt;
+
+&lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; lbl &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x2 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d2 &lt;/th&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; cl &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 5.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 0.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 5.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 22 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 7.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4.2 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4.2 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 24 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 12.2 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2.2 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]]]
+.column[.pad50px[.content[
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]]
+
+---
+class: split-50 
+layout: false
+
+.column[.pad10px[.content[
+
+Recompute means, and re-assign the cluster membership
+
+
+
+`\(\bar{x}_1=\)` (11, 17) ,
+`\(\bar{x}_2=\)` (10, 6) &lt;br&gt;
+
+&lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; lbl &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x2 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d2 &lt;/th&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; cl &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 12.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 10.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 22 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 14.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 8.8 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.2 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.2 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 23 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11.2 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1.2 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]]]
+.column[.pad50px[.content[
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]]
+
+---
+class: split-50 
+layout: false
+
+.column[.pad10px[.content[
+
+Recompute means, and re-assign the cluster membership
+
+
+
+`\(\bar{x}_1=\)` (12, 14) ,
+`\(\bar{x}_2=\)` (9, 5) &lt;br&gt;
+
+&lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; lbl &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x2 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d2 &lt;/th&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; cl &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 8.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 0.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 22 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 21.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]]]
+.column[.pad50px[.content[
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]]
+
+---
+class: split-50 
+layout: false
+
+.column[.pad10px[.content[
+
+Recompute means, and re-assign the cluster membership
+
+
+
+`\(\bar{x}_1=\)` (12, 14) ,
+`\(\bar{x}_2=\)` (9, 5) &lt;br&gt;
+
+&lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; lbl &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x2 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d2 &lt;/th&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; cl &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 8.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 0.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 22 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 21.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]]]
+.column[.pad50px[.content[
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]]
+
+---
+class: split-50 
+layout: false
+
+.column[.pad10px[.content[
+
+Recompute means, and re-assign the cluster membership
+
+
+
+`\(\bar{x}_1=\)` (12, 14) ,
+`\(\bar{x}_2=\)` (9, 5) &lt;br&gt;
+
+&lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; lbl &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x2 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d2 &lt;/th&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; cl &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 8.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 0.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 22 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 21.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]]]
+.column[.pad50px[.content[
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]]
+
+---
+class: split-50 
+layout: false
+
+.column[.pad10px[.content[
+
+Recompute means, and re-assign the cluster membership
+
+
+
+`\(\bar{x}_1=\)` (12, 14) ,
+`\(\bar{x}_2=\)` (9, 5) &lt;br&gt;
+
+&lt;table class="table table-striped" style="font-size: 24px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; lbl &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; x2 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d1 &lt;/th&gt;
+   &lt;th style="text-align:right;color: white !important;background-color: #3F9F7A !important;"&gt; d2 &lt;/th&gt;
+   &lt;th style="text-align:left;color: white !important;background-color: #3F9F7A !important;"&gt; cl &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; a &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; b &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; c &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; d &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 8.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; e &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 0.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 16 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 3.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; g &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 22 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 4.7 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; h &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; i &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; j &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; k &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 21.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;"&gt; l &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 11.3 &lt;/td&gt;
+   &lt;td style="text-align:right;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;width: 1cm; border-right:1px solid;color: #CA6627 !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]]]
+.column[.pad50px[.content[
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]]
+
+---
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Cluster analysis](#2)
+- .orange[k-means]
+    - Example
+
+]]
+
+.column[.top50px[
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-28-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+]]
+
+
+---
+class: split-50 
+layout: false
+
+
+.column[.pad50px[.content[
+
+`\(k=2\)`
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-29-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]]
+.column[.pad50px[.content[
+
+`\(k=3\)`
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-30-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]]
+
+---
+class: split-50 
+layout: false
+
+
+.column[.pad50px[.content[
+
+`\(k=4\)`
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-31-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]]
+.column[.pad50px[.content[
+
+`\(k=5\)`
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-32-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Cluster analysis](#2)
+- [k-means](#4)
+- .orange[Choosing k]
+
+]]
+.column[.pad50px[
+
+.boxshadow[Cluster statistics]
+
+- .orange[WBRatio]: average within/average between want it to be low, but always drops for each additional cluster so look for large drops
+- .orange[Hubert Gamma]: (s+ - s-)/(s+ + s-) where `\(s+=\)`sum of number of within `\(&lt;\)` between, `\(s-=\)` sum of number within `\(&gt;\)` between, want this to be high
+- .orange[Dunn]: smallest distance between points from different clusters/maximum distance of points within any cluster, want this to be high
+- .orange[Calinski-Harabasz Index]: `\(\frac{\sum_{i=1}^p B_{ii}/(k-1)}{\sum_{i=1}^p W_{ii}/(n-k)}\)` want this to be high
+
+
+]]
+---
+
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Cluster analysis](#2)
+- [k-means](#4)
+- .orange[Choosing k]
+
+]]
+
+.column[.top50px[
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-33-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Cluster analysis](#2)
+- [k-means](#4)
+- [Choosing k](#17)
+- .orange[k-means caveats]
+]]
+.column[.pad50px[
+
+.boxshadow[Effect of seed]
+
+- The k-means algorithm can yield quite different results depending on the initial seed.
+- Example runs used 5 random starts, and used the `within.cluster.ss` metric to decide on the best solution.
+
+&lt;img src="clustering_kmeans_files/figure-html/unnamed-chunk-34-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]]
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Cluster analysis](#2)
+- [k-means](#4)
+- [Choosing k](#17)
+- [k-means caveats](#19)
+- .orange[Interpoint distance measures]
+    - Euclidean
+
+]]
+.column[.pad50px[
+
+- Cluster analysis depends on the interpoint distances, points close together should be grouped together
+- Euclidean distance was used for the example. Let `\(A=(x_{a1}, x_{a2}, ..., x_{ap}), B=(x_{b1}, x_{b2}, ..., x_{bp})\)`
+
+`\begin{align*}
+d_{EUC}(A, B) &amp;= \sqrt{\sum_{j=1}^p (x_{aj}-x_{bj})^2} &amp;\\
+&amp;= ((X_A-X_B)^T (X_A-X_B))&amp;
+\end{align*}`
+
+]]
+
+---
+class: split-50
+layout: false
+
+.column[.pad10px[
+
+.boxshadow[Other distance metrics]
+
+- Mahalanobis (or statistical) distance
+
+`$$\sqrt{((X_A-X_B)^TS^{-1} (X_A-X_B))}$$`
+
+- Manhattan: 
+
+`$$\sum_{j=1}^p|(X_{aj}-X_{bj})|$$`
+
+- Minkowski: 
+
+`$$(\sum_{j=1}^p|(X_{aj}-X_{bj})|^m)^{1/m}$$`
+]]
+.column[.pad10px[
+
+.boxshadow[Distances for count data]
+
+- Canberra: 
+
+`$$\frac{1}{n_z}\sum_{j=1}^p\frac{X_{aj}-X_{bj}}{X_{aj}+X_{bj}}$$`
+
+- Bray-Curtis: 
+
+`$$\frac{\sum_{j=1}^p|X_{aj}-X_{bj}|}{\sum_{j=1}^p(X_{aj}+X_{bj})}$$`
+
+]]
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Cluster analysis](#2)
+- [k-means](#4)
+- [Choosing k](#17)
+- [k-means caveats](#19)
+- .orange[Interpoint distance measures]
+    - Euclidean
+    - Rules
+
+]]
+.column[.pad50px[
+.boxshadow[Rules for any metric to be a distance]
+
+1. `\(d(A, B) \geq 0\)`
+2. `\(d(A, A) = 0\)`
+3. `\(d(A, B) = d(B, A)\)`
+4. Metric dissimilarity satisfies 
+`\(d(A, B) \geq d(A, C) + d(C, B)\)`, and an ultrametric dissimilarity satisfies
+`\(d(A, B) \geq max\{d(A, C), d(C, B)\}\)`
+
+]]
+---
+
+layout: false
+# 👩‍💻 Made by a human with a computer
+
+### Slides at [https://monba.dicook.org](https://monba.dicook.org).
+### Code and data at [https://github.com/dicook/Business_Analytics](https://github.com/dicook/Business_Analytics).
+&lt;br&gt;
+
+### Created using [R Markdown](https://rmarkdown.rstudio.com) with flair by [**xaringan**](https://github.com/yihui/xaringan), and [**kunoichi** (female ninja) style](https://github.com/emitanaka/ninja-theme).
+
+&lt;br&gt; 
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

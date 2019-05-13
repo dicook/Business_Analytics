@@ -61,6 +61,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 - Week 9: Regularization methods, Chapter 6 [slides1](http://monba.dicook.org/lectures/week9/regularization.html) ([Rmd](http://monba.dicook.org/lectures/week9/regularization.Rmd))
 [slides2](http://monba.dicook.org/lectures/week9/model_assessment.html) ([Rmd](http://monba.dicook.org/lectures/week9/model_assessment.Rmd))
 - Week 10: Clustering, Chapter 10
+[slides1](http://monba.dicook.org/lectures/week10/clustering_kmeans.html) ([Rmd](http://monba.dicook.org/lectures/week10/clustering_kmeans.Rmd))
 - Week 11: Guest lecturer and review
 - Week 12: Project presentations
 
@@ -81,7 +82,11 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 - Week 7: [Instructions](http://monba.dicook.org/labs/lab7.html) ([Rmd](http://monba.dicook.org/labs/lab7.Rmd)) 
 [SOLUTION](http://monba.dicook.org/labs/lab7_solution.html) ([Rmd](http://monba.dicook.org/labs/lab7_solution.Rmd)) 
 - Week 8: [Instructions](http://monba.dicook.org/labs/lab8.html) ([Rmd](http://monba.dicook.org/labs/lab8.Rmd)) 
+[SOLUTION](http://monba.dicook.org/labs/lab8_solution.html) ([Rmd](http://monba.dicook.org/labs/lab8_solution.Rmd)) 
 - Week 9: [Instructions](http://monba.dicook.org/labs/lab9.html) ([Rmd](http://monba.dicook.org/labs/lab9.Rmd)) 
+[SOLUTION](http://monba.dicook.org/labs/lab9_solution.html) ([Rmd](http://monba.dicook.org/labs/lab9_solution.Rmd)) 
+- Week 10: [Instructions](http://monba.dicook.org/labs/lab10.html) ([Rmd](http://monba.dicook.org/labs/lab10.Rmd)) 
+
 
 ## Assignments
 
