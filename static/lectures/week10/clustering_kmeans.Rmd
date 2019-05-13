@@ -152,19 +152,18 @@ layout: false
 
 ```{r}
 # Set the initial means, seeding the algorithm
-xb <- data.frame(x1 = sample(1:20, 2), x2 = sample(1:20, 2))
+xb <- data.frame(cl = factor(c(1, 2)), x1 = sample(1:20, 2), x2 = sample(1:20, 2))
 ```
 
 Select $k=2$, and set initial seed means <br>
-$\bar{x}_1=$ (`r xb[1,]`) ,
-$\bar{x}_2=$ (`r xb[2,]`) <br>
+$\bar{x}_1=$ (`r xb[1,-1]`) ,
+$\bar{x}_2=$ (`r xb[2,-1]`) <br>
 Compute distances $(d_1, d_2)$ between each observation and each mean.
 
 ```{r}
 # Compute distances between each observation and each mean
-xb1 <- c(xb[1,1], xb[1,2]); xb2 <- c(xb[2,1], xb[2,2])
-d1 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb1)^2))
-d2 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb2)^2))
+d1 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[1,2:3])^2)),1))
+d2 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[2,2:3])^2)),1))
 df.km <- cbind(df, d1, d2)
 df.km %>%
   kable("html", escape=F) %>%
@@ -189,8 +188,8 @@ count: false
 .column[.pad10px[.content[
 
 Select $k=2$, and set initial seed means <br>
-$\bar{x}_1=$ (`r xb[1,]`) ,
-$\bar{x}_2=$ (`r xb[2,]`) <br>
+$\bar{x}_1=$ (`r xb[1,2:3]`) ,
+$\bar{x}_2=$ (`r xb[2,2:3]`) <br>
 Compute distances $(d_1, d_2)$ between each observation and each mean.
 
 ```{r}
@@ -244,8 +243,8 @@ kable(df.km) %>%
 .column[.pad50px[.content[
 
 ```{r out.width="100%", fig.width=4, fig.height=4}
-mn <- tibble(cl=factor(c(1,2)), lbl=c("m1", "m2"), 
-                 x1=c(xb1[1], xb2[1]), x2=c(xb1[2], xb2[2]))
+mn <- data.frame(cl=xb$cl, lbl=c("m1", "m2"), 
+                 x1=xb$x1, x2=xb$x2)
 ggplot() + 
   geom_text(data=df.km, aes(x=x1, y=x2, label=lbl, color=cl)) + 
   geom_point(data=mn, aes(x=x1, y=x2, color=cl), 
@@ -276,8 +275,8 @@ $\bar{x}_1=$ (`r round(xb[1,-1], 0)`) ,
 $\bar{x}_2=$ (`r round(xb[2,-1], 0)`) <br>
 
 ```{r}
-d1 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb1)^2))
-d2 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb2)^2))
+d1 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[1,2:3])^2)),1))
+d2 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[2,2:3])^2)),1))
 df.km$d1 <- round(d1, 1)
 df.km$d2 <- round(d2, 1)
 
@@ -327,8 +326,8 @@ $\bar{x}_1=$ (`r round(xb[1,-1], 0)`) ,
 $\bar{x}_2=$ (`r round(xb[2,-1], 0)`) <br>
 
 ```{r}
-d1 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb1)^2))
-d2 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb2)^2))
+d1 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[1,2:3])^2)),1))
+d2 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[2,2:3])^2)),1))
 df.km$d1 <- round(d1, 1)
 df.km$d2 <- round(d2, 1)
 
@@ -378,8 +377,8 @@ $\bar{x}_1=$ (`r round(xb[1,-1], 0)`) ,
 $\bar{x}_2=$ (`r round(xb[2,-1], 0)`) <br>
 
 ```{r}
-d1 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb1)^2))
-d2 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb2)^2))
+d1 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[1,2:3])^2)),1))
+d2 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[2,2:3])^2)),1))
 df.km$d1 <- round(d1, 1)
 df.km$d2 <- round(d2, 1)
 
@@ -429,8 +428,8 @@ $\bar{x}_1=$ (`r round(xb[1,-1], 0)`) ,
 $\bar{x}_2=$ (`r round(xb[2,-1], 0)`) <br>
 
 ```{r}
-d1 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb1)^2))
-d2 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb2)^2))
+d1 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[1,2:3])^2)),1))
+d2 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[2,2:3])^2)),1))
 df.km$d1 <- round(d1, 1)
 df.km$d2 <- round(d2, 1)
 
@@ -480,8 +479,8 @@ $\bar{x}_1=$ (`r round(xb[1,-1], 0)`) ,
 $\bar{x}_2=$ (`r round(xb[2,-1], 0)`) <br>
 
 ```{r}
-d1 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb1)^2))
-d2 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb2)^2))
+d1 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[1,2:3])^2)),1))
+d2 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[2,2:3])^2)),1))
 df.km$d1 <- round(d1, 1)
 df.km$d2 <- round(d2, 1)
 
@@ -531,8 +530,8 @@ $\bar{x}_1=$ (`r round(xb[1,-1], 0)`) ,
 $\bar{x}_2=$ (`r round(xb[2,-1], 0)`) <br>
 
 ```{r}
-d1 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb1)^2))
-d2 <- apply(df[,2:3], 1, function(x) sqrt(sum(x-xb2)^2))
+d1 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[1,2:3])^2)),1))
+d2 <- apply(df[,2:3], 1, function(x) round(sqrt(sum((x-xb[2,2:3])^2)),1))
 df.km$d1 <- round(d1, 1)
 df.km$d2 <- round(d2, 1)
 
@@ -579,14 +578,6 @@ layout: false
 .column[.top50px[
 
 ```{r out.width="80%", fig.width=4, fig.height=4}
-library(tidyverse)
-library(tourr)
-library(gridExtra)
-library(emo)
-library(knitr)
-library(kableExtra)
-
-data(flea)
 ggplot(data=flea) + geom_point(aes(x=tars1, y=aede1)) + theme(aspect.ratio=1) + xlab("") + ylab("")
 ```
 
