@@ -687,6 +687,31 @@ grid.arrange(p1, p2, p3, p4, p5, ncol=3)
 ```
 ---
 
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- [Hierarchical clustering](#2)
+- [Linkage](#7)
+- [Dendrogram](#13)
+- [Pros and cons](#16)
+- [Example](#23)
+- .orange[Dendrogram in p-space]
+
+]]
+.column[.top50px[
+
+<br>
+
+Examining the dendrogram in the high-dimensional data space can be done using the tour. You need to 
+
+1. Add points to the data to provide the places where the leaves join. These are the .orange[nodes] in the dendrogram.
+2. Create a data set of .orange[edges], indicating which points should be connected.
+
+]]
+---
 Dendrogram in $p$-dimensions (Wards and average linkage)
 
 ```{r eval=FALSE}
