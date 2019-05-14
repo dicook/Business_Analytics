@@ -882,10 +882,10 @@ save_html(pg, file="cluster_average.html")
 ```
 
 .pull-left[
-<iframe src="cluster_ward.html" width="400" height="500" scrolling="yes" seamless="seamless" frameBorder="0"> </iframe>
+<iframe src="http://monba.dicook.org/lectures/week10/cluster_ward.html" width="400" height="500" scrolling="yes" seamless="seamless" frameBorder="0"> </iframe>
 ]
 .pull-right[
-<iframe src="cluster_average.html" width="400" height="500" scrolling="yes" seamless="seamless" frameBorder="0"> </iframe>
+<iframe src="http://monba.dicook.org/lectures/week10/cluster_average.html" width="400" height="500" scrolling="yes" seamless="seamless" frameBorder="0"> </iframe>
 ]
 
 ---
