@@ -5,7 +5,6 @@ author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <
 date: "Week 10 (b)"
 output: 
   xaringan::moon_reader:
-    chakra: "remark-latest.min.js"
     css: ["kunoichi", "ninjutsu", "mystyle.css", "libs/animate.css"]
     lib_dir: libs
     nature:

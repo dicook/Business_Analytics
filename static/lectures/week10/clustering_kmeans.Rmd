@@ -848,8 +848,8 @@ layout: false
 2. $d(A, A) = 0$
 3. $d(A, B) = d(B, A)$
 4. Metric dissimilarity satisfies 
-$d(A, B) \geq d(A, C) + d(C, B)$, and an ultrametric dissimilarity satisfies
-$d(A, B) \geq max\{d(A, C), d(C, B)\}$
+$d(A, B) \leq d(A, C) + d(C, B)$, and an ultrametric dissimilarity satisfies
+$d(A, B) \leq max\{d(A, C), d(C, B)\}$
 
 ]]
 ---
