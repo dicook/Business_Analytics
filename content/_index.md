@@ -62,6 +62,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 [slides2](http://monba.dicook.org/lectures/week9/model_assessment.html) ([Rmd](http://monba.dicook.org/lectures/week9/model_assessment.Rmd))
 - Week 10: Clustering, Chapter 10
 [slides1](http://monba.dicook.org/lectures/week10/clustering_kmeans.html) ([Rmd](http://monba.dicook.org/lectures/week10/clustering_kmeans.Rmd))
+[slides2](http://monba.dicook.org/lectures/week10/clustering_hierarchical.html) ([Rmd](http://monba.dicook.org/lectures/week10/clustering_hierarchical.Rmd))
 - Week 11: Guest lecturer and review
 - Week 12: Project presentations
 
