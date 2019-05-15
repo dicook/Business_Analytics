@@ -221,7 +221,7 @@ kable(d) %>%
 ]]]
 .column[.pad50px[.content[
 
-.orange[Distance (linkage) between (c,d) and a]
+.orange[Distance (linkage) between (b,c) and a]
 
 Single: 4.2 or 5.7 $\rightarrow$ .orange[4.2] <br>
 Complete: 4.2 or 5.7 $\rightarrow$ .orange[5.7] <br>
@@ -254,8 +254,8 @@ d2 <- d[-3,-3]
 d2[2,3] <- d2[3,2] <- 2.2
 d2[2,4] <- d2[4,2] <- 15.8
 d2[2,7] <- d2[7,2] <- 18.6
-colnames(d2)[2] <- "(c,d)"
-rownames(d2)[2] <- "(c,d)"
+colnames(d2)[2] <- "(b,c)"
+rownames(d2)[2] <- "(b,c)"
 kable(d2) %>%
   kable_styling("striped", position = "center", 
                 row_label_position = "c", 
@@ -275,7 +275,7 @@ Now which distance is the smallest?
 
 <br>
 
-d would be joined to (c,d) at the next step
+d would be joined to (b,c) at the next step
 
 ]]]
 ---
@@ -291,8 +291,8 @@ d3 <- d[-3,-3]
 d3[2,] <- round(apply(d[2:3,], 2, mean)[-2],1)
 d3[,2] <- d3[2,]
 d3[2,2] <- 0
-colnames(d3)[2] <- "(c,d)"
-rownames(d3)[2] <- "(c,d)"
+colnames(d3)[2] <- "(b,c)"
+rownames(d3)[2] <- "(b,c)"
 kable(d3) %>%
   kable_styling("striped", position = "center", 
                 row_label_position = "c", 
