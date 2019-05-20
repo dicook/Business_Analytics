@@ -65,7 +65,6 @@ Unless your question is a personal issue or an administrative matter, please do 
 [slides2](http://monba.dicook.org/lectures/week10/clustering_hierchical.html) ([Rmd](http://monba.dicook.org/lectures/week10/clustering_hierchical.Rmd))
 - Week 11: Guest lecturer and review
 [slides1](http://monba.dicook.org/lectures/week11/wrap_up.html) ([Rmd](http://monba.dicook.org/lectures/week11/wrap_up.Rmd))
-
 - Week 12: Project presentations
 
 <!--
