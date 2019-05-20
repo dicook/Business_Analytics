@@ -1,0 +1,333 @@
+---
+title: "ETC3250: Wrapping up for the semester"
+subtitle: "Semester 1, 2019"
+author: "<br> Professor Di Cook <br> <br> Econometrics and Business Statistics <br> Monash University"
+date: "Week 11 (a)"
+output: 
+  xaringan::moon_reader:
+    css: ["kunoichi", "ninjutsu", "mystyle.css", "libs/animate.css"]
+    lib_dir: libs
+    nature:
+      ratio: '16:9'
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+header-includes:
+  - \usepackage{xcolor}
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(tidy = FALSE, 
+                      message = FALSE,
+                      warning = FALSE,
+                      echo = FALSE, 
+                      fig.width=8,
+                      fig.height=6,
+                      fig.align = "center",
+                      fig.retina = 2)
+options(htmltools.dir.version = FALSE)
+library(magick)
+```
+# Learning objectives for this class
+
+- .orange[Select and develop] appropriate models for regression, classification or clustering 
+- .orange[Estimate and simulate] from a variety of statistical models, and measure the uncertainty of a prediction using resampling methods
+-  Manage large data sets in a modern software environment, and .orange[explain and interpret] the analyses undertaken clearly and effectively
+- .orange[Apply] business analytic tools to produce innovative solutions in finance, marketing, economics and related areas
+
+---
+
+class: split-30
+layout: false
+
+
+.column[.pad10px[
+## Outline
+
+- .orange[What have we covered]
+    - Key concepts
+
+
+]]
+.column[.top50px[
+
+- What .orange[type of problem] do you have? 
+    - supervised (regression, classification), 
+    - unsupervised (PCA, cluster analysis)
+- Should you use a .orange[flexible or less flexible] model? 
+    - Parametric (more assumptions, easier estimation, strong inference)
+    - Non-parametric (more flexible, fewer assumptions, more observations needed, less interpretable)
+        - e.g. kNN, smoothers
+- .orange[Measuring fit]
+    - MSE, $R^2$, BIC
+    - accuracy, misclassification
+- .orange[Bias vs variance] trade-off
+    - bias: error that is introduced by modeling a complicated problem by a simpler model
+    - variance: how much your estimate would change if you had different training data
+
+]]
+
+---
+
+class: split-30
+layout: false
+
+
+.column[.pad10px[
+## Outline
+
+- .orange[What have we covered]
+    - Key concepts
+    - Re-sampling
+
+
+]]
+.column[.top50px[
+
+- Training/test/validation sets
+- LOOCV, k-fold cross-validation
+    - shortcut for computing $MSE_i$
+- Bootstrap
+    - out-of-bag error
+
+]]
+---
+
+class: split-30
+layout: false
+
+
+.column[.pad10px[
+## Outline
+
+- .orange[What have we covered]
+    - Key concepts
+    - Re-sampling
+    - Models
+
+
+]]
+.column[.top50px[
+
+- Linear (and polynomial) regression
+- .orange[Logistic regression]
+    - Logit function
+    - Parameter interpretation
+    - relationship to neural networks
+- .orange[Linear discriminant analysis]
+    - assumptions
+    - relationship to normal model
+    - dimension reduction
+- Quadratic discriminant analysis
+    - heteroskedastic group variance-covariance
+
+]]
+
+---
+
+class: split-30
+layout: false
+
+
+.column[.pad10px[
+## Outline
+
+- .orange[What have we covered]
+    - Key concepts
+    - Re-sampling
+    - Models
+
+
+]]
+.column[.top50px[
+
+- .orange[Decision trees]
+    - Regression: SST - (SSL+SSR)
+    - Classification: Gini, entropy
+- .orange[Random forests]
+    - Bagging
+    - Sampling variables
+    - Permutation 
+    - Diagnostics: Variable importance, Vote matrix, Proximity
+- .orange[Support vector machines]
+    - maximal margin
+    - relationship to LDA
+    - kernels
+- .orange[Neural networks]
+    - deconstructing the model fit
+    - instability
+
+]]
+
+---
+
+class: split-30
+layout: false
+
+
+.column[.pad10px[
+## Outline
+
+- .orange[What have we covered]
+    - Key concepts
+    - Re-sampling
+    - Models
+    - Visualisation
+
+
+]]
+.column[.top50px[
+
+- .orange[Importance]
+    - Understanding structure in data, inform the model choice
+    - Diagnose 
+    - Check assumptions
+- .orange[Model in the data space]
+- .orange[Inference] using randomization, bootstrap and permutation
+- .orange[Tours]
+    - relationship to a biplot
+    - Matching structure to variable contribution
+    - Types: grand, guided, 
+- .orange[Parallel coordinate plots]
+    - Ordering variables
+    - Scaling of axes
+- .orange[Pairs plots]
+]]
+
+---
+
+class: split-30
+layout: false
+
+
+.column[.pad10px[
+## Outline
+
+- .orange[What have we covered]
+    - Key concepts
+    - Re-sampling
+    - Models
+    - Visualisation
+    - Dimension reduction
+
+
+]]
+.column[.top50px[
+
+- .orange[Principal component analysis]
+    - Eigendecomposition of variance-covariance
+    - Scaling of variables
+    - Choosing k
+    - Total variance, and proportion
+    - biplot
+    - relationship to projection pursuit
+- .orange[Regularization]
+    - Ridge regression
+    - Lasso
+    
+]]
+
+---
+
+class: split-30
+layout: false
+
+
+.column[.pad10px[
+## Outline
+
+- .orange[What have we covered]
+    - Key concepts
+    - Re-sampling
+    - Models
+    - Visualisation
+    - Dimension reduction
+    - Cluster analysis
+
+
+]]
+.column[.top50px[
+- .orange[Interpoint distance], similarity and dissimilarity
+    - Rules for distance
+- $k$-means
+    - algorithm
+    - random starts
+- Hierarchical
+    - Linkage
+    - Dendrogram
+- Choosing $k$ and comparing solutions
+    - WBRatio
+    - Others
+
+]]
+---
+layout: true
+class: shuriken-full white 
+
+.blade1.bg-green[.content.center.vmiddle[
+.white.font_large[How do you do well in this class?]
+]]
+.blade2.bg-purple[.content.center.vmiddle[
+Turn up to class, summarise your notes after each, note what you understand, and what you don't `r emo::ji("ocean")`
+]]
+.blade3.bg-deep-orange[.content.center.vmiddle[
+Do exercises from the textbook related to material each week, check your answers with online solutions `r emo::ji("climber")`
+]]
+.blade4.bg-pink[.content.center.vmiddle[
+Participate actively in computer labs, work with team mates to solve problems, get best answers `r emo::ji("fruit")`
+]]
+---
+
+class: hide-blade2 hide-blade3 hide-blade4 hide-hole
+
+---
+
+class: hide-blade3 hide-blade4 hide-hole
+count: false
+
+---
+
+class: hide-blade4 hide-hole
+count: false
+
+---
+
+class: hide-hole
+count: false
+
+---
+
+count: false 
+
+---
+class: split-50
+.column[.padtop50px[
+# After this course
+
+
+.green[**ETC3555 - Statistical Machine Learning**]
+
+.font_small[This unit covers the methods and practice of statistical machine learning for modern data analysis problems. Topics covered will include recommender systems, social networks, text mining, matrix decomposition and completion, and sparse multivariate methods. All computing will be conducted using the R programming language.
+
+Prerequisites: ETC3250 or FIT3154]
+]]
+.column[.padtop50px[
+.green[**ETC5550 - Advanced Statistical Modelling**] 
+
+.font_small[This unit introduces extensions of linear regression models for handling a wide variety of data analysis problems. Three extensions will be considered: generalised linear models for handling counts and binary data; mixed-effect models for handling data with a grouped or hierarchical structure; and non-parametric regression for handling non-linear relationships. All computing will be conducted using R.
+
+Prerequisites: ETC2410, ETC2420, ETC3440 or equivalent.]
+]]
+---
+
+layout: false
+# `r set.seed(2019); emo::ji("technologist")` All the best with the rest of the class, and the final exam. 
+
+For those of you wrapping up your studies, good luck in your future, and I hope that what you have learned in this class can be useful in your journey.
+
+My data analyses, slides, papers, web site uses the [R](https://www.r-project.org) .orange[workflow]. Very powerful framework for a business analyst/data scientist. There is .orange[no competition] with [python](https://www.python.org). Both extraordinary resources for our world. The people who develop and maintain these resources need our applause. We are extremely .orange[lucky] to be living in a world where these resources are available free to us.
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.

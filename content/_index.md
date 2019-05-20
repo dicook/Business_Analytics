@@ -64,6 +64,8 @@ Unless your question is a personal issue or an administrative matter, please do 
 [slides1](http://monba.dicook.org/lectures/week10/clustering_kmeans.html) ([Rmd](http://monba.dicook.org/lectures/week10/clustering_kmeans.Rmd))
 [slides2](http://monba.dicook.org/lectures/week10/clustering_hierchical.html) ([Rmd](http://monba.dicook.org/lectures/week10/clustering_hierchical.Rmd))
 - Week 11: Guest lecturer and review
+[slides1](http://monba.dicook.org/lectures/week11/wrap_up.html) ([Rmd](http://monba.dicook.org/lectures/week11/wrap_up.Rmd))
+
 - Week 12: Project presentations
 
 <!--
@@ -86,7 +88,8 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 [SOLUTION](http://monba.dicook.org/labs/lab8_solution.html) ([Rmd](http://monba.dicook.org/labs/lab8_solution.Rmd)) 
 - Week 9: [Instructions](http://monba.dicook.org/labs/lab9.html) ([Rmd](http://monba.dicook.org/labs/lab9.Rmd)) 
 [SOLUTION](http://monba.dicook.org/labs/lab9_solution.html) ([Rmd](http://monba.dicook.org/labs/lab9_solution.Rmd)) 
-- Week 10: [Instructions](http://monba.dicook.org/labs/lab10.html) ([Rmd](http://monba.dicook.org/labs/lab10.Rmd)) 
+- Week 10: [Instructions](http://monba.dicook.org/labs/lab10.html) ([Rmd](http://monba.dicook.org/labs/lab10.Rmd)) [SOLUTION](http://monba.dicook.org/labs/lab10_solution.html) 
+- Week 11: [Instructions](http://monba.dicook.org/labs/lab11.html) ([Rmd](http://monba.dicook.org/labs/lab11.Rmd)) 
 
 
 ## Assignments
@@ -96,7 +99,7 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 [SOLUTION](http://monba.dicook.org/assignments/assignment2_solution.html) ([Rmd](http://monba.dicook.org/assignments/assignment2_solution.Rmd)) 
 - Assignment 3: [Instructions](http://monba.dicook.org/assignments/assignment3.html) ([Rmd](http://monba.dicook.org/assignments/assignment3.Rmd)) [vis_challenge.csv](http://monba.dicook.org/assignments/vis_challenge.csv)
 [SOLUTION](http://monba.dicook.org/assignments/assignment3_solution.html) ([Rmd](http://monba.dicook.org/assignments/assignment3_solution.Rmd)) 
-- Assignment 4: [Instructions](http://monba.dicook.org/assignments/assignment4.html) ([Rmd](http://monba.dicook.org/assignments/assignment4.Rmd))
+- Assignment 4: [Instructions](http://monba.dicook.org/assignments/assignment4.html) ([Rmd](http://monba.dicook.org/assignments/assignment4.Rmd)) [SOLUTION](http://monba.dicook.org/assignments/assignment4_solution.html) ([Rmd](http://monba.dicook.org/assignments/assignment4_solution.Rmd)) 
 
 ## Data
 
@@ -105,6 +108,9 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 - [wiggly.csv](http://monba.dicook.org/labs/data/wiggly.csv)
 - [nnet_best.rda](http://monba.dicook.org/labs/data/nnet_best.rda)
 - [nnet_many.rda](http://monba.dicook.org/labs/data/nnet_many.rda)
+- [paintings-subset.csv](http://monba.dicook.org/labs/data/paintings-subset.csv)
+- [paintings-long-train.csv](http://monba.dicook.org/labs/data/paintings-long-train.csv)
+- [paintings.zip](http://monba.dicook.org/labs/data/paintings.zip)
 
 ## Project
 

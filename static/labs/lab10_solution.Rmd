@@ -1,0 +1,271 @@
+---
+title: "ETC3250 2019 - Lab 10"
+author: "Dianne Cook"
+date: "Week 10"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 6,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+
+# Do it yourself
+
+These exercises are from the texbook.
+
+1. Work your way through the 6.5.1
+
+```{r}
+library(knitr)
+library(tidyverse)
+library(ISLR)
+library(skimr)
+data(Hitters)
+```
+
+```{r eval=FALSE}
+# Take a look at the data
+skim(Hitters)
+```
+
+```{r}
+# Handle the missing values on Salary
+Hitters <- Hitters %>%
+  filter(!is.na(Salary))
+
+# Subset selection
+library(leaps)
+regfit.full <- regsubsets(Salary~., Hitters)
+```
+
+```{r eval=FALSE}
+summary(regfit.full)
+```
+
+a. Which variables make the best 8 variable model?
+
+**AtBat,Hits,Walks,CHmRun,CRuns,CWalks,DivisionW,PutOuts**
+
+b. Force it to examine all possible (19) predictors. 
+
+```{r}
+regfit.full <- regsubsets(Salary~., data=Hitters, nvmax=19)
+reg.summary <- summary(regfit.full)
+```
+
+c. Plot the model fit diagnostics for the best model of each size.
+
+```{r}
+library(gridExtra)
+#names(reg.summary)
+models <- tibble(nvars=1:19, rsq=reg.summary$rsq, 
+                 rss=reg.summary$rss, 
+                 adjr2=reg.summary$adjr2, 
+                 cp=reg.summary$cp, 
+                 bic=reg.summary$bic)
+p1 <- ggplot(models, aes(x=nvars, y=rsq)) + geom_line()
+p2 <- ggplot(models, aes(x=nvars, y=rss)) + geom_line()
+p3 <- ggplot(models, aes(x=nvars, y=adjr2)) + geom_line()
+p4 <- ggplot(models, aes(x=nvars, y=cp)) + geom_line()
+p5 <- ggplot(models, aes(x=nvars, y=bic)) + geom_line()
+grid.arrange(p1, p2, p3, p4, p5, ncol=2)
+```
+
+d. What would these diagnostics suggest about an appropriate choice of models? Do your results compare with the text book results? Why not?
+
+**BIC would suggest 6 variables. (It gets worse after 6, and then better at 8, and then worse again.) The others suggest around 10. The textbook suggests 6 variables, so similar results here.**
+
+e. Fit forward stepwise selection. How would the decision about best model change?
+
+```{r}
+regfit.fwd <- regsubsets(Salary~., data=Hitters, nvmax=19, method="forward")
+#summary(regfit.fwd)
+regfit.bwd <- regsubsets(Salary~., data=Hitters, nvmax=19, method="backward")
+#summary(regfit.bwd)
+```
+
+Full model
+```{r}
+coef(regfit.full,7)
+```
+Forward selection
+```{r}
+coef(regfit.fwd,7)
+```
+
+
+
+**There is some disagreement between the final set of variables. Some variables though are common to all, which would suggest these are important, and the remaining variables may marginally improve a fit.**
+
+f. Does the model change with backward stepwise selection?
+
+Backward selection
+```{r}
+coef(regfit.bwd,7)
+```
+
+**Yes, same answer as above.**
+
+2. Now repeat the process with a training and test split, to use the test set to help decide on on the best model.
+
+a. Break the data into a 2/3 training and 1/3 test set. 
+b. Fit the best subsets. Compute the mean square error for the test set. Which model would it suggest? Is the subset of models similar to produced on the full data set? Do your results compare with the text book results? Why not?
+
+```{r}
+library(caret)
+set.seed(20190513)
+tr_indx <- createDataPartition(Hitters$Salary, p=2/3)$Resample1
+h_tr <- Hitters[tr_indx, ]
+h_ts <- Hitters[-tr_indx, ]
+
+regfit.best <- regsubsets(Salary~., data=h_tr, nvmax=19)
+test.mat <- model.matrix(Salary~., data=h_ts)
+val.errors <- rep(NA,19)
+for(i in 1:19) {
+   coefi <- coef(regfit.best, id=i)
+   pred <- test.mat[,names(coefi)]%*%coefi
+   val.errors[i] <- mean((h_ts$Salary-pred)^2)
+}
+val.errors
+coef(regfit.best, which.min(val.errors))
+```
+
+**The model changes. The selection of bet sets would be different. This is becase a subset of data was used for training the model. Some chosen variables are the same as the full set, which suggests that these are the more important variables for estimating salary, and some variables are marginally useful.**
+
+3. Try again with cross-validation. 
+
+a. It is said that 10-fold cross-validation is a reasonable choice for dividing the data. What size data sets would this create for this data? Argue whether this is good or bad. With your selection of an appropriate $k$ conduct the cross-validation. 
+
+**There isn't a lot of data. With 10-fold cross-validation only about 20 cases are kept each time, which leads to substantial variability between predictions from each set. I have used 5, which also produces results with considerable variability. The model is fairly weak so it probably doesn't really matter. The choice of number of variables is consistent for most $k$, even though the variability in error is substantial.**
+
+b. The book talks about a "model matrix". What is this? Why does the code for cross-validation need to use this?
+
+**Sets up the dummy variable.**
+
+b. Plot the test error against the size of model, coloured by the CV fold. Why does the test error vary by fold? What does the variation mean? What size model is suggested? 
+
+**The variability between sets is high, but all point to around 5-10 variables.**
+
+c. How do your results compare with the textbook analysis? Can you explain any discrepancies?
+
+**Results are similar, but different splits produce some difference in results.**
+
+```{r}
+# Make our own prediction function
+predict.regsubsets <- function(object,newdata,id,...){
+  form=as.formula(object$call[[2]])
+  mat=model.matrix(form,newdata)
+  coefi=coef(object,id=id)
+  xvars=names(coefi)
+  mat[,xvars]%*%coefi
+}
+# Create the folds
+set.seed(20190513)
+k <- 5
+folds <- createFolds(Hitters$Salary, k=k)
+
+# Compute errors for different folds
+cv.errors <- matrix(NA,k,19, dimnames=list(NULL, paste(1:19)))
+for (j in 1:k) {
+  best.fit <- regsubsets(Salary~., data=Hitters[(1:263)[folds[[j]]],], nvmax=19)
+  for(i in 1:19) {
+    pred <- predict(best.fit, Hitters[folds[[j]],], id=i)
+    cv.errors[j,i] <- mean((Hitters$Salary[folds[[j]]]-pred)^2)
+    }
+}
+# Put data in long form to plot effectively
+cv.errors <- as_tibble(cv.errors) %>%
+  gather(nvars, error) %>% mutate(nvars=as.numeric(nvars)) %>%
+  mutate(cv_set = rep(1:5, 19))
+ggplot(cv.errors, aes(x=nvars, y=error, colour=factor(cv_set))) +
+  geom_line() + theme(legend.position="none")
+```
+
+4. Now we are going to examine regularisation, using lasso.
+
+a. Using your results from questions 1-3, fit the best least squares model, to your training set. Write down the mean square error and estimates for the final model. We'll use these to compare with the lasso fit.
+
+```{r}
+min(val.errors)
+coef(regfit.best, which.min(val.errors))
+```
+
+b. Fit the lasso to a range of $\lambda$ values. Plot the standardised coefficients against $\lambda$. What does this suggest about the predictors?
+```{r}
+library(glmnet)
+grid <- 10^seq(10,-2,length=100)
+x <- model.matrix(Salary~., Hitters)[,-1]
+y <- Hitters$Salary
+
+lasso.mod <- glmnet(x[tr_indx,], y[tr_indx], alpha=1, lambda=grid)
+# Need a coefficient matrix of 100(nlambda)x19(p)
+# as.matrix function converts sparse format into this
+coef <- as.matrix(lasso.mod$beta) 
+coef <- cbind(var=rownames(coef), coef)
+cv <- coef %>% as_tibble() %>%
+  gather(nval, coef, -var) %>%
+  mutate(coef=as.numeric(coef)) %>%
+  mutate(lambda=rep(lasso.mod$lambda, rep(19, 100)))
+  
+ggplot(cv, aes(x=lambda, y=coef, group=var)) + geom_line() +
+  scale_x_log10(limits=c(-1, 100))
+# This is how the sample code plots
+#plot(lasso.mod, xvar="lambda", xlim=c(-1, 5))
+```
+
+**There are just a few predictors that are important for predicting salary.**
+
+c. Conduct a cross-validation 
+
+```{r}
+# Do cross-validation, using glmnet's function
+set.seed(20190513)
+cv.out <- cv.glmnet(x[tr_indx,], y[tr_indx], alpha=1)
+cv.df <- tibble(lambda=cv.out$lambda, mse=cv.out$cvm,
+                mse_l=cv.out$cvlo, mse_h=cv.out$cvup)
+ggplot(cv.df, aes(x=lambda, y=mse)) + geom_point() +
+  scale_x_log10() +
+  geom_errorbar(aes(ymin=mse_l, ymax=mse_h))
+# This is how the sample code plots
+# plot(cv.out)
+```
+
+d. Fit the final model using the best $\lambda$. What are the estimated coefficients? What predictors contribute to the model?
+
+```{r}
+# Fit a single model to the best lambda, predict the test set, and compute mse
+bestlam <- cv.out$lambda.min
+bestlam
+lasso.pred <- predict(lasso.mod, s=bestlam, newx=x[-tr_indx,])
+y.test <- y[-tr_indx]
+mean((lasso.pred-y.test)^2)
+
+# Fit the model
+# alpha=1 means lasso
+# Its strange that it still needs the grid of lambdas to fit
+# but it seems necessary for the optimisation.
+# Then the predictions for bext lambda made with predict fn
+out <- glmnet(x, y, alpha=1, lambda=grid)
+lasso.coef <- predict(out, type="coefficients", s=bestlam)[1:20,]
+lasso.coef
+lasso.coef[lasso.coef!=0]
+```
+
+**There are 7 variables with non-zero coefficients. The MSE is 107405.70.**
+
+e. Does the best lasso model beat the best least squares model (best subsets)? 
+
+**The best subsets performs a little better than lasso. It has lower MSE. The lasso has fewer variables, though, and thus is a little easier to interpret.**

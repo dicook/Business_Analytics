@@ -1,0 +1,157 @@
+---
+title: "ETC3250 2019 - Lab 11"
+author: "Dianne Cook"
+date: "Week 11"
+output:
+  html_document: default
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE, 
+  collapse = TRUE,
+  comment = "#",
+  fig.height = 4,
+  fig.width = 6,
+  fig.align = "center",
+  cache = FALSE
+)
+```
+
+# About the data
+
+The lab uses cluster analysis to analyse the happy paintings by Bob Ross. This was the subject of the [538 post](http://fivethirtyeight.com/features/a-statistical-analysis-of-the-work-of-bob-ross/), "A Statistical Analysis of the Work of Bob Ross".
+
+We have taken the painting images from the [sales site](http://www.saleoilpaintings.com/paintings/bob-ross/bob-ross-sale-3_1.html), read the images into R, and resized them all to be 20 by 20 pixels. Each painting has been classified into one of 8 classes based on the title of the painting. This is the data that you will work with.
+
+Each row corresponds to one painting, and the rgb color values at each pixel are in each column. With a $20\times20$ image, this leads to $400\times3=1200$ columns.
+
+We have given you a set of 178 paintings. Your job is to cluster the data and thus organise the paintings.
+
+Here is one of the original paintings and how it appears after image processing:
+
+
+```{r out.width="70%"}
+library(tidyverse)
+library(ggdendro)
+library(ggthemes)
+library(magick)
+library(fpc)
+
+br5 <- image_read("data/paintings/bobross5.jpg")
+plot(br5)
+```
+
+```{r out.width="40%"}
+# Long form data is easier to plot.
+p_long <- read_csv("data/paintings-long-train.csv")
+p_long %>% filter(id == 5) %>%
+  ggplot(aes(x=x, y=-y, fill=h)) +
+  geom_tile() +
+  scale_fill_identity() +
+  theme_solid() +
+  theme(legend.position="none") 
+```
+
+# Activities
+
+1. Read in the data. How many variables? What are the variables summarising? How many paintings are processed?
+
+```{r eval=FALSE}
+# Read the data to cluster 
+paintings <- read_csv("data/paintings-subset.csv")
+```
+
+2. Conduct a hierarchical cluster analysis. Try using "Wards linkage". Make the dendrogram, and determine how many clusters you believe it suggests. (You can use Euclidean distance, and the variables are already on a comparable scale, so it should not be necessary to standardise them.)
+
+```{r eval=FALSE}
+p_d <- dist(paintings[,4:1203])
+p_hc_w <- hclust(p_d, method="ward.D2")
+ggdendrogram(p_hc_w)
+```
+
+
+3. Compute the cluster statistics suite for a range of choices of cuts of the dendrogram (e.g. $k=2, ..., 10$). How many clusters would be suggested?
+
+```{r eval=FALSE}
+p_stats_ncl <- NULL; p_stats <- NULL
+for (i in 2:10) {
+  cl <- cutree(p_hc_w, i)
+  x <- cluster.stats(p_d, cl)
+  p_stats_ncl <- cbind(p_stats_ncl, cl)
+  p_stats <- rbind(p_stats, c(x$within.cluster.ss, x$wb.ratio, x$ch, x$pearsongamma, x$dunn, x$dunn2))
+}
+colnames(p_stats) <- c("within.cluster.ss","wb.ratio", "ch", "pearsongamma", "dunn", "dunn2")
+p_stats <- data.frame(p_stats)
+p_stats$cl <- 2:10
+p_stats_m <- p_stats %>% 
+  gather(stat, value, -cl)
+ggplot(data=p_stats_m) + 
+  geom_line(aes(x=cl, y=value)) + xlab("# clusters") + ylab("") +
+  facet_wrap(~stat, ncol=3, scales = "free_y") + 
+  theme_bw()
+hcl <- cutree(p_hc_w, 5)
+```
+
+
+4. Using your best choice of $k$, run a $k$-means clustering. Compute a confusion matrix to compare the result from hierarchical with the $k$-means. Are they very similar, or quite different? (One thing that is useful to do when comparing two cluster solutions is to re-label the cluster id's from one group so that they best match, and the larger numbers are down the diagonal of the confusion matrix.)
+
+```{r eval=FALSE}
+# Choose k=5
+kcl <- kmeans(paintings[,4:1203], 5, nstart=5)$cluster
+table(hcl)
+table(kcl)
+table(hcl, kcl)[,c(4,2,5,3,1)] # rearrangement helps match the clusters
+stats1 <- cluster.stats(p_d, hcl)
+stats2 <- cluster.stats(p_d, kcl)
+# k-means produces better cluster stats
+```
+
+
+5. With your best solution, take a look at the paintings that fall into each group. Write a summary explaining how the clustering algorithm organised the paintings. 
+
+```{r eval=FALSE}
+p_ids <- list.files("data/paintings") 
+# Hierarchical solution
+cl_ids <- paintings[hcl==1, 1:2]
+# read in painting images for a cluster and write into a separate directory, to look at externally
+for (i in 1:nrow(cl_ids)) {
+  img <- image_read(paste0("data/paintings/bobross",cl_ids$id[i],".jpg"))
+  image_write(img, paste0("data/paintings_cluster/",cl_ids$name[i],".jpg"))
+}
+```
+
+
+6. Re-do analysis by first conducting a PCA, and compute interpoint distances on the reduced set of PCs. 
+
+```{r eval=FALSE}
+p_pca <- prcomp(paintings[,4:1203], scale=FALSE, retx=TRUE)
+summary(p_pca)
+screeplot(p_pca, npcs=20, type="lines", main="")
+p_df <- p_pca$x[,1:15]
+p_pca_d <- dist(p_df)
+p_pca_hc_w <- hclust(p_pca_d, method="ward.D2")
+ggdendrogram(p_pca_hc_w)
+
+p_stats_ncl <- NULL; p_stats <- NULL
+for (i in 2:10) {
+  cl <- cutree(p_pca_hc_w, i)
+  x <- cluster.stats(p_pca_d, cl)
+  p_stats_ncl <- cbind(p_stats_ncl, cl)
+  p_stats <- rbind(p_stats, c(x$within.cluster.ss, x$wb.ratio, x$ch, x$pearsongamma, x$dunn, x$dunn2))
+}
+colnames(p_stats) <- c("within.cluster.ss","wb.ratio", "ch", "pearsongamma", "dunn", "dunn2")
+p_stats <- data.frame(p_stats)
+p_stats$cl <- 2:10
+p_stats_m <- p_stats %>% 
+  gather(stat, value, -cl)
+ggplot(data=p_stats_m) + 
+  geom_line(aes(x=cl, y=value)) + xlab("# clusters") + ylab("") +
+  facet_wrap(~stat, ncol=3, scales = "free_y") + 
+  theme_bw()
+hcl_pca <- cutree(p_hc_w, 8)
+table(hcl, hcl_pca)
+```
