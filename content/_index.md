@@ -120,6 +120,32 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
     - Data is to be used only for Monash University's unit ETC3250, and no other purpose.
 	- Apply yourself, work independently until teams can be formed and to not cheat.
 	- Have fun, and still make time for other classwork.
+- Presentation schedule
+    - Monday 12-12:55
+        - ETC3250 Team: Munyaradzi, Channa
+        - Lindsay Spencer: Jacob, Xinxiao, Simon, Lindsay, Dun
+        - Stephen Bottrell: Stephen, Shuyi, James
+        - Zachary Loh: Avyav, Zachary, Shu Wei, Zihao
+        - Team: Yuru, Zihui, Kenji, Ziyang
+        - Federer's Friends: Nicolas, Yijia, Wen, Yue
+        - Avengers Ensemble: Matthew, Nadya, Danielle, Edward
+        - Tennis Pros: Matthew, Brandon, Thi Minh, Annabel
+        - Cooking up models: Zachary, Reece, Abhishek, Kevin, Dariusz
+        - Knitting Club: Kian, William, Patrick, James
+    - Tuesday 2:00-2:55
+        - tryin and cryin: Steph, Zhuangyu, Linguo, Cindy
+        - Nick & Ninh & HuaChen: David, Hua, Hai, Nick
+        - Team Monba: Samuel, Chris, Jefanny, William
+        - Team Name: Yida, Nishant, Cameron, Fanyi
+        - R Royalty: Rowina, Ian, Frances
+        - Butterfly: Ting, Colin, Jiun, Fengqiu, Rachell
+        - mymodel: Xiangmei, Yih, Jia, Daniel, Gigi
+        - Brandon the Broken, First of his name, Lord of the 6 kingdoms: Madison, Karan, Marina, Moss, Callum
+        - xgboost to the top: Geethanjali, Jeffrey, Nathan, Grace, Amy
+        - Neurotics: Hujie, Arunabh, Weihao, Jacqui, Shayne
+
+
+	
 
 ## Exam information
 
