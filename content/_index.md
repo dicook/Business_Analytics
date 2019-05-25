@@ -126,7 +126,7 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 	- Have fun, and still make time for other classwork.
 - Presentation schedule
     - Monday 12-12:55
-        - ETC3250 Team: Munyaradzi, Channa
+        - [ETC3250 Team](project/slides/ETC3250Team/ETC3250_Group_Assignment.html): Munyaradzi, Channa
         - [66666](project/slides/66666/Presentation.html): Jacob, Xinxiao, Simon, Lindsay, Dun
         - [ao_tr_unlabelled](project/slides/ao_tr_unlabelled/ETC3250-Project-Presentation.html): Stephen, Shuyi, James
         - [Zachary Loh](project/slides/Zachary_Loh/ETC3250_Project_slides.html): Avyav, Zachary, Shu Wei, Zihao
