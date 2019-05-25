@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Win or Lose ?</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Team：Yuru, Zihui, Kenji, Ziyang" />
+    <meta name="date" content="2019-05-28" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link href="libs/remark-css/shinobi.css" rel="stylesheet" />
+    <link rel="stylesheet" href="my-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Win or Lose ?
+## ETC3250 Business Analytics
+### Team：Yuru, Zihui, Kenji, Ziyang
+### May 28, 2019
+
+---
+
+
+class: split-two 
+.column[.split-50[
+.pad10px[
+.row[.content[
+.boxshadow[
+.content[
+##- .orange[Description of dataset]
+- Space &amp; Time coordinates of balls
+- 2D coordinates of 2 players
+- Penultimate shot &amp; point ending shot records
+]]
+]]
+
+
+.row[.content[
+.boxshadow[
+.content[
+##- .orange[Motivation of problems]
+- Manually encoded outcomes
+- Inconsistencies &amp; Inefficiency
+- Subjectivenss 
+]]
+]]
+
+
+.row[.content[
+.boxshadow[
+.content[
+##- .orange[How we will solve this problem]
+- Data Features
+- Tree-based models
+- Gradient Ensample Boosting (xgboost) vs Random Forest
+- Model comparions &amp; diagnosis
+]]
+]]
+
+
+]
+]]
+.column[.split-50[
+.row[
+&lt;img src="libs/win.png" style="width: 100%; align: center" /&gt;
+&lt;br&gt;
+ 
+&lt;br&gt; ]
+]
+.row[
+
+&lt;br&gt;
+
+]
+]]
+.column[.split-50[
+.row[
+
+&lt;br&gt;
+
+]
+.row[
+]
+]]
+
+&lt;!--
+Colour scheme: green #3F9F7A 63, 159, 122
+              orange #CA6627 202, 102, 39
+--&gt;
+---
+class: split-30
+layout: true
+
+.column[.pad10px[
+## Outline
+
+- .green[Introduction]
+- .green[Method]
+
+]]
+.column[.top50px[
+
+.row[.content[
+.boxshadow[
+.content[
+###- .orange[Random Forest]
+- decorrelates the trees to reduce the variance
+- correct for decision trees' habit of overfitting
+]]
+]]
+
+
+.row[.content[
+.boxshadow[
+.content[
+###- .orange[Xgboost(*Winner*)]
+- Enable Cross Validation
+- Use Regularization to Avoid Overfitting
+- Support Objective Function
+- Grows The Tree Upto Max_depth
+]]
+]]
+
+
+.row[.content[
+.boxshadow[
+.content[
+###- .orange[Why choose Xgboost]
+- xgboost allows regularization, which is helpful for avoiding any overfitting problem.
+- It enables cross validation in its own, so it is computationally convenient.
+- It helps to modify trees appropriately by considering the residuals from previous tree models.
+
+]]
+]]
+
+
+
+
+]]
+---
+class: fade-row2-col2 fade-row3-col2 fade-row4-col2
+---
+class: fade-row1-col2 fade-row3-col2 fade-row4-col2
+count: false
+---
+class: fade-row1-col2 fade-row2-col2 fade-row4-col2 
+count: false
+---
+count:false
+
+---
+class: split-50
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Introduction]
+    
+     
+- .green[Method]
+   
+- .green[Result &amp; Conclusion]    
+     
+]]
+.column[.split-30[
+.row[
+&lt;img src="libs/xgboostpre.png" style="width: 60%; align: center" /&gt;
+&lt;br&gt;
+.orange[-Xgboostpre 
+&lt;br&gt; ]
+]
+.row[
+&lt;img src="libs/accuracy.png" style="width: 70%; align: center" /&gt;
+&lt;br&gt;
+.orange[-Overall Statistics]
+]
+
+
+]]
+---
+class: split-50
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Introduction]
+    
+     
+- .green[Method]
+   
+- .green[Result &amp; Conclusion]    
+     
+]]
+.column[.split-30[
+
+
+.row[
+&lt;img src="libs/pic1.png" style="width: 80%;align: center" /&gt;
+&lt;br&gt;
+.orange[-Density plots of the four most important variables]
+]
+]]
+
+
+---
+class: split-30
+layout: false
+
+.column[.pad10px[
+## Outline
+
+- .green[Introduction]
+    
+     
+- .green[Method]
+   
+- .green[Result &amp; Conclusion]    
+     
+]]
+
+.column[.top50px[ 
+##.row[.content[- .orange[Conclusion]
+###- Private test dataset accuracy: 0.92313
+###- attempted new features made no significant improvement
+###- Xgboost works the best for this dataset 
+###- Data cleaning makes a difference 
+###- Exploration of subsetting the data based on "net.clearance" in the future
+
+]]
+]]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

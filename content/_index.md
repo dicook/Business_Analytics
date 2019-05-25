@@ -127,15 +127,15 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 - Presentation schedule
     - Monday 12-12:55
         - ETC3250 Team: Munyaradzi, Channa
-        - Lindsay Spencer: Jacob, Xinxiao, Simon, Lindsay, Dun
-        - Stephen Bottrell: Stephen, Shuyi, James
-        - Zachary Loh: Avyav, Zachary, Shu Wei, Zihao
-        - Team: Yuru, Zihui, Kenji, Ziyang
-        - Federer's Friends: Nicolas, Yijia, Wen, Yue
-        - Avengers Ensemble: Matthew, Nadya, Danielle, Edward
-        - Tennis Pros: Matthew, Brandon, Thi Minh, Annabel
-        - Cooking up models: Zachary, Reece, Abhishek, Kevin, Dariusz
-        - Knitting Club: Kian, William, Patrick, James
+        - [66666](project/slides/66666/Presentation.html): Jacob, Xinxiao, Simon, Lindsay, Dun
+        - [ao_tr_unlabelled](project/slides/ao_tr_unlabelled/ETC3250-Project-Presentation.html): Stephen, Shuyi, James
+        - [Zachary Loh](project/slides/ETC3250_Project_slides.html): Avyav, Zachary, Shu Wei, Zihao
+        - [Team](project/slides/TEAM/slide_team.html): Yuru, Zihui, Kenji, Ziyang
+        - [Federer's Friends](project/slides/Federers_Friends/ETC3250-Tennis-Project-Slides-Federers-Friends.pdf): Nicolas, Yijia, Wen, Yue
+        - [Avengers Ensemble](project/slides/Avengers_Ensemble/Project_AvengersEnsemble_Presentation.html): Matthew, Nadya, Danielle, Edward
+        - [Tennis Pros](project/slides/TennisPros/ETC3250_Project_Presentation_Tennis_Pros.pdf): Matthew, Brandon, Thi Minh, Annabel
+        - [Cooking up models](project/slides/CookingUpModels/project_CookingUpModels.html): Zachary, Reece, Abhishek, Kevin, Dariusz
+        - [Knitting Club](project/slides/KnittingClub/projectslides.html): Kian, William, Patrick, James
     - Tuesday 2:00-2:55
         - tryin and cryin: Steph, Zhuangyu, Linguo, Cindy
         - Nick & Ninh & HuaChen: David, Hua, Hai, Nick

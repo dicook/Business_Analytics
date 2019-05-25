@@ -1,0 +1,8 @@
+.title-slide {
+  background-image: url(https://tennismash.com/wp-content/uploads/2016/03/funny-04.jpg);
+  background-size: cover;
+}
+.title-slide h1,.title-slide h2,.title-slide h3 {
+  color:#E0FFFF;
+   text-align: right!important;
+   width:155%;}
