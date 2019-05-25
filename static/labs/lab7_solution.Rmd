@@ -1,6 +1,6 @@
 ---
 title: "ETC3250 2019 - Lab 7"
-author: "Dianne Cook"
+author: "SOLUTION"
 date: "Week 7"
 output:
   html_document: default
