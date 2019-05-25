@@ -132,7 +132,7 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
         - [Zachary Loh](project/slides/Zachary_Loh/ETC3250_Project_slides.html): Avyav, Zachary, Shu Wei, Zihao
         - [Team](project/slides/TEAM/slide_team.html): Yuru, Zihui, Kenji, Ziyang
         - [Federer's Friends](project/slides/Federers_Friends/ETC3250-Tennis-Project-Slides-Federers-Friends.pdf): Nicolas, Yijia, Wen, Yue
-        - [Avengers Ensemble](project/slides/Avengers_Ensemble/Project_AvengersEnsemble_Presentation.html): Matthew, Nadya, Danielle, Edward
+        - [Avengers Ensemble](project/slides/Avengers_Ensemlble/Project_AvengersEnsemble_Presentation.html): Matthew, Nadya, Danielle, Edward
         - [Tennis Pros](project/slides/TennisPros/ETC3250_Project_Presentation_Tennis_Pros.pdf): Matthew, Brandon, Thi Minh, Annabel
         - [Cooking up models](project/slides/CookingUpModels/project_CookingUpModels.html): Zachary, Reece, Abhishek, Kevin, Dariusz
         - [Knitting Club](project/slides/KnittingClub/projectslides.html): Kian, William, Patrick, James
