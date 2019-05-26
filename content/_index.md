@@ -137,16 +137,16 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
         - [Cooking up models](project/slides/CookingUpModels/project_CookingUpModels.html): Zachary, Reece, Abhishek, Kevin, Dariusz
         - [Knitting Club](project/slides/KnittingClub/Presentation_FINAL.pdf): Kian, William, Patrick, James
     - Tuesday 2:00-2:55
-        - tryin and cryin: Steph, Zhuangyu, Linguo, Cindy
-        - Nick & Ninh & HuaChen: David, Hua, Hai, Nick
-        - Team Monba: Samuel, Chris, Jefanny, William
-        - Team Name: Yida, Nishant, Cameron, Fanyi
-        - R Royalty: Rowina, Ian, Frances
-        - Butterfly: Ting, Colin, Jiun, Fengqiu, Rachell
-        - mymodel: Xiangmei, Yih, Jia, Daniel, Gigi
-        - Brandon the Broken, First of his name, Lord of the 6 kingdoms: Madison, Karan, Marina, Moss, Callum
-        - xgboost to the top: Geethanjali, Jeffrey, Nathan, Grace, Amy
-        - Neurotics: Hujie, Arunabh, Weihao, Jacqui, Shayne
+        - [tryin and cryin](project/slides/tryin_and_cryin/presentation_final.html): Steph, Zhuangyu, Linguo, Cindy
+        - [Nick & Ninh & HuaChen](project/slides/nick_ninh__huachen/Tennis Group Project Presentation.pdf): David, Hua, Hai, Nick
+        - [Team Monba](project/slides/TeamMonba/ETC3250Project_TeamMonba_Slides.pdf): Samuel, Chris, Jefanny, William
+        - [Team Name](project/slides/TeamName/projectslides.html): Yida, Nishant, Cameron, Fanyi
+        - [R Royalty](project/slides/R_Royalty/project-presentation.html): Rowina, Ian, Frances
+        - [Butterfly](project/slides/Butterlfy/Project_Presentation.html): Ting, Colin, Jiun, Fengqiu, Rachell
+        - [mymodel](project/slides/mymodel/Presentation_My_Model.html): Xiangmei, Yih, Jia, Daniel, Gigi
+        - [Brandon the Broken, First of his name, Lord of the 6 kingdoms](project/slides/BrandontheBroken/Presentation.html): Madison, Karan, Marina, Moss, Callum
+        - [xgboost to the top](project/slides/xgboost_to_the_top/Presentation.html): Geethanjali, Jeffrey, Nathan, Grace, Amy
+        - [Neurotics](project/slides/Neurotics/Project-Slides.html): Hujie, Arunabh, Weihao, Jacqui, Shayne
 
 
 	

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Classification of Tennis Point Outcome</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Federal: Jiun Hong (Aaron) Choong Ƹ̵̡Ӝ̵̨̄Ʒ, Colin Ze Ming,Ƹ̵̡Ӝ̵̨̄Ʒ Fengqiu Fang Ƹ̵̡Ӝ̵̨̄Ʒ, Rachell Yan Rong Ng Ƹ̵̡Ӝ̵̨̄Ʒ, Ting Yu Kwok Ƹ̵̡Ӝ̵̨̄Ʒ" />
+    <link href="Project_Presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="Project_Presentation_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Classification of Tennis Point Outcome
+### Federal: Jiun Hong (Aaron) Choong Ƹ̵̡Ӝ̵̨̄Ʒ, Colin Ze Ming,Ƹ̵̡Ӝ̵̨̄Ʒ Fengqiu Fang Ƹ̵̡Ӝ̵̨̄Ʒ, Rachell Yan Rong Ng Ƹ̵̡Ӝ̵̨̄Ʒ, Ting Yu Kwok Ƹ̵̡Ӝ̵̨̄Ʒ
+
+---
+
+
+
+
+
+
+
+# Overview
+
+&lt;big&gt;
+1. Introduction
+2. Model Selection
+3. Feature Engineering
+4. Q&amp;A
+&lt;big&gt;
+
+---
+
+# Introduction
+
+&lt;small&gt;The main focus of our project was to determine if we can automate the classification system of a tennis point outcome. The tennis data had the following characteristics:
+
+- Multi-class classification problem
+- Near-balanced classes (0.317, 0.366, 0.316)
+- Data was retrieved from a high speed camera with its own errors
+
+Steps to improve model:
+
+- Model selection
+- Feature engineering 
+
+.center[![](https://thumbs.gfycat.com/UnhappyBriskAustralianshelduck-size_restricted.gif)]
+
+
+
+---
+
+# Model Selection: General
+
+The following steps were made to choose the final model:
+
+- Splitting into train and test data
+- Transformation of variables (standardisation)
+- Parameter sweeping for each model via greedy method
+
+Models that were chosen:
+
+- Random Forest (baseline)
+- XGBoost
+- Neural Network
+- KNN
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Algorithm &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Classification Accuracy &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Random Forest &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.908 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; XGBoost &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.918 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Neural Network &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.900 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; KNN &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.800 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+
+# Model Selection: XGBoost
+
+Final outcome:
+
+- XGBoost was the chosen model
+- Optimised parameters were chosen for XGBoost 
+- Cross validation of entire original training data set
+
+Advantages:
+- Regularisation
+- Interpretability
+- Efficiency
+
+.center[![xgbtree](Plots/xgb_tree.png)]
+---
+
+# Feature Engineering
+
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Server Won  &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Server Lost &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Player Was Server &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Winner &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Forced/ Unforced Error &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Player Not Server &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Forced / Unforced Error &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Winner &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+.center[![Variables](Plots/varplot.png)]
+
+
+---
+
+# Feature Engineering
+&lt;small&gt;
+The assumption here is that being closer to the net relative to your opponent is a better position.
+
+- Closer -&gt; more likely leading to a winning point outcome. 
+- Further -&gt; more likely to result in a forced error.
+
+$$ d = opponent.depth - player.impact.depth$$
+
+$$
+div.dist=
+`\begin{cases}
+{d\over opponent.depth+1}, \ \ for \ d &gt; 0\\
+{d\over player.impact.depth+1}, \ \ for \ d &lt; 0\\
+0, \ \ for \ d = 0
+\end{cases}`
+$$
+&lt;small&gt;
+.center[![Photo by Lucas Davies on Unsplash](Plots/lucas-davies-500449-unsplash.jpg)]
+
+---
+
+
+# Thank you
+
+
+.center[![](https://media.giphy.com/media/ebJpp4AaITs3e/giphy.gif)]
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
