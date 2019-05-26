@@ -135,7 +135,7 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
         - [Avengers Ensemble](project/slides/Avengers_Ensemlble/Project_AvengersEnsemble_Presentation.html): Matthew, Nadya, Danielle, Edward
         - [Tennis Pros](project/slides/TennisPros/ETC3250_Project_Presentation_Tennis_Pros.pdf): Matthew, Brandon, Thi Minh, Annabel
         - [Cooking up models](project/slides/CookingUpModels/project_CookingUpModels.html): Zachary, Reece, Abhishek, Kevin, Dariusz
-        - [Knitting Club](project/slides/KnittingClub/projectslides.html): Kian, William, Patrick, James
+        - [Knitting Club](project/slides/KnittingClub/Presentation_FINAL.pdf): Kian, William, Patrick, James
     - Tuesday 2:00-2:55
         - tryin and cryin: Steph, Zhuangyu, Linguo, Cindy
         - Nick & Ninh & HuaChen: David, Hua, Hai, Nick
