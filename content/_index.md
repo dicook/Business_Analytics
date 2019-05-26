@@ -140,7 +140,7 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
         - [tryin and cryin](project/slides/tryin_and_cryin/presentation_final.html): Steph, Zhuangyu, Linguo, Cindy
         - [Nick & Ninh & HuaChen](project/slides/nick_ninh__huachen/Tennis Group Project Presentation.pdf): David, Hua, Hai, Nick
         - [Team Monba](project/slides/TeamMonba/ETC3250Project_TeamMonba_Slides.pdf): Samuel, Chris, Jefanny, William
-        - [Team Name](project/slides/TeamName/projectslides.html): Yida, Nishant, Cameron, Fanyi
+        - [Team Name](project/slides/TeamName/Project_slides.html): Yida, Nishant, Cameron, Fanyi
         - [R Royalty](project/slides/R_Royalty/project-presentation.html): Rowina, Ian, Frances
         - [Butterfly](project/slides/Butterlfy/Project_Presentation.html): Ting, Colin, Jiun, Fengqiu, Rachell
         - [mymodel](project/slides/mymodel/Presentation_My_Model.html): Xiangmei, Yih, Jia, Daniel, Gigi
