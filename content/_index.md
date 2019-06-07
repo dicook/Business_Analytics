@@ -26,7 +26,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 
 ## Exam consultation times
 
-- Di: TBA Menzies E762A
+- Di: June 14 (Fri) 11:00-13:00 Menzies E762A
 - Earo: June 17 (Mon) 10:30-12:30 & 14:00-16:00 Menzies W1105
 - Cameron: June 12 (Wed) 8:30-10:30 & 15:00-17:00 Menzies W1105
 - Zina: June 11 (Tue) 15:30-17:30 Menzies W1105
