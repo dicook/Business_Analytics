@@ -24,12 +24,12 @@ Unless your question is a personal issue or an administrative matter, please do 
   8-9:20 (S317 - Cameron); 9:30-10:50 (S317 - Zina)
 - Note: You must **attend the tutorial that you have been assigned to.** Only in exceptional circumstances will changes be allowed, and they need to be approved by the chief examiner, one week in advance of the tutorial. [Moodle](https://lms.monash.edu/course/view.php?id=49079) is used for asking for help, marks and assignment turn in. 
 
-## Consultation times
+## Exam consultation times
 
-- Di: Mon 10:30-11:30; Thu 12:30-1:30 Menzies E762A
-- Earo: Thu 4:30-6:00 Menzies W1105
-- Cameron: Wed 9:00-10:30 W1105
-- Zina: Fri 9:45-10:30 W1105
+- Di: TBA Menzies E762A
+- Earo: June 17 (Mon) 10:30-12:30 & 14:00-16:00 Menzies W1105
+- Cameron: June 12 (Wed) 8:30-10:30 & 15:00-17:00 Menzies W1105
+- Zina: June 11 (Tue) 15:30-17:30 Menzies W1105
 
 ## Lecture notes
 
