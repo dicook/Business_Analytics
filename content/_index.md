@@ -6,6 +6,19 @@ title: Home
 
 # ETC3250: Business Analytics
 
+## Grade distribution
+
+- HD 47
+- D 24
+- C 10
+- P 2
+- F 2
+
+## Mark distribution
+
+- median: 82
+- min: 26; Q1: 73; Q3: 87; max:97
+
 ## Semester 1 2019
 
 - Lecturers: Professor Di Cook (dicook@monash.edu)
