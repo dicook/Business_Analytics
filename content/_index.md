@@ -6,23 +6,10 @@ title: Home
 
 # ETC3250: Business Analytics
 
-## Grade distribution
-
-- HD 47
-- D 24
-- C 10
-- P 2
-- F 2
-
-## Mark distribution
-
-- median: 82
-- min: 26; Q1: 73; Q3: 87; max:97
-
 ## Semester 1 2019
 
 - Lecturers: Professor Di Cook (dicook@monash.edu)
-- Tutors: Earo, Cameron, Zina
+- Tutors: 
 
 Unless your question is a personal issue or an administrative matter, please do not send us direct email. [Moodle](https://lms.monash.edu/course/view.php?id=49079) is appropriate for questions related to the course material.
 
@@ -30,19 +17,10 @@ Unless your question is a personal issue or an administrative matter, please do 
 
 ## Schedule
 
-- Lectures: Mon 12:00-12:50 (H4); Tue 2:00-2:50  (S10)
+- Lectures: 
 
-- Tutorials: M 1:30-2:50 (Menzies E163 - Earo); M 3-4:20
-  (Menzies E160 - Earo); 4:30-5:50 (Menzies E160 - Cameron); Tue
-  8-9:20 (S317 - Cameron); 9:30-10:50 (S317 - Zina)
+- Tutorials: 
 - Note: You must **attend the tutorial that you have been assigned to.** Only in exceptional circumstances will changes be allowed, and they need to be approved by the chief examiner, one week in advance of the tutorial. [Moodle](https://lms.monash.edu/course/view.php?id=49079) is used for asking for help, marks and assignment turn in. 
-
-## Exam consultation times
-
-- Di: June 14 (Fri) 11:00-13:00 Menzies E762A
-- Earo: June 17 (Mon) 10:30-12:30 & 14:00-16:00 Menzies W1105
-- Cameron: June 12 (Wed) 8:30-10:30 & 15:00-17:00 Menzies W1105
-- Zina: June 11 (Tue) 15:30-17:30 Menzies W1105
 
 ## Lecture notes
 
@@ -87,35 +65,25 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
 ## Tutorials
 
 - Week 1: [Instructions](http://monba.dicook.org/labs/lab1.html) ([Rmd](http://monba.dicook.org/labs/lab1.Rmd))
-- Week 2: [Instructions](http://monba.dicook.org/labs/lab2.html) ([Rmd](http://monba.dicook.org/labs/lab2.Rmd)) [SOLUTION](http://monba.dicook.org/labs/lab2_solution.html) ([Rmd](http://monba.dicook.org/labs/lab2_solution.Rmd)) 
-- Week 3: [Instructions](http://monba.dicook.org/labs/lab3.html) ([Rmd](http://monba.dicook.org/labs/lab3.Rmd)) [SOLUTION](http://monba.dicook.org/labs/lab3_solution.html) ([Rmd](http://monba.dicook.org/labs/lab3_solution.Rmd))  [nrc.csv](http://monba.dicook.org/labs/data/nrc.csv)
-- Week 4: [Instructions](http://monba.dicook.org/labs/lab4.html) ([Rmd](http://monba.dicook.org/labs/lab4.Rmd)) [SOLUTION](http://monba.dicook.org/labs/lab4_solution.html) ([Rmd](http://monba.dicook.org/labs/lab4_solution.Rmd)) 
-- Week 5: [Instructions](http://monba.dicook.org/labs/lab5.html) ([Rmd](http://monba.dicook.org/labs/lab5.Rmd))
-[SOLUTION](http://monba.dicook.org/labs/lab5_solution.html) ([Rmd](http://monba.dicook.org/labs/lab5_solution.Rmd)) 
+- Week 2: [Instructions](http://monba.dicook.org/labs/lab2.html) ([Rmd](http://monba.dicook.org/labs/lab2.Rmd))
+- Week 3: [Instructions](http://monba.dicook.org/labs/lab3.html) ([Rmd](http://monba.dicook.org/labs/lab3.Rmd)) [nrc.csv](http://monba.dicook.org/labs/data/nrc.csv)
+- Week 4: [Instructions](http://monba.dicook.org/labs/lab4.html) ([Rmd](http://monba.dicook.org/labs/lab4.Rmd))
+- Week 5: [Instructions](http://monba.dicook.org/labs/lab5.html) ([Rmd](http://monba.dicook.org/labs/lab5.Rmd)) 
 - Week 6: [Instructions](http://monba.dicook.org/labs/lab6.html) ([Rmd](http://monba.dicook.org/labs/lab6.Rmd)) [womens_track.csv](http://monba.dicook.org/labs/data/womens_track.csv)
-[SOLUTION](http://monba.dicook.org/labs/lab6_solution.html) ([Rmd](http://monba.dicook.org/labs/lab6_solution.Rmd)) 
 - Week 7: [Instructions](http://monba.dicook.org/labs/lab7.html) ([Rmd](http://monba.dicook.org/labs/lab7.Rmd)) 
-[SOLUTION](http://monba.dicook.org/labs/lab7_solution.html) ([Rmd](http://monba.dicook.org/labs/lab7_solution.Rmd)) 
 - Week 8: [Instructions](http://monba.dicook.org/labs/lab8.html) ([Rmd](http://monba.dicook.org/labs/lab8.Rmd)) 
-[SOLUTION](http://monba.dicook.org/labs/lab8_solution.html) ([Rmd](http://monba.dicook.org/labs/lab8_solution.Rmd)) 
 - Week 9: [Instructions](http://monba.dicook.org/labs/lab9.html) ([Rmd](http://monba.dicook.org/labs/lab9.Rmd)) 
-[SOLUTION](http://monba.dicook.org/labs/lab9_solution.html) ([Rmd](http://monba.dicook.org/labs/lab9_solution.Rmd)) 
-- Week 10: [Instructions](http://monba.dicook.org/labs/lab10.html) ([Rmd](http://monba.dicook.org/labs/lab10.Rmd)) [SOLUTION](http://monba.dicook.org/labs/lab10_solution.html) 
-([Rmd](http://monba.dicook.org/labs/lab10_solution.Rmd)) 
+- Week 10: [Instructions](http://monba.dicook.org/labs/lab10.html) ([Rmd](http://monba.dicook.org/labs/lab10.Rmd))
 - Week 11: [Instructions](http://monba.dicook.org/labs/lab11.html) ([Rmd](http://monba.dicook.org/labs/lab11.Rmd)) 
-[SOLUTION](http://monba.dicook.org/labs/lab11_solution.html) 
-([Rmd](http://monba.dicook.org/labs/lab11_solution.Rmd)) 
 - Week 12: [Instructions](http://monba.dicook.org/labs/lab12.html) ([Rmd](http://monba.dicook.org/labs/lab12.Rmd)) 
 
 
 ## Assignments
 
-- Assignment 1: [Instructions](http://monba.dicook.org/assignments/assignment1.html) ([Rmd](http://monba.dicook.org/assignments/assignment1.Rmd)) [SOLUTION](http://monba.dicook.org/assignments/assignment1_solution.html) ([Rmd](http://monba.dicook.org/assignments/assignment1_solution.Rmd)) [possum_magic.rds](http://monba.dicook.org/assignments/data/possum_magic.rds) [wombat_stew.rds](http://monba.dicook.org/assignments/data/wombat_stew.rds)
-- Assignment 2: [Instructions](http://monba.dicook.org/assignments/assignment2.html) ([Rmd](http://monba.dicook.org/assignments/assignment2.Rmd))
-[SOLUTION](http://monba.dicook.org/assignments/assignment2_solution.html) ([Rmd](http://monba.dicook.org/assignments/assignment2_solution.Rmd)) 
-- Assignment 3: [Instructions](http://monba.dicook.org/assignments/assignment3.html) ([Rmd](http://monba.dicook.org/assignments/assignment3.Rmd)) [vis_challenge.csv](http://monba.dicook.org/assignments/vis_challenge.csv)
-[SOLUTION](http://monba.dicook.org/assignments/assignment3_solution.html) ([Rmd](http://monba.dicook.org/assignments/assignment3_solution.Rmd)) 
-- Assignment 4: [Instructions](http://monba.dicook.org/assignments/assignment4.html) ([Rmd](http://monba.dicook.org/assignments/assignment4.Rmd)) [SOLUTION](http://monba.dicook.org/assignments/assignment4_solution.html) ([Rmd](http://monba.dicook.org/assignments/assignment4_solution.Rmd)) 
+- Assignment 1: 
+- Assignment 2:
+- Assignment 3:
+- Assignment 4:
 
 ## Data
 
@@ -137,32 +105,6 @@ https://www.monash.edu/policy-bank/academic/education/learning-and-teaching
     - Data is to be used only for Monash University's unit ETC3250, and no other purpose.
 	- Apply yourself, work independently until teams can be formed and to not cheat.
 	- Have fun, and still make time for other classwork.
-- Presentation schedule
-    - Monday 12-12:55
-        - [ETC3250 Team](project/slides/ETC3250Team/ETC3250_Group_Assignment.html): Munyaradzi, Channa
-        - [66666](project/slides/66666/Presentation.html): Jacob, Xinxiao, Simon, Lindsay, Dun
-        - [ao_tr_unlabelled](project/slides/ao_tr_unlabelled/ETC3250-Project-Presentation.html): Stephen, Shuyi, James
-        - [Zachary Loh](project/slides/Zachary_Loh/ETC3250_Project_slides.html): Avyav, Zachary, Shu Wei, Zihao
-        - [Team](project/slides/TEAM/slide_team.html): Yuru, Zihui, Kenji, Ziyang
-        - [Federer's Friends](project/slides/Federers_Friends/ETC3250-Tennis-Project-Slides-Federers-Friends.pdf): Nicolas, Yijia, Wen, Yue
-        - [Avengers Ensemble](project/slides/Avengers_Ensemlble/Project_AvengersEnsemble_Presentation.html): Matthew, Nadya, Danielle, Edward
-        - [Tennis Pros](project/slides/TennisPros/ETC3250_Project_Presentation_Tennis_Pros.pdf): Matthew, Brandon, Thi Minh, Annabel
-        - [Cooking up models](project/slides/CookingUpModels/project_CookingUpModels.html): Zachary, Reece, Abhishek, Kevin, Dariusz
-        - [Knitting Club](project/slides/KnittingClub/Presentation_FINAL.pdf): Kian, William, Patrick, James
-    - Tuesday 2:00-2:55
-        - [tryin and cryin](project/slides/tryin_and_cryin/presentation_final.html): Steph, Zhuangyu, Linguo, Cindy
-        - [Nick & Ninh & HuaChen](project/slides/nick_ninh__huachen/Tennis Group Project Presentation.pdf): David, Hua, Hai, Nick
-        - [Team Monba](project/slides/TeamMonba/ETC3250Project_TeamMonba_Slides.pdf): Samuel, Chris, Jefanny, William
-        - [Team Name](project/slides/TeamName/projectslides.html): Yida, Nishant, Cameron, Fanyi
-        - [R Royalty](project/slides/R_Royalty/project-presentation.html): Rowina, Ian, Frances
-        - [Butterfly](project/slides/Butterlfy/Project_Presentation.html): Ting, Colin, Jiun, Fengqiu, Rachell
-        - [mymodel](project/slides/mymodel/Presentation_My_Model.html): Xiangmei, Yih, Jia, Daniel, Gigi
-        - [Brandon the Broken, First of his name, Lord of the 6 kingdoms](project/slides/BrandontheBroken/Presentation.html): Madison, Karan, Marina, Moss, Callum
-        - [xgboost to the top](project/slides/xgboost_to_the_top/Presentation.html): Geethanjali, Jeffrey, Nathan, Grace, Amy
-        - [Neurotics](project/slides/Neurotics/Project-Slides.html): Hujie, Arunabh, Weihao, Jacqui, Shayne
-
-
-	
 
 ## Exam information
 
