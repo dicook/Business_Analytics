@@ -19,7 +19,7 @@ Unless your question is a personal issue or an administrative matter, please do 
 
 - Lectures: Tue 12:05-12:55 Blg 92 LTB G03; Fri 12:05-12:55 Blg 92 LTB  331
 
-- Tutorials: Menzies E160 - Tue 1:05-2:25, Tue 2:35-3:55, Wed 1:05-2:25, Fri 8:05-9:25, 9:35-10:55
+- Tutorials: Menzies E160 - Tue 1:05-2:25, Tue 2:35-3:55, Wed 1:05-2:25, 2:35-3:55, Fri 8:05-9:25
 - Note: You must **attend the tutorial that you have been assigned to.** Only in exceptional circumstances will changes be allowed, and they need to be approved by the chief examiner, one week in advance of the tutorial. [Moodle](https://lms.monash.edu/course/view.php?id=49079) is used for asking for help, marks and assignment turn in. 
 
 ## Lecture notes
